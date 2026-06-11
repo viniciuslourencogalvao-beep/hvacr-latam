@@ -3,113 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HVACR LATAM — Radar Semanal</title>
+<title>HVACR LATAM &mdash; Radar Semanal</title>
 <style>
   :root {
     color-scheme: light;
-    --bg: #f4f6f9;
-    --card: #ffffff;
-    --header-bg: #0d1b2a;
-    --header-accent: #1e88e5;
-    --text: #1a1a2e;
-    --text-muted: #6b7280;
-    --border: #e5e7eb;
+    --bg: #f4f6f9; --card: #ffffff; --header-bg: #0d1b2a; --header-accent: #1e88e5;
+    --text: #1a1a2e; --text-muted: #6b7280; --border: #e5e7eb;
     --shadow: 0 1px 4px rgba(0,0,0,0.08);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); }
-
-  header {
-    background: var(--header-bg);
-    color: #fff;
-    padding: 20px 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
+  header { background: var(--header-bg); color: #fff; padding: 20px 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
   .header-left { display: flex; flex-direction: column; gap: 4px; }
   .header-title { font-size: 1.25rem; font-weight: 700; }
   .header-sub { font-size: 0.78rem; color: #90caf9; }
   .header-meta { font-size: 0.72rem; color: #78909c; margin-top: 2px; }
-
   .lang-switcher { display: flex; gap: 6px; }
-  .lang-btn {
-    background: transparent; border: 1.5px solid #455a64; color: #90caf9;
-    padding: 5px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
-    cursor: pointer; transition: all 0.15s;
-  }
+  .lang-btn { background: transparent; border: 1.5px solid #455a64; color: #90caf9; padding: 5px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
   .lang-btn.active { background: var(--header-accent); border-color: var(--header-accent); color: #fff; }
-
-  .toolbar { padding: 16px 28px 0; display: flex; gap: 8px; flex-wrap: wrap; }
-  .filter-btn {
-    background: var(--card); border: 1.5px solid var(--border); color: var(--text-muted);
-    padding: 5px 16px; border-radius: 20px; font-size: 0.78rem; font-weight: 600;
-    cursor: pointer; transition: all 0.15s;
-  }
+  .toolbar { padding: 12px 28px 0; display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-btn { background: var(--card); border: 1.5px solid var(--border); color: var(--text-muted); padding: 5px 16px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
   .filter-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
-
+  .search-bar { padding: 10px 28px 0; }
+  .search-input { width: 100%; max-width: 480px; padding: 8px 16px 8px 36px; border: 1.5px solid var(--border); border-radius: 24px; font-size: 0.82rem; color: var(--text); background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") no-repeat 12px center; outline: none; transition: border-color 0.15s; }
+  .search-input:focus { border-color: var(--header-accent); }
+  .search-input::placeholder { color: #9ca3af; }
   .count-bar { padding: 8px 28px 4px; font-size: 0.75rem; color: var(--text-muted); }
   .count-bar span { font-weight: 700; color: var(--text); }
-
-  .news-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 16px;
-    padding: 12px 28px 32px;
-  }
-  .news-card {
-    background: var(--card); border-radius: 10px; box-shadow: var(--shadow);
-    border: 1px solid var(--border); padding: 18px 20px;
-    display: flex; flex-direction: column; gap: 10px;
-    transition: box-shadow 0.15s, transform 0.15s;
-  }
+  .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; padding: 12px 28px 32px; }
+  .news-card { background: var(--card); border-radius: 10px; box-shadow: var(--shadow); border: 1px solid var(--border); padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; transition: box-shadow 0.15s, transform 0.15s; }
   .news-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); transform: translateY(-2px); }
   .news-card[hidden] { display: none !important; }
-
   .card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .badge {
-    display: inline-flex; align-items: center; padding: 3px 10px;
-    border-radius: 12px; font-size: 0.68rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.04em;
-  }
+  .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
   .badge-market { background: #e3f2fd; color: #1e88e5; }
   .badge-reg    { background: #e8f5e9; color: #43a047; }
   .badge-brand  { background: #ffebee; color: #e53935; }
   .badge-event  { background: #fff3e0; color: #fb8c00; }
-
   .card-num { font-size: 0.7rem; font-weight: 700; color: #d1d5db; }
-
   .card-title { font-size: 0.95rem; font-weight: 700; line-height: 1.35; }
   .card-body  { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
-
-  .card-footer {
-    display: flex; align-items: center; justify-content: space-between;
-    padding-top: 8px; border-top: 1px solid var(--border);
-  }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid var(--border); }
   .card-source { font-size: 0.7rem; color: #9ca3af; font-style: italic; }
-  .card-link   { font-size: 0.7rem; color: var(--header-accent); text-decoration: none; font-weight: 600; }
+  .card-link { font-size: 0.7rem; color: var(--header-accent); text-decoration: none; font-weight: 600; }
   .card-link:hover { text-decoration: underline; }
-
-  /* Language layers — JS toggles visibility */
   .lang-pt, .lang-en, .lang-es { display: none; }
   .show-pt .lang-pt { display: block; }
   .show-en .lang-en { display: block; }
   .show-es .lang-es { display: block; }
-  /* Default: show PT even without JS */
   body:not(.js-ready) .lang-pt { display: block; }
+  .no-results { grid-column: 1/-1; text-align: center; padding: 48px; color: var(--text-muted); font-size: 0.9rem; }
 </style>
 </head>
 <body>
 
 <header>
   <div class="header-left">
-    <div class="header-title">📡 HVACR LATAM — Radar Semanal</div>
-    <div class="header-sub lang-pt">Principais notícias do mercado de climatização e refrigeração na América Latina</div>
+    <div class="header-title">&#128225; HVACR LATAM &mdash; Radar Semanal</div>
+    <div class="header-sub lang-pt">Principais not&#237;cias do mercado de climatiza&#231;&#227;o e refrigera&#231;&#227;o na Am&#233;rica Latina</div>
     <div class="header-sub lang-en">Top news from the HVACR market in Latin America</div>
-    <div class="header-sub lang-es">Principales noticias del mercado HVACR en América Latina</div>
-    <div class="header-meta">Semana de 9–13 de junho de 2026 &nbsp;·&nbsp; Atualizado em: 13/06/2026</div>
+    <div class="header-sub lang-es">Principales noticias del mercado HVACR en Am&#233;rica Latina</div>
+    <div class="header-meta">Semana de 9&ndash;13 de junho de 2026 &nbsp;&middot;&nbsp; Atualizado em: 11/06/2026</div>
   </div>
   <div class="lang-switcher">
     <button class="lang-btn" onclick="setLang('pt')">PT</button>
@@ -119,326 +73,213 @@
 </header>
 
 <div class="toolbar">
-  <button class="filter-btn" onclick="setFilter('all')"   id="f-all">
+  <button class="filter-btn" onclick="setFilter('all')" id="f-all">
     <span class="lang-pt">Todas</span><span class="lang-en">All</span><span class="lang-es">Todas</span>
   </button>
   <button class="filter-btn" onclick="setFilter('event')" id="f-event">
-    <span class="lang-pt">🎪 Feiras &amp; Eventos</span><span class="lang-en">🎪 Trade Shows</span><span class="lang-es">🎪 Ferias &amp; Eventos</span>
+    <span class="lang-pt">&#127914; Feiras &amp; Eventos</span><span class="lang-en">&#127914; Trade Shows</span><span class="lang-es">&#127914; Ferias &amp; Eventos</span>
   </button>
   <button class="filter-btn" onclick="setFilter('market')" id="f-market">
-    <span class="lang-pt">📈 Mercado</span><span class="lang-en">📈 Market</span><span class="lang-es">📈 Mercado</span>
+    <span class="lang-pt">&#128200; Mercado</span><span class="lang-en">&#128200; Market</span><span class="lang-es">&#128200; Mercado</span>
   </button>
-  <button class="filter-btn" onclick="setFilter('reg')"   id="f-reg">
-    <span class="lang-pt">📋 Regulação</span><span class="lang-en">📋 Regulation</span><span class="lang-es">📋 Regulación</span>
+  <button class="filter-btn" onclick="setFilter('reg')" id="f-reg">
+    <span class="lang-pt">&#128203; Regula&#231;&#227;o</span><span class="lang-en">&#128203; Regulation</span><span class="lang-es">&#128203; Regulaci&#243;n</span>
   </button>
   <button class="filter-btn" onclick="setFilter('brand')" id="f-brand">
-    <span class="lang-pt">🏭 Fabricantes</span><span class="lang-en">🏭 Manufacturers</span><span class="lang-es">🏭 Fabricantes</span>
+    <span class="lang-pt">&#127981; Fabricantes</span><span class="lang-en">&#127981; Manufacturers</span><span class="lang-es">&#127981; Fabricantes</span>
   </button>
+</div>
+
+<div class="search-bar">
+  <input class="search-input" id="search-input" type="text" placeholder="Buscar not&#237;cias..." oninput="applyFilters()" autocomplete="off">
 </div>
 
 <div class="count-bar" id="count-bar"></div>
 
 <div class="news-grid" id="grid">
 
-  <!-- #1 -->
   <div class="news-card" data-cat="event">
-    <div class="card-top">
-      <span class="badge badge-event lang-pt">Feira/Evento</span>
-      <span class="badge badge-event lang-en">Event</span>
-      <span class="badge badge-event lang-es">Feria/Evento</span>
-      <span class="card-num">#1</span>
-    </div>
-    <div class="card-title lang-pt">AirCon 2026: novo polo HVAC-R integrado à maior feira B2B da América Latina</div>
+    <div class="card-top"><span class="badge badge-event lang-pt">Feira/Evento</span><span class="badge badge-event lang-en">Event</span><span class="badge badge-event lang-es">Feria/Evento</span><span class="card-num">#1</span></div>
+    <div class="card-title lang-pt">AirCon 2026: novo polo HVAC-R integrado &#224; maior feira B2B da Am&#233;rica Latina</div>
     <div class="card-title lang-en">AirCon 2026: New HVAC-R hub integrated into Latin America's largest B2B fair</div>
-    <div class="card-title lang-es">AirCon 2026: nuevo polo HVAC-R integrado a la mayor feria B2B de América Latina</div>
-    <div class="card-body lang-pt">A AirCon 2026 acontece de 22 a 25 de junho em São Paulo (Anhembi), integrada à Eletrolar Show All Connected. Reúne fabricantes, distribuidores, instaladores e compradores com foco em automação, refrigerantes de baixo GWP e eficiência energética.</div>
-    <div class="card-body lang-en">AirCon 2026 takes place June 22–25 in São Paulo (Anhembi), integrated with the Eletrolar Show All Connected. It brings together manufacturers, distributors, installers and buyers, focusing on automation, low-GWP refrigerants and energy efficiency.</div>
-    <div class="card-body lang-es">AirCon 2026 se celebra del 22 al 25 de junio en São Paulo (Anhembi), integrada a la Eletrolar Show All Connected. Reúne fabricantes, distribuidores, instaladores y compradores con foco en automatización, refrigerantes de bajo GWP y eficiencia energética.</div>
-    <div class="card-footer">
-      <span class="card-source">Revista do Frio</span>
-      <a class="card-link" href="https://revistadofrio.com.br/aircon-2026-amplia-integracao-do-hvac-r-ao-ecossistema-de-negocios-da-eletrolar-show/" target="_blank">
-        <span class="lang-pt">Leia mais →</span><span class="lang-en">Read more →</span><span class="lang-es">Leer más →</span>
-      </a>
-    </div>
+    <div class="card-title lang-es">AirCon 2026: nuevo polo HVAC-R integrado a la mayor feria B2B de Am&#233;rica Latina</div>
+    <div class="card-body lang-pt">A AirCon 2026 acontece de 22 a 25 de junho em S&#227;o Paulo (Anhembi), integrada &#224; Eletrolar Show All Connected. Re&#250;ne fabricantes, distribuidores, instaladores e compradores com foco em automa&#231;&#227;o, refrigerantes de baixo GWP e efici&#234;ncia energ&#233;tica.</div>
+    <div class="card-body lang-en">AirCon 2026 takes place June 22-25 in Sao Paulo (Anhembi), integrated with the Eletrolar Show All Connected. It brings together manufacturers, distributors, installers and buyers focusing on automation, low-GWP refrigerants and energy efficiency.</div>
+    <div class="card-body lang-es">AirCon 2026 se celebra del 22 al 25 de junio en S&#227;o Paulo (Anhembi), integrada a la Eletrolar Show All Connected. Re&#250;ne fabricantes, distribuidores, instaladores y compradores con foco en automatizaci&#243;n, refrigerantes de bajo GWP y eficiencia energ&#233;tica.</div>
+    <div class="card-footer"><span class="card-source">Revista do Frio</span><a class="card-link" href="https://revistadofrio.com.br/aircon-2026-amplia-integracao-do-hvac-r-ao-ecossistema-de-negocios-da-eletrolar-show/" target="_blank"><span class="lang-pt">Leia mais &#8594;</span><span class="lang-en">Read more &#8594;</span><span class="lang-es">Leer m&#225;s &#8594;</span></a></div>
   </div>
 
-  <!-- #2 -->
   <div class="news-card" data-cat="event">
-    <div class="card-top">
-      <span class="badge badge-event lang-pt">Feira/Evento</span>
-      <span class="badge badge-event lang-en">Event</span>
-      <span class="badge badge-event lang-es">Feria/Evento</span>
-      <span class="card-num">#2</span>
-    </div>
-    <div class="card-title lang-pt">FEBRAVA 2026: maior evento HVACR da América Latina recebe 300+ expositores</div>
+    <div class="card-top"><span class="badge badge-event lang-pt">Feira/Evento</span><span class="badge badge-event lang-en">Event</span><span class="badge badge-event lang-es">Feria/Evento</span><span class="card-num">#2</span></div>
+    <div class="card-title lang-pt">FEBRAVA 2026: maior evento HVACR da Am&#233;rica Latina recebe 300+ expositores</div>
     <div class="card-title lang-en">FEBRAVA 2026: Latin America's largest HVACR event hosts 300+ exhibitors</div>
-    <div class="card-title lang-es">FEBRAVA 2026: el mayor evento HVACR de América Latina recibe 300+ expositores</div>
-    <div class="card-body lang-pt">Realizada de 14 a 17 de setembro no São Paulo Expo. A edição anterior reuniu mais de 300 expositores e 30.000 visitantes. Principal ponto de encontro de toda a cadeia HVACR na América Latina.</div>
-    <div class="card-body lang-en">Held September 14–17 at São Paulo Expo. The previous edition gathered over 300 exhibitors and 30,000 visitors. The main meeting point for the entire HVACR chain in Latin America.</div>
-    <div class="card-body lang-es">Realizada del 14 al 17 de septiembre en São Paulo Expo. La edición anterior reunió más de 300 expositores y 30.000 visitantes. Principal punto de encuentro de toda la cadena HVACR en América Latina.</div>
-    <div class="card-footer">
-      <span class="card-source">FEBRAVA</span>
-      <a class="card-link" href="https://www.febrava.com.br/pt-br.html" target="_blank">
-        <span class="lang-pt">Leia mais →</span><span class="lang-en">Read more →</span><span class="lang-es">Leer más →</span>
-      </a>
-    </div>
+    <div class="card-title lang-es">FEBRAVA 2026: el mayor evento HVACR de Am&#233;rica Latina recibe 300+ expositores</div>
+    <div class="card-body lang-pt">Realizada de 14 a 17 de setembro no S&#227;o Paulo Expo. A edi&#231;&#227;o anterior reuniu mais de 300 expositores e 30.000 visitantes. Principal ponto de encontro de toda a cadeia HVACR na Am&#233;rica Latina.</div>
+    <div class="card-body lang-en">Held September 14-17 at Sao Paulo Expo. The previous edition gathered over 300 exhibitors and 30,000 visitors. The main meeting point for the entire HVACR chain in Latin America.</div>
+    <div class="card-body lang-es">Realizada del 14 al 17 de septiembre en S&#227;o Paulo Expo. La edici&#243;n anterior reuni&#243; m&#225;s de 300 expositores y 30.000 visitantes. Principal punto de encuentro de toda la cadena HVACR en Am&#233;rica Latina.</div>
+    <div class="card-footer"><span class="card-source">FEBRAVA</span><a class="card-link" href="https://www.febrava.com.br/pt-br.html" target="_blank"><span class="lang-pt">Leia mais &#8594;</span><span class="lang-en">Read more &#8594;</span><span class="lang-es">Leer m&#225;s &#8594;</span></a></div>
   </div>
 
-  <!-- #3 -->
   <div class="news-card" data-cat="event">
-    <div class="card-top">
-      <span class="badge badge-event lang-pt">Feira/Evento</span>
-      <span class="badge badge-event lang-en">Event</span>
-      <span class="badge badge-event lang-es">Feria/Evento</span>
-      <span class="card-num">#3</span>
-    </div>
-    <div class="card-title lang-pt">Mercofrio 2026: IA e eficiência energética no centro do 15º Congresso Internacional</div>
+    <div class="card-top"><span class="badge badge-event lang-pt">Feira/Evento</span><span class="badge badge-event lang-en">Event</span><span class="badge badge-event lang-es">Feria/Evento</span><span class="card-num">#3</span></div>
+    <div class="card-title lang-pt">Mercofrio 2026: IA e efici&#234;ncia energ&#233;tica no centro do 15&#176; Congresso Internacional</div>
     <div class="card-title lang-en">Mercofrio 2026: AI and energy efficiency at the 15th International Congress</div>
-    <div class="card-title lang-es">Mercofrio 2026: IA y eficiencia energética en el 15° Congreso Internacional</div>
-    <div class="card-body lang-pt">Acontece de 15 a 17 de setembro em Porto Alegre (BarraShopping Sul). Tema central: AVAC-R Inteligente — com debates sobre IA na gestão de sistemas, descarbonização, normas técnicas e segurança alimentar.</div>
-    <div class="card-body lang-en">Takes place September 15–17 in Porto Alegre (BarraShopping Sul). Central theme: Smart HVAC-R — featuring debates on AI in systems management, decarbonization, technical standards and food safety.</div>
-    <div class="card-body lang-es">Se realiza del 15 al 17 de septiembre en Porto Alegre (BarraShopping Sul). Tema central: AVAC-R Inteligente, con debates sobre IA en gestión de sistemas, descarbonización, normas técnicas y seguridad alimentaria.</div>
-    <div class="card-footer">
-      <span class="card-source">Mercofrio / Blog do Frio</span>
-      <a class="card-link" href="https://mercofrio.com.br/" target="_blank">
-        <span class="lang-pt">Leia mais →</span><span class="lang-en">Read more →</span><span class="lang-es">Leer más →</span>
-      </a>
-    </div>
+    <div class="card-title lang-es">Mercofrio 2026: IA y eficiencia energ&#233;tica en el 15&#176; Congreso Internacional</div>
+    <div class="card-body lang-pt">Acontece de 15 a 17 de setembro em Porto Alegre (BarraShopping Sul). Tema central: AVAC-R Inteligente com debates sobre IA na gest&#227;o de sistemas, descarboniza&#231;&#227;o, normas t&#233;cnicas e seguran&#231;a alimentar.</div>
+    <div class="card-body lang-en">Takes place September 15-17 in Porto Alegre (BarraShopping Sul). Central theme: Smart HVAC-R, with debates on AI in systems management, decarbonization, technical standards and food safety.</div>
+    <div class="card-body lang-es">Se realiza del 15 al 17 de septiembre en Porto Alegre (BarraShopping Sul). Tema central: AVAC-R Inteligente, con debates sobre IA en gesti&#243;n de sistemas, descarbonizaci&#243;n, normas t&#233;cnicas y seguridad alimentaria.</div>
+    <div class="card-footer"><span class="card-source">Mercofrio / Blog do Frio</span><a class="card-link" href="https://mercofrio.com.br/" target="_blank"><span class="lang-pt">Leia mais &#8594;</span><span class="lang-en">Read more &#8594;</span><span class="lang-es">Leer m&#225;s &#8594;</span></a></div>
   </div>
 
-  <!-- #4 -->
   <div class="news-card" data-cat="event">
-    <div class="card-top">
-      <span class="badge badge-event lang-pt">Feira/Evento</span>
-      <span class="badge badge-event lang-en">Event</span>
-      <span class="badge badge-event lang-es">Feria/Evento</span>
-      <span class="card-num">#4</span>
-    </div>
-    <div class="card-title lang-pt">AHR Expo México 2026 em Guadalajara: 450+ empresas expositoras</div>
+    <div class="card-top"><span class="badge badge-event lang-pt">Feira/Evento</span><span class="badge badge-event lang-en">Event</span><span class="badge badge-event lang-es">Feria/Evento</span><span class="card-num">#4</span></div>
+    <div class="card-title lang-pt">AHR Expo M&#233;xico 2026 em Guadalajara: 450+ empresas expositoras</div>
     <div class="card-title lang-en">AHR Expo Mexico 2026 in Guadalajara: 450+ exhibiting companies</div>
-    <div class="card-title lang-es">AHR Expo México 2026 en Guadalajara: 450+ empresas expositoras</div>
-    <div class="card-body lang-pt">A 17ª edição acontece em Guadalajara com mais de 450 empresas participantes. Principal hub HVACR do México, atrai profissionais de toda a América Latina.</div>
+    <div class="card-title lang-es">AHR Expo M&#233;xico 2026 en Guadalajara: 450+ empresas expositoras</div>
+    <div class="card-body lang-pt">A 17&#170; edi&#231;&#227;o acontece em Guadalajara com mais de 450 empresas participantes. Principal hub HVACR do M&#233;xico, atra&#237; profissionais de toda a Am&#233;rica Latina.</div>
     <div class="card-body lang-en">The 17th edition takes place in Guadalajara with over 450 participating companies. Mexico's main HVACR hub, attracting professionals from across Latin America.</div>
-    <div class="card-body lang-es">La 17ª edición se celebra en Guadalajara con más de 450 empresas participantes. Principal hub HVACR de México, atrae profesionales de toda América Latina.</div>
-    <div class="card-footer">
-      <span class="card-source">AHR Expo México</span>
-      <a class="card-link" href="https://www.ahrexpomexico.com/en/attend/information/" target="_blank">
-        <span class="lang-pt">Leia mais →</span><span class="lang-en">Read more →</span><span class="lang-es">Leer más →</span>
-      </a>
-    </div>
+    <div class="card-body lang-es">La 17&#170; edici&#243;n se celebra en Guadalajara con m&#225;s de 450 empresas participantes. Principal hub HVACR de M&#233;xico, atrae profesionales de toda Am&#233;rica Latina.</div>
+    <div class="card-footer"><span class="card-source">AHR Expo M&#233;xico</span><a class="card-link" href="https://www.ahrexpomexico.com/en/attend/information/" target="_blank"><span class="lang-pt">Leia mais &#8594;</span><span class="lang-en">Read more &#8594;</span><span class="lang-es">Leer m&#225;s &#8594;</span></a></div>
   </div>
 
-  <!-- #5 -->
   <div class="news-card" data-cat="market">
-    <div class="card-top">
-      <span class="badge badge-market lang-pt">Mercado</span>
-      <span class="badge badge-market lang-en">Market</span>
-      <span class="badge badge-market lang-es">Mercado</span>
-      <span class="card-num">#5</span>
-    </div>
-    <div class="card-title lang-pt">Mercado HVACR na AL vale US$ 13,6 bi e cresce 5,8% ao ano até 2030</div>
+    <div class="card-top"><span class="badge badge-market lang-pt">Mercado</span><span class="badge badge-market lang-en">Market</span><span class="badge badge-market lang-es">Mercado</span><span class="card-num">#5</span></div>
+    <div class="card-title lang-pt">Mercado HVACR na AL vale US$ 13,6 bi e cresce 5,8% ao ano at&#233; 2030</div>
     <div class="card-title lang-en">HVACR market in Latin America worth US$13.6B, growing 5.8% annually through 2030</div>
     <div class="card-title lang-es">El mercado HVACR en AL vale US$13,6 mil millones y crece 5,8% anual hasta 2030</div>
-    <div class="card-body lang-pt">O mercado atingiu US$ 13,645 bilhões em 2024 e deve alcançar US$ 19,147 bilhões até 2030 (CAGR 5,8%). Vetores de crescimento: construção civil, splits residenciais e integração com Sistemas de Automação Predial (BAS).</div>
-    <div class="card-body lang-en">The market reached US$13.645B in 2024 and is projected to reach US$19.147B by 2030 (CAGR 5.8%). Key growth drivers: construction sector, residential split units, and Building Automation Systems (BAS) integration.</div>
-    <div class="card-body lang-es">El mercado alcanzó US$13.645 millones en 2024 y se proyecta en US$19.147 millones para 2030 (CAGR 5,8%). Vectores de crecimiento: construcción, splits residenciales e integración con Sistemas de Automatización de Edificios (BAS).</div>
-    <div class="card-footer">
-      <span class="card-source">MarkNtel Advisors / IndustryARC</span>
-      <a class="card-link" href="https://www.marknteladvisors.com/research-library/latin-america-heating-ventilation-air-conditioning-refrigeration-market.html" target="_blank">
-        <span class="lang-pt">Leia mais →</span><span class="lang-en">Read more →</span><span class="lang-es">Leer más →</span>
-      </a>
-    </div>
+    <div class="card-body lang-pt">O mercado atingiu US$ 13,645 bilh&#245;es em 2024 e deve alcan&#231;ar US$ 19,147 bilh&#245;es at&#233; 2030 (CAGR 5,8%). Vetores: constru&#231;&#227;o civil, splits residenciais e integra&#231;&#227;o com Sistemas de Automa&#231;&#227;o Predial (BAS).</div>
+    <div class="card-body lang-en">The market reached US$13.645B in 2024 and is projected to reach US$19.147B by 2030 (CAGR 5.8%). Key drivers: construction sector, residential split units, and Building Automation Systems (BAS) integration.</div>
+    <div class="card-body lang-es">El mercado alcanz&#243; US$13.645 millones en 2024 y se proyecta en US$19.147 millones para 2030 (CAGR 5,8%). Vectores: construcci&#243;n, splits residenciales e integraci&#243;n con Sistemas de Automatizaci&#243;n de Edificios (BAS).</div>
+    <div class="card-footer"><span class="card-source">MarkNtel Advisors / IndustryARC</span><a class="card-link" href="https://www.marknteladvisors.com/research-library/latin-america-heating-ventilation-air-conditioning-refrigeration-market.html" target="_blank"><span class="lang-pt">Leia mais &#8594;</span><span class="lang-en">Read more &#8594;</span><span class="lang-es">Leer m&#225;s &#8594;</span></a></div>
   </div>
 
-  <!-- #6 -->
   <div class="news-card" data-cat="market">
-    <div class="card-top">
-      <span class="badge badge-market lang-pt">Mercado</span>
-      <span class="badge badge-market lang-en">Market</span>
-      <span class="badge badge-market lang-es">Mercado</span>
-      <span class="card-num">#6</span>
-    </div>
-    <div class="card-title lang-pt">Mais de 8.000 supermercados na AL já operam com CO₂ transcrítico</div>
-    <div class="card-title lang-en">Over 8,000 supermarkets in Latin America now operate with transcritical CO₂</div>
-    <div class="card-title lang-es">Más de 8.000 supermercados en AL ya operan con CO₂ transcrítico</div>
-    <div class="card-body lang-pt">Dados da ATMOsphere mostram que mais de 8.000 supermercados na AL operam sistemas de CO₂ transcrítico, evidenciando a adoção crescente de refrigerantes naturais no varejo e abrindo espaço para expansão nos setores industrial e logístico.</div>
-    <div class="card-body lang-en">ATMOsphere data shows over 8,000 supermarkets in Latin America operating transcritical CO₂ systems, highlighting growing adoption of natural refrigerants in retail and opening space for expansion in industrial and logistics sectors.</div>
-    <div class="card-body lang-es">Datos de ATMOsphere muestran más de 8.000 supermercados en AL operando sistemas de CO₂ transcrítico, evidenciando la creciente adopción de refrigerantes naturales en el retail y abriendo espacio para expansión industrial y logística.</div>
-    <div class="card-footer">
-      <span class="card-source">ATMOsphere / Mundo HVAC&amp;R</span>
-      <a class="card-link" href="https://www.mundohvacr.com/2026/04/atmosphere-latam-2026-bogota-pone-en-el-centro-la-conversacion-sobre-refrigerantes-naturales-en-america-latina/" target="_blank">
-        <span class="lang-pt">Leia mais →</span><span class="lang-en">Read more →</span><span class="lang-es">Leer más →</span>
-      </a>
-    </div>
+    <div class="card-top"><span class="badge badge-market lang-pt">Mercado</span><span class="badge badge-market lang-en">Market</span><span class="badge badge-market lang-es">Mercado</span><span class="card-num">#6</span></div>
+    <div class="card-title lang-pt">Mais de 8.000 supermercados na AL j&#225; operam com CO&#8322; transcr&#237;tico</div>
+    <div class="card-title lang-en">Over 8,000 supermarkets in Latin America now operate with transcritical CO&#8322;</div>
+    <div class="card-title lang-es">M&#225;s de 8.000 supermercados en AL ya operan con CO&#8322; transcr&#237;tico</div>
+    <div class="card-body lang-pt">Dados da ATMOsphere mostram que mais de 8.000 supermercados na AL operam sistemas de CO&#8322; transcr&#237;tico, evidenciando a ado&#231;&#227;o crescente de refrigerantes naturais no varejo e abrindo espa&#231;o para expans&#227;o nos setores industrial e log&#237;stico.</div>
+    <div class="card-body lang-en">ATMOsphere data shows over 8,000 supermarkets in Latin America operating transcritical CO2 systems, highlighting growing adoption of natural refrigerants in retail and opening space for expansion in industrial and logistics sectors.</div>
+    <div class="card-body lang-es">Datos de ATMOsphere muestran m&#225;s de 8.000 supermercados en AL operando sistemas de CO&#8322; transcr&#237;tico, evidenciando la creciente adopci&#243;n de refrigerantes naturales en el retail y abriendo espacio para expansi&#243;n industrial y log&#237;stica.</div>
+    <div class="card-footer"><span class="card-source">ATMOsphere / Mundo HVAC&amp;R</span><a class="card-link" href="https://www.mundohvacr.com/2026/04/atmosphere-latam-2026-bogota-pone-en-el-centro-la-conversacion-sobre-refrigerantes-naturales-en-america-latina/" target="_blank"><span class="lang-pt">Leia mais &#8594;</span><span class="lang-en">Read more &#8594;</span><span class="lang-es">Leer m&#225;s &#8594;</span></a></div>
   </div>
 
-  <!-- #7 -->
   <div class="news-card" data-cat="market">
-    <div class="card-top">
-      <span class="badge badge-market lang-pt">Mercado</span>
-      <span class="badge badge-market lang-en">Market</span>
-      <span class="badge badge-market lang-es">Mercado</span>
-      <span class="card-num">#7</span>
-    </div>
-    <div class="card-title lang-pt">Fidelização como vantagem estratégica: Dealer Programs ganham força na AL</div>
+    <div class="card-top"><span class="badge badge-market lang-pt">Mercado</span><span class="badge badge-market lang-en">Market</span><span class="badge badge-market lang-es">Mercado</span><span class="card-num">#7</span></div>
+    <div class="card-title lang-pt">Fideliza&#231;&#227;o como vantagem estrat&#233;gica: Dealer Programs ganham for&#231;a na AL</div>
     <div class="card-title lang-en">Loyalty as strategic advantage: Dealer Programs gain traction across Latin America</div>
-    <div class="card-title lang-es">La fidelización como ventaja estratégica: los Dealer Programs ganan fuerza en AL</div>
-    <div class="card-body lang-pt">Programas de fidelização de distribuidores e instaladores consolidam-se como diferencial competitivo. Empresas que investem em Dealer Programs relatam maior retenção e aumento de vendas recorrentes na região.</div>
+    <div class="card-title lang-es">La fidelizaci&#243;n como ventaja estrat&#233;gica: los Dealer Programs ganan fuerza en AL</div>
+    <div class="card-body lang-pt">Programas de fideliza&#231;&#227;o de distribuidores e instaladores consolidam-se como diferencial competitivo. Empresas que investem em Dealer Programs relatam maior reten&#231;&#227;o e aumento de vendas recorrentes na regi&#227;o.</div>
     <div class="card-body lang-en">Distributor and installer loyalty programs are consolidating as a competitive differentiator. Companies investing in Dealer Programs report higher retention and increased recurring sales across the region.</div>
-    <div class="card-body lang-es">Los programas de fidelización de distribuidores e instaladores se consolidan como diferencial competitivo. Las empresas que invierten en Dealer Programs reportan mayor retención y aumento de ventas recurrentes en la región.</div>
-    <div class="card-footer">
-      <span class="card-source">ACR Latinoamérica</span>
-      <a class="card-link" href="https://www.acrlatinoamerica.com/en/more-in-depth/other-approaches/20942-strategic-loyalty-the-new-currency-in-hvac-r.html" target="_blank">
-        <span class="lang-pt">Leia mais →</span><span class="lang-en">Read more →</span><span class="lang-es">Leer más →</span>
-      </a>
-    </div>
+    <div class="card-body lang-es">Los programas de fidelizaci&#243;n de distribuidores e instaladores se consolidan como diferencial competitivo. Las empresas que invierten en Dealer Programs reportan mayor retenci&#243;n y aumento de ventas recurrentes en la regi&#243;n.</div>
+    <div class="card-footer"><span class="card-source">ACR Latinoam&#233;rica</span><a class="card-link" href="https://www.acrlatinoamerica.com/en/more-in-depth/other-approaches/20942-strategic-loyalty-the-new-currency-in-hvac-r.html" target="_blank"><span class="lang-pt">Leia mais &#8594;</span><span class="lang-en">Read more &#8594;</span><span class="lang-es">Leer m&#225;s &#8594;</span></a></div>
   </div>
 
-  <!-- #8 -->
   <div class="news-card" data-cat="reg">
-    <div class="card-top">
-      <span class="badge badge-reg lang-pt">Regulação</span>
-      <span class="badge badge-reg lang-en">Regulation</span>
-      <span class="badge badge-reg lang-es">Regulación</span>
-      <span class="card-num">#8</span>
-    </div>
-    <div class="card-title lang-pt">México: Emenda de Kigali em marcha — HFCs congelados desde 2024, -80% até 2045</div>
-    <div class="card-title lang-en">Mexico: Kigali Amendment in motion — HFCs frozen since 2024, -80% by 2045</div>
-    <div class="card-title lang-es">México: Enmienda de Kigali en marcha — HFCs congelados desde 2024, -80% hacia 2045</div>
-    <div class="card-body lang-pt">Congelamento do consumo de HFCs desde 2024, redução de 10% até 2029 e meta de -80% até 2045. Marco regulatório envolve SEMARNAT, SENER, STPS e SE, cobrindo todo o ciclo de vida dos refrigerantes.</div>
+    <div class="card-top"><span class="badge badge-reg lang-pt">Regula&#231;&#227;o</span><span class="badge badge-reg lang-en">Regulation</span><span class="badge badge-reg lang-es">Regulaci&#243;n</span><span class="card-num">#8</span></div>
+    <div class="card-title lang-pt">M&#233;xico: Emenda de Kigali em marcha &mdash; HFCs congelados desde 2024, -80% at&#233; 2045</div>
+    <div class="card-title lang-en">Mexico: Kigali Amendment in motion &mdash; HFCs frozen since 2024, -80% by 2045</div>
+    <div class="card-title lang-es">M&#233;xico: Enmienda de Kigali en marcha &mdash; HFCs congelados desde 2024, -80% hacia 2045</div>
+    <div class="card-body lang-pt">Congelamento do consumo de HFCs desde 2024, redu&#231;&#227;o de 10% at&#233; 2029 e meta de -80% at&#233; 2045. Marco regulat&#243;rio envolve SEMARNAT, SENER, STPS e SE, cobrindo todo o ciclo de vida dos refrigerantes.</div>
     <div class="card-body lang-en">HFC consumption frozen since 2024, 10% reduction by 2029, -80% target by 2045. The regulatory framework involves SEMARNAT, SENER, STPS and SE, covering the full refrigerant lifecycle.</div>
-    <div class="card-body lang-es">Congelamiento del consumo de HFCs desde 2024, reducción del 10% hacia 2029 y meta del -80% hacia 2045. El marco regulatorio involucra a SEMARNAT, SENER, STPS y SE, abarcando todo el ciclo de vida de los refrigerantes.</div>
-    <div class="card-footer">
-      <span class="card-source">Mundo HVAC&amp;R</span>
-      <a class="card-link" href="https://www.mundohvacr.com/2026/04/el-nuevo-equilibrio-del-frio-entre-regulacion-eficiencia-y-nuevas-tecnologias-el-nuevo-mapa-del-frio-en-mexico-y-latinoamerica/" target="_blank">
-        <span class="lang-pt">Leia mais →</span><span class="lang-en">Read more →</span><span class="lang-es">Leer más →</span>
-      </a>
-    </div>
+    <div class="card-body lang-es">Congelamiento del consumo de HFCs desde 2024, reducci&#243;n del 10% hacia 2029 y meta del -80% hacia 2045. El marco regulatorio involucra a SEMARNAT, SENER, STPS y SE, abarcando todo el ciclo de vida de los refrigerantes.</div>
+    <div class="card-footer"><span class="card-source">Mundo HVAC&amp;R</span><a class="card-link" href="https://www.mundohvacr.com/2026/04/el-nuevo-equilibrio-del-frio-entre-regulacion-eficiencia-y-nuevas-tecnologias-el-nuevo-mapa-del-frio-en-mexico-y-latinoamerica/" target="_blank"><span class="lang-pt">Leia mais &#8594;</span><span class="lang-en">Read more &#8594;</span><span class="lang-es">Leer m&#225;s &#8594;</span></a></div>
   </div>
 
-  <!-- #9 -->
   <div class="news-card" data-cat="reg">
-    <div class="card-top">
-      <span class="badge badge-reg lang-pt">Regulação</span>
-      <span class="badge badge-reg lang-en">Regulation</span>
-      <span class="badge badge-reg lang-es">Regulación</span>
-      <span class="card-num">#9</span>
-    </div>
-    <div class="card-title lang-pt">ATMOsphere LATAM 2026 em Bogotá debate transição para refrigerantes naturais</div>
-    <div class="card-title lang-en">ATMOsphere LATAM 2026 in Bogotá debates transition to natural refrigerants</div>
-    <div class="card-title lang-es">ATMOsphere LATAM 2026 en Bogotá debate transición a refrigerantes naturales</div>
-    <div class="card-body lang-pt">Bogotá sediou o debate sobre refrigerantes naturais na América Latina. Destaque para o avanço de CO₂, amônia e hidrocarbonetos como alternativas aos HFCs, com foco em regulação, custos e disponibilidade de mão de obra técnica.</div>
-    <div class="card-body lang-en">Bogotá hosted the debate on natural refrigerants in Latin America. Highlights: advances of CO₂, ammonia and hydrocarbons as HFC alternatives, focusing on regulation, costs and availability of technical labor.</div>
-    <div class="card-body lang-es">Bogotá fue sede del debate sobre refrigerantes naturales en América Latina. Destacó el avance del CO₂, amoníaco e hidrocarburos como alternativas a los HFCs, con foco en regulación, costos y disponibilidad de mano de obra técnica.</div>
-    <div class="card-footer">
-      <span class="card-source">Mundo HVAC&amp;R</span>
-      <a class="card-link" href="https://www.mundohvacr.com/2026/04/atmosphere-latam-2026-bogota-pone-en-el-centro-la-conversacion-sobre-refrigerantes-naturales-en-america-latina/" target="_blank">
-        <span class="lang-pt">Leia mais →</span><span class="lang-en">Read more →</span><span class="lang-es">Leer más →</span>
-      </a>
-    </div>
+    <div class="card-top"><span class="badge badge-reg lang-pt">Regula&#231;&#227;o</span><span class="badge badge-reg lang-en">Regulation</span><span class="badge badge-reg lang-es">Regulaci&#243;n</span><span class="card-num">#9</span></div>
+    <div class="card-title lang-pt">ATMOsphere LATAM 2026 em Bogot&#225; debate transi&#231;&#227;o para refrigerantes naturais</div>
+    <div class="card-title lang-en">ATMOsphere LATAM 2026 in Bogota debates transition to natural refrigerants</div>
+    <div class="card-title lang-es">ATMOsphere LATAM 2026 en Bogot&#225; debate transici&#243;n a refrigerantes naturales</div>
+    <div class="card-body lang-pt">Bogot&#225; sediou o debate sobre refrigerantes naturais na Am&#233;rica Latina. Destaque para CO&#8322;, am&#244;nia e hidrocarbonetos como alternativas aos HFCs, com foco em regula&#231;&#227;o, custos e disponibilidade de m&#227;o de obra t&#233;cnica.</div>
+    <div class="card-body lang-en">Bogota hosted the debate on natural refrigerants in Latin America. Highlights: CO2, ammonia and hydrocarbons as HFC alternatives, focusing on regulation, costs and availability of technical labor.</div>
+    <div class="card-body lang-es">Bogot&#225; fue sede del debate sobre refrigerantes naturales en Am&#233;rica Latina. Destac&#243; el avance del CO&#8322;, amon&#237;aco e hidrocarburos como alternativas a los HFCs, con foco en regulaci&#243;n, costos y disponibilidad de mano de obra t&#233;cnica.</div>
+    <div class="card-footer"><span class="card-source">Mundo HVAC&amp;R</span><a class="card-link" href="https://www.mundohvacr.com/2026/04/atmosphere-latam-2026-bogota-pone-en-el-centro-la-conversacion-sobre-refrigerantes-naturales-en-america-latina/" target="_blank"><span class="lang-pt">Leia mais &#8594;</span><span class="lang-en">Read more &#8594;</span><span class="lang-es">Leer m&#225;s &#8594;</span></a></div>
   </div>
 
-  <!-- #10 -->
   <div class="news-card" data-cat="brand">
-    <div class="card-top">
-      <span class="badge badge-brand lang-pt">Fabricante</span>
-      <span class="badge badge-brand lang-en">Manufacturer</span>
-      <span class="badge badge-brand lang-es">Fabricante</span>
-      <span class="card-num">#10</span>
-    </div>
-    <div class="card-title lang-pt">Midea lidera crescimento global do setor (CAGR 9,1%) com expansão na América Latina</div>
+    <div class="card-top"><span class="badge badge-brand lang-pt">Fabricante</span><span class="badge badge-brand lang-en">Manufacturer</span><span class="badge badge-brand lang-es">Fabricante</span><span class="card-num">#10</span></div>
+    <div class="card-title lang-pt">Midea lidera crescimento global do setor (CAGR 9,1%) com expans&#227;o na Am&#233;rica Latina</div>
     <div class="card-title lang-en">Midea leads global sector growth (CAGR 9.1%) with expansion into Latin America</div>
-    <div class="card-title lang-es">Midea lidera el crecimiento global del sector (CAGR 9,1%) con expansión en América Latina</div>
-    <div class="card-body lang-pt">Midea Group é a marca HVAC de maior crescimento por receita (CAGR 9,1%), impulsionada por smart home, preços competitivos e expansão global, incluindo a América Latina. Compete com Daikin (líder global, US$ 36,3 bi) e Carrier (líder norte-americano, 17% de market share).</div>
+    <div class="card-title lang-es">Midea lidera el crecimiento global del sector (CAGR 9,1%) con expansi&#243;n en Am&#233;rica Latina</div>
+    <div class="card-body lang-pt">Midea Group &#233; a marca HVAC de maior crescimento por receita (CAGR 9,1%), impulsionada por smart home, pre&#231;os competitivos e expans&#227;o global incluindo a Am&#233;rica Latina. Compete com Daikin (l&#237;der global, US$ 36,3 bi) e Carrier (l&#237;der norte-americano, 17% de market share).</div>
     <div class="card-body lang-en">Midea Group is the fastest-growing HVAC brand by revenue (CAGR 9.1%), driven by smart home integration, competitive pricing and global expansion including Latin America. It competes with Daikin (global leader, US$36.3B) and Carrier (North American leader, 17% share).</div>
-    <d
-    </div>
+    <div class="card-body lang-es">Midea Group es la marca HVAC de mayor crecimiento por ingresos (CAGR 9,1%), impulsada por smart home, precios competitivos y expansi&#243;n global incluida Am&#233;rica Latina. Compite con Daikin (l&#237;der global, US$36.300 millones) y Carrier (l&#237;der norteamericano, 17% de participaci&#243;n).</div>
+    <div class="card-footer"><span class="card-source">The Chill Brothers</span><a class="card-link" href="https://thechillbrothers.com/leading-hvac-brands-performance-and-market-share-analysis/" target="_blank"><span class="lang-pt">Leia mais &#8594;</span><span class="lang-en">Read more &#8594;</span><span class="lang-es">Leer m&#225;s &#8594;</span></a></div>
   </div>
 
-  <!-- #11 -->
   <div class="news-card" data-cat="brand">
-    <div class="card-top">
-      <span class="badge badge-brand lang-pt">Fabricante</span>
-      <span class="badge badge-brand lang-en">Manufacturer</span>
-      <span class="badge badge-brand lang-es">Fabricante</span>
-      <span class="card-num">#11</span>
-    </div>
-    <div class="card-title lang-pt">Mojave Energy Systems anuncia expansão para a América Latina</div>
+    <div class="card-top"><span class="badge badge-brand lang-pt">Fabricante</span><span class="badge badge-brand lang-en">Manufacturer</span><span class="badge badge-brand lang-es">Fabricante</span><span class="card-num">#11</span></div>
+    <div class="card-title lang-pt">Mojave Energy Systems anuncia expans&#227;o para a Am&#233;rica Latina</div>
     <div class="card-title lang-en">Mojave Energy Systems announces expansion into Latin America</div>
-    <div class="card-title lang-es">Mojave Energy Systems anuncia expansión hacia América Latina</div>
-    <div class="card-body lang-pt">A Mojave Energy Systems formalizou sua expansão para o mercado latino-americano, ampliando sua presença em soluções HVACR para o segmento comercial e industrial. Reflete o interesse crescente de empresas norte-americanas na região.</div>
+    <div class="card-title lang-es">Mojave Energy Systems anuncia expansi&#243;n hacia Am&#233;rica Latina</div>
+    <div class="card-body lang-pt">A Mojave Energy Systems formalizou sua expans&#227;o para o mercado latino-americano, ampliando sua presen&#231;a em solu&#231;&#245;es HVACR para o segmento comercial e industrial. Reflete o interesse crescente de empresas norte-americanas na regi&#227;o.</div>
     <div class="card-body lang-en">Mojave Energy Systems has formalized its expansion into the Latin American market, growing its HVACR presence in the commercial and industrial segment. Reflects growing interest from North American companies in the region.</div>
-    <div class="card-body lang-es">Mojave Energy Systems formalizó su expansión al mercado latinoamericano, ampliando su presencia en soluciones HVACR para el segmento comercial e industrial. Refleja el creciente interés de empresas norteamericanas en la región.</div>
-    <div class="card-footer">
-      <span class="card-source">ACHR News</span>
-      <a class="card-link" href="https://www.achrnews.com/articles/163988-mojave-energy-systems-expands-into-latin-america" target="_blank">
-        <span class="lang-pt">Leia mais →</span><span class="lang-en">Read more →</span><span class="lang-es">Leer más →</span>
-      </a>
-    </div>
+    <div class="card-body lang-es">Mojave Energy Systems formaliz&#243; su expansi&#243;n al mercado latinoamericano, ampliando su presencia en soluciones HVACR para el segmento comercial e industrial. Refleja el creciente inter&#233;s de empresas norteamericanas en la regi&#243;n.</div>
+    <div class="card-footer"><span class="card-source">ACHR News</span><a class="card-link" href="https://www.achrnews.com/articles/163988-mojave-energy-systems-expands-into-latin-america" target="_blank"><span class="lang-pt">Leia mais &#8594;</span><span class="lang-en">Read more &#8594;</span><span class="lang-es">Leer m&#225;s &#8594;</span></a></div>
   </div>
 
-</div><!-- /grid -->
+</div>
 
 <script>
 document.body.classList.add('js-ready', 'show-pt');
-var currentLang = 'pt';
-var currentFilter = 'all';
+var lang = 'pt';
+var filter = 'all';
+var placeholders = {pt: 'Buscar noticias...', en: 'Search news...', es: 'Buscar noticias...'};
 
 function setLang(l) {
-  currentLang = l;
+  lang = l;
   document.body.classList.remove('show-pt', 'show-en', 'show-es');
   document.body.classList.add('show-' + l);
   document.querySelectorAll('.lang-btn').forEach(function(b) {
     b.classList.toggle('active', b.textContent === l.toUpperCase());
   });
-  updateCount();
+  document.getElementById('search-input').placeholder = placeholders[l];
+  applyFilters();
 }
 
 function setFilter(f) {
-  currentFilter = f;
+  filter = f;
   document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
   document.getElementById('f-' + f).classList.add('active');
-  document.querySelectorAll('.news-card').forEach(function(c) {
-    c.hidden = (f !== 'all' && c.dataset.cat !== f);
-  });
-  updateCount();
+  applyFilters();
 }
 
-function updateCount() {
-  var visible = document.querySelectorAll('.news-card:not([hidden])').length;
-  var label = currentLang === 'en' ? 'news items' : currentLang === 'es' ? 'noticias' : 'notícias';
-  document.getElementById('count-bar').innerHTML = '<span>' + visible + '</span> ' + label;
-}
-
-document.querySelectorAll('.lang-btn').forEach(function(b) {
-  if (b.textContent === 'PT') b.classList.add('active');
-});
-document.getElementById('f-all').classList.add('active');
-updateCount();
-</script>
-</body>
-</html>
-assList.remove('active'); });
-  document.getElementById('f-' + f).classList.add('active');
+function applyFilters() {
+  var q = document.getElementById('search-input').value.trim().toLowerCase();
   var cards = document.querySelectorAll('.news-card');
+  var count = 0;
   cards.forEach(function(c) {
-    c.hidden = (f !== 'all' && c.dataset.cat !== f);
+    var catOk = filter === 'all' || c.dataset.cat === filter;
+    var textOk = true;
+    if (q) {
+      var t = c.querySelector('.card-title.lang-' + lang);
+      var b = c.querySelector('.card-body.lang-' + lang);
+      var txt = ((t ? t.textContent : '') + ' ' + (b ? b.textContent : '')).toLowerCase();
+      textOk = txt.indexOf(q) !== -1;
+    }
+    c.hidden = !(catOk && textOk);
+    if (!c.hidden) count++;
   });
-  updateCount();
+  var noRes = lang === 'en' ? 'No results found.' : lang === 'es' ? 'Sin resultados.' : 'Nenhum resultado encontrado.';
+  var label = lang === 'en' ? 'news items' : lang === 'es' ? 'noticias' : 'noticias';
+  var existing = document.getElementById('no-results-msg');
+  if (existing) existing.remove();
+  if (count === 0) {
+    var msg = document.createElement('div');
+    msg.id = 'no-results-msg';
+    msg.className = 'no-results';
+    msg.textContent = noRes;
+    document.getElementById('grid').appendChild(msg);
+  }
+  document.getElementById('count-bar').innerHTML = '<span>' + count + '</span> ' + label;
 }
 
-function updateCount() {
-  var visible = document.querySelectorAll('.news-card:not([hidden])').length;
-  var label = currentLang === 'en' ? 'news items' : currentLang === 'es' ? 'noticias' : 'notícias';
-  document.getElementById('count-bar').innerHTML = '<span>' + visible + '</span> ' + label;
-}
-
-// Init
 document.querySelectorAll('.lang-btn').forEach(function(b) {
   if (b.textContent === 'PT') b.classList.add('active');
 });
 document.getElementById('f-all').classList.add('active');
-updateCount();
+applyFilters();
 </script>
 </body>
 </html>
