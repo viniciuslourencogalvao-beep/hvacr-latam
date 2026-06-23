@@ -61,146 +61,83 @@
 <div class="count-bar" id="count-bar"></div>
 <div class="news-grid" id="grid"></div>
 <script>
+// DADOS — substitua este array com as notícias da semana
 const news = [
   {
     cat: 'event',
-    pt: {
-      title: 'AirCon Fair 2026 estreia em São Paulo integrada à Eletrolar Show',
-      body: 'A primeira edição da AirCon Fair acontece de 22 a 25 de junho no Distrito Anhembi, São Paulo. O evento inaugura um novo polo HVAC-R na América Latina, integrado ao ecossistema B2B da Eletrolar Show com mais de 1.500 expositores, 5.000 marcas e 40.000 visitantes esperados de mais de 30 países.'
-    },
-    en: {
-      title: 'AirCon Fair 2026 debuts in São Paulo integrated with Eletrolar Show',
-      body: 'The first edition of AirCon Fair takes place June 22–25 at Distrito Anhembi, São Paulo. The event launches a new HVAC-R hub in Latin America, integrated into the Eletrolar Show B2B ecosystem with over 1,500 exhibitors, 5,000 brands, and 40,000 expected visitors from 30+ countries.'
-    },
-    es: {
-      title: 'AirCon Fair 2026 debuta en São Paulo integrada a Eletrolar Show',
-      body: 'La primera edición de AirCon Fair se realiza del 22 al 25 de junio en Distrito Anhembi, São Paulo. El evento inaugura un nuevo polo HVAC-R en América Latina, integrado al ecosistema B2B de Eletrolar Show con más de 1.500 expositores, 5.000 marcas y 40.000 visitantes esperados de más de 30 países.'
-    },
-    source: 'Aircon Fair / Revista do Frio',
-    url: 'https://airconfair.com.br/'
-  },
-  {
-    cat: 'event',
-    pt: {
-      title: 'Mercofrio 2026 tem como tema IA, eficiência e qualidade do ar',
-      body: 'O 15º Congresso Internacional AVAC-R acontece de 15 a 17 de setembro em Porto Alegre (BarraShoppingSul). O tema central é "AVAC-R Inteligente: IA, Eficiência e Qualidade do Ar para um Planeta Sustentável", com foco na formação de novos profissionais, descarbonização e aplicação prática de inteligência artificial nos sistemas.'
-    },
-    en: {
-      title: 'Mercofrio 2026 focuses on AI, efficiency and air quality',
-      body: 'The 15th International HVAC-R Congress takes place September 15–17 in Porto Alegre (BarraShoppingSul). The theme is "Smart HVAC-R: AI, Efficiency and Air Quality for a Sustainable Planet", with emphasis on training new professionals, decarbonization, and practical AI applications in HVAC-R systems.'
-    },
-    es: {
-      title: 'Mercofrio 2026 enfoca en IA, eficiencia y calidad del aire',
-      body: 'El 15° Congreso Internacional AVAC-R se celebra del 15 al 17 de septiembre en Porto Alegre (BarraShoppingSul). El tema central es "AVAC-R Inteligente: IA, Eficiencia y Calidad del Aire para un Planeta Sostenible", con foco en la formación de nuevos profesionales, descarbonización y aplicaciones prácticas de IA.'
-    },
-    source: 'Mercofrio / Revista Meio Filtrante',
-    url: 'https://mercofrio.com.br/programacao'
-  },
-  {
-    cat: 'event',
-    pt: {
-      title: 'AHR Expo México 2026 consolida Guadalajara como epicentro HVACR da região',
-      body: 'A maior feira HVACR da América Latina ocorre de 29 de setembro a 1º de outubro em Guadalajara. Com mais de 450 empresas expositoras e 14.500 visitantes esperados de 30+ países, o evento reúne fabricantes, distribuidores e profissionais do setor para apresentar as últimas inovações em climatização e refrigeração.'
-    },
-    en: {
-      title: 'AHR Expo México 2026 consolidates Guadalajara as the region\'s HVACR epicenter',
-      body: 'Latin America\'s largest HVACR trade show takes place September 29–October 1 in Guadalajara. With over 450 exhibiting companies and 14,500 expected visitors from 30+ countries, the event gathers manufacturers, distributors and professionals to showcase the latest innovations in HVACR.'
-    },
-    es: {
-      title: 'AHR Expo México 2026 consolida a Guadalajara como epicentro HVACR de la región',
-      body: 'La mayor feria HVACR de América Latina se celebra del 29 de septiembre al 1 de octubre en Guadalajara. Con más de 450 empresas expositoras y 14.500 visitantes esperados de más de 30 países, el evento reúne fabricantes, distribuidores y profesionales para mostrar las últimas innovaciones del sector.'
-    },
-    source: 'AHR Expo México',
-    url: 'https://www.ahrexpomexico.com/en/'
-  },
-  {
-    cat: 'brand',
-    pt: {
-      title: 'LG completa 11 anos consecutivos como marca nº 1 em ar-condicionado na América Latina',
-      body: 'Segundo dados da Euromonitor International, a LG Electronics lidera as vendas de ar-condicionado na América Latina pelo 11º ano consecutivo (2015–2025). O anúncio, feito em maio de 2026, reforça a estratégia da empresa baseada em eficiência energética, IA embarcada e capacitação técnica contínua na região.'
-    },
-    en: {
-      title: 'LG marks 11 consecutive years as the #1 air conditioning brand in Latin America',
-      body: 'According to Euromonitor International data, LG Electronics leads air conditioning sales in Latin America for the 11th consecutive year (2015–2025). The announcement, made in May 2026, reinforces the company\'s strategy built on energy efficiency, embedded AI, and continuous technical training in the region.'
-    },
-    es: {
-      title: 'LG cumple 11 años consecutivos como marca n°1 en aire acondicionado en América Latina',
-      body: 'Según datos de Euromonitor International, LG Electronics lidera las ventas de aire acondicionado en América Latina por el 11° año consecutivo (2015–2025). El anuncio, realizado en mayo de 2026, refuerza la estrategia basada en eficiencia energética, IA integrada y capacitación técnica continua en la región.'
-    },
-    source: 'PR Newswire / LG Electronics',
-    url: 'https://www.prnewswire.com/br/comunicados-para-a-imprensa/lg-celebra-11-anos-como-marca-n-1-em-ar-condicionado-na-america-latina-302782032.html'
-  },
-  {
-    cat: 'market',
-    pt: {
-      title: 'Mercado HVAC na América Latina deve atingir US$ 14,7 bilhões até 2035',
-      body: 'O mercado de equipamentos HVAC na América Latina e Caribe alcançou 451 milhões de unidades, avaliadas em US$ 13,6 bilhões em 2024, com projeção de crescimento a 5,8% ao ano até 2030. A expansão é impulsionada pela urbanização acelerada e pela preferência crescente por splits de alta eficiência energética no segmento residencial e comercial.'
-    },
-    en: {
-      title: 'Latin America HVAC market projected to reach $14.7 billion by 2035',
-      body: 'The HVAC equipment market in Latin America and the Caribbean reached 451 million units valued at $13.6 billion in 2024, with projected annual growth of 5.8% through 2030. Expansion is driven by accelerating urbanization and growing preference for high-efficiency split systems in the residential and commercial segments.'
-    },
-    es: {
-      title: 'Mercado HVAC en América Latina proyectado a alcanzar USD 14.700 millones para 2035',
-      body: 'El mercado de equipos HVAC en América Latina y el Caribe alcanzó 451 millones de unidades, valoradas en USD 13.600 millones en 2024, con una proyección de crecimiento del 5,8% anual hasta 2030. La expansión es impulsada por la urbanización acelerada y la creciente preferencia por splits de alta eficiencia energética en los segmentos residencial y comercial.'
-    },
-    source: 'IndexBox Market Intelligence',
-    url: 'https://www.indexbox.io/blog/hvac-equipment-latin-america-and-the-caribbean-market-overview-2024-5/'
+    pt: { title: 'AirCon 2026 reúne setor de climatização em São Paulo', body: 'A feira AirCon 2026 ocorre de 22 a 25 de junho no Distrito Anhembi, integrada ao Eletrolar Show All Connected, reunindo marcas e tomadores de decisão do setor HVAC-R com foco em eficiência energética, automação e gases de baixo GWP.' },
+    en: { title: "AirCon 2026 brings together Brazil's HVAC-R sector in São Paulo", body: 'The AirCon 2026 trade fair runs June 22–25 at the Anhembi District, integrated with the Eletrolar Show All Connected, gathering brands and decision-makers around energy efficiency, automation and low-GWP refrigerants.' },
+    es: { title: 'AirCon 2026 reúne al sector HVAC-R en São Paulo', body: 'La feria AirCon 2026 se realiza del 22 al 25 de junio en el Distrito Anhembi, integrada a la Eletrolar Show All Connected, reuniendo marcas y tomadores de decisión en torno a eficiencia energética, automatización y gases de bajo GWP.' },
+    source: 'Revista do Frio',
+    url: 'https://revistadofrio.com.br/aircon-2026-amplia-integracao-do-hvac-r-ao-ecossistema-de-negocios-da-eletrolar-show/'
   },
   {
     cat: 'reg',
-    pt: {
-      title: 'México avança na implementação da Emenda de Kigali: HFCs já congelados desde 2024',
-      body: 'O México segue rigorosamente o calendário Kigali de phasedown de HFCs: consumo congelado desde 2024, redução de 10% prevista para 2029 e meta de 80% de corte até 2045. A indústria HVACR nacional está acelerando a transição para fluidos de baixo GWP (A2L e HFOs), reposicionando refrigerantes sintéticos como etapa de transição, não destino final.'
-    },
-    en: {
-      title: 'Mexico advances Kigali Amendment implementation: HFCs frozen since 2024',
-      body: 'Mexico is strictly following the Kigali HFC phasedown schedule: consumption frozen since 2024, a 10% reduction by 2029, and an 80% cut target by 2045. The domestic HVACR industry is accelerating the transition to low-GWP fluids (A2L and HFOs), repositioning synthetic refrigerants as a transition step, not a final destination.'
-    },
-    es: {
-      title: 'México avanza en implementación de la Enmienda de Kigali: HFCs congelados desde 2024',
-      body: 'México sigue rigurosamente el calendario Kigali de eliminación progresiva de HFCs: consumo congelado desde 2024, reducción del 10% prevista para 2029 y meta de 80% de reducción para 2045. La industria HVACR nacional está acelerando la transición hacia fluidos de bajo GWP (A2L y HFOs), reposicionando los refrigerantes sintéticos como etapa de transición.'
-    },
+    pt: { title: 'México avança no cronograma do Protocolo de Kigali para HFCs', body: 'O México mantém o consumo de HFCs congelado desde 2024, com redução progressiva de 10% até 2029 e meta de 80% até 2045, em estrutura regulatória que envolve SEMARNAT, SENER, STPS e SE ao longo de todo o ciclo de vida dos refrigerantes.' },
+    en: { title: 'Mexico advances on Kigali Amendment HFC phase-down schedule', body: 'Mexico has kept HFC consumption frozen since 2024, with a progressive 10% cut by 2029 and an 80% reduction target by 2045, under a regulatory framework spanning SEMARNAT, SENER, STPS and SE across the refrigerant lifecycle.' },
+    es: { title: 'México avanza en el cronograma del Protocolo de Kigali para HFC', body: 'México mantiene el consumo de HFC congelado desde 2024, con una reducción progresiva del 10% para 2029 y una meta de 80% para 2045, dentro de un marco regulatorio que involucra a SEMARNAT, SENER, STPS y SE en todo el ciclo de vida de los refrigerantes.' },
     source: 'Mundo HVAC&R',
     url: 'https://www.mundohvacr.com/2026/04/el-nuevo-equilibrio-del-frio-entre-regulacion-eficiencia-y-nuevas-tecnologias-el-nuevo-mapa-del-frio-en-mexico-y-latinoamerica/'
   },
   {
     cat: 'reg',
-    pt: {
-      title: 'Supermercado colombiano é pioneiro na América Latina com refrigeração A2L da Copeland',
-      body: 'Uma rede de supermercados colombiana implementou um dos primeiros sistemas de refrigeração comercial com compressores otimizados para refrigerantes A2L na América Latina, em parceria com a Copeland e um fabricante regional. O projeto demonstra viabilidade técnica e econômica na substituição de HFCs de alto GWP em aplicações comerciais reais.'
-    },
-    en: {
-      title: 'Colombian supermarket pioneers A2L refrigeration with Copeland in Latin America',
-      body: 'A Colombian supermarket chain has implemented one of the first commercial refrigeration systems with A2L-optimized compressors in Latin America, in partnership with Copeland and a regional OEM. The project demonstrates the technical and economic viability of replacing high-GWP HFCs in real commercial applications.'
-    },
-    es: {
-      title: 'Supermercado colombiano es pionero en refrigeración A2L con Copeland en América Latina',
-      body: 'Una cadena de supermercados colombiana ha implementado uno de los primeros sistemas de refrigeración comercial con compresores optimizados para refrigerantes A2L en América Latina, en colaboración con Copeland y un fabricante regional. El proyecto demuestra la viabilidad técnica y económica de sustituir HFCs de alto GWP en aplicaciones comerciales reales.'
-    },
-    source: 'ACR Latinoamérica',
-    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/20758-supermercado-colombiano-apuesta-por-tecnologia-con-refrigerante-a2l-para-modernizar-su-sistema-de-refrigeracion.html'
+    pt: { title: 'ATMOsphere LATAM 2026 coloca refrigerantes naturais no centro do debate em Bogotá', body: 'O evento reuniu especialistas para discutir a adoção de refrigerantes naturais na América Latina, região que já conta com mais de 8.000 supermercados operando sistemas transcríticos de CO2, em um momento de maturidade crescente do mercado.' },
+    en: { title: 'ATMOsphere LATAM 2026 puts natural refrigerants center stage in Bogotá', body: 'The event brought together experts to discuss natural refrigerant adoption across Latin America, a region with more than 8,000 supermarkets already running transcritical CO2 systems, as the conversation matures from why to how to implement.' },
+    es: { title: 'ATMOsphere LATAM 2026 pone los refrigerantes naturales en el centro del debate en Bogotá', body: 'El evento reunió a especialistas para discutir la adopción de refrigerantes naturales en América Latina, región que ya cuenta con más de 8.000 supermercados operando sistemas transcríticos de CO2, en un momento de creciente madurez del mercado.' },
+    source: 'Mundo HVAC&R',
+    url: 'https://www.mundohvacr.com/2026/04/atmosphere-latam-2026-bogota-pone-en-el-centro-la-conversacion-sobre-refrigerantes-naturales-en-america-latina/'
   },
   {
     cat: 'market',
-    pt: {
-      title: 'Escassez de técnicos HVACR vira risco financeiro crítico para o setor na América Latina',
-      body: 'A falta de mão de obra qualificada está transformando a rotatividade de técnicos em um dos maiores riscos financeiros das empresas HVAC&R na América Latina. Especialistas alertam que a lacuna de formação profissional compromete o atendimento pós-venda, eleva custos operacionais e freie o crescimento do mercado, especialmente com a complexificação técnica imposta pelos novos refrigerantes A2L.'
-    },
-    en: {
-      title: 'HVACR technician shortage becomes a critical financial risk across Latin America',
-      body: 'The lack of qualified labor is transforming technician turnover into one of the biggest financial risks for HVAC&R companies in Latin America. Experts warn that the professional training gap undermines after-sales service, raises operational costs, and hinders market growth — especially as A2L refrigerants introduce new technical complexity.'
-    },
-    es: {
-      title: 'Escasez de técnicos HVACR se convierte en riesgo financiero crítico en América Latina',
-      body: 'La falta de mano de obra calificada está transformando la rotación de técnicos en uno de los mayores riesgos financieros de las empresas HVAC&R en América Latina. Los expertos advierten que la brecha de formación profesional compromete el servicio posventa, eleva los costos operativos y frena el crecimiento del mercado, especialmente ante la complejidad técnica de los nuevos refrigerantes A2L.'
-    },
+    pt: { title: 'Demanda por refrigeração na América Latina pode crescer 40% até 2030', body: 'Impulsionado pelo aumento das temperaturas e pela urbanização, o mercado de HVACR na região deve crescer com o Brasil liderando a um CAGR de 6,2%, à medida que sistemas split e soluções energeticamente eficientes ganham espaço.' },
+    en: { title: "Latin America's cooling demand could rise 40% by 2030", body: "Driven by rising temperatures and urbanization, the region's HVACR market is set to grow, with Brazil leading at a 6.2% CAGR, as split-unit systems and energy-efficient solutions gain ground." },
+    es: { title: 'La demanda de refrigeración en América Latina podría crecer 40% para 2030', body: 'Impulsado por el aumento de las temperaturas y la urbanización, el mercado HVACR de la región crecerá con Brasil liderando a un CAGR de 6,2%, mientras los sistemas split y las soluciones energéticamente eficientes ganan terreno.' },
+    source: 'MarkNtel Advisors / IndustryARC',
+    url: 'https://www.marknteladvisors.com/research-library/latin-america-heating-ventilation-air-conditioning-refrigeration-market.html'
+  },
+  {
+    cat: 'brand',
+    pt: { title: 'Hussmann e Chemours avançam na refrigeração comercial com Opteon XL20', body: 'A parceria entre as empresas busca transformar a refrigeração comercial na região com o refrigerante de baixo GWP Opteon XL20, alinhando-se às metas de descarbonização e eficiência que pressionam o setor HVACR.' },
+    en: { title: 'Hussmann and Chemours advance commercial refrigeration with Opteon XL20', body: "The companies' partnership aims to transform commercial refrigeration in the region using the low-GWP Opteon XL20 refrigerant, aligning with the decarbonization and efficiency targets pressuring the HVACR sector." },
+    es: { title: 'Hussmann y Chemours avanzan en refrigeración comercial con Opteon XL20', body: 'La asociación entre ambas empresas busca transformar la refrigeración comercial en la región con el refrigerante de bajo GWP Opteon XL20, alineándose con las metas de descarbonización y eficiencia que presionan al sector HVACR.' },
     source: 'Mundo HVAC&R',
-    url: 'https://www.mundohvacr.com/categoria/noticias/'
+    url: 'https://www.mundohvacr.com/2026/04/hussmann-y-chemours-transforman-el-futuro-de-la-refrigeracion-comercial-con-opteonxl20/'
+  },
+  {
+    cat: 'event',
+    pt: { title: 'Dia Mundial da Refrigeração 2026 destaca papel essencial do setor HVACR', body: "Celebrado em 26 de junho em Madrid, o DMR26 tem como lema 'Climatização e Refrigeração: tecnologias imprescindíveis e, ainda assim, invisíveis', buscando dar visibilidade a um setor essencial mas pouco reconhecido pelo público." },
+    en: { title: "World Refrigeration Day 2026 highlights the sector's essential role", body: "Marked on June 26 in Madrid, WRD26 carries the slogan 'Cooling and Heating: essential yet invisible technologies', aiming to raise visibility for a sector that's critical but rarely recognized by the public." },
+    es: { title: 'El Día Mundial de la Refrigeración 2026 resalta el papel esencial del sector', body: "Celebrado el 26 de junio en Madrid, el DMR26 tiene como lema 'Climatización y Refrigeración: tecnologías imprescindibles y sin embargo invisibles', buscando visibilizar a un sector esencial pero poco reconocido por el público." },
+    source: 'caloryfrio.com',
+    url: 'https://www.caloryfrio.com/refrigeracion-frio/dia-mundial-refrigeracion-2026-hvacr.html'
+  },
+  {
+    cat: 'event',
+    pt: { title: 'Mercofrio 2026 reserva espaço para jovens engenheiros no AVAC-R inteligente', body: 'O congresso, que ocorre de 15 a 17 de setembro em Porto Alegre, terá como tema central a IA, eficiência e qualidade do ar, com a formação de novos profissionais como um dos pontos de atenção do evento.' },
+    en: { title: 'Mercofrio 2026 opens space for young engineers in smart HVAC-R', body: "The congress, running September 15–17 in Porto Alegre, will center on AI, efficiency and air quality, with training new professionals flagged as one of the event's key focus areas." },
+    es: { title: 'Mercofrio 2026 abre espacio para jóvenes ingenieros en el AVAC-R inteligente', body: 'El congreso, que se realizará del 15 al 17 de septiembre en Porto Alegre, tendrá como eje central la IA, la eficiencia y la calidad del aire, con la formación de nuevos profesionales como uno de los puntos de atención del evento.' },
+    source: 'Revista Meio Filtrante',
+    url: 'https://www.doisamaisfarma.com.br/avacr/mercofrio-2026-abre-espaco-para-jovens-engenheiros-no-avanco-do-avac-r-inteligente/'
+  },
+  {
+    cat: 'market',
+    pt: { title: 'AHR Expo 2026 reúne mais de 53 mil profissionais em Las Vegas', body: 'O evento se consolidou como o principal ponto de encontro global do setor HVAC/R, reforçando o papel da inovação tecnológica e da eficiência energética como motores de crescimento também para a América Latina.' },
+    en: { title: 'AHR Expo 2026 gathers over 53,000 professionals in Las Vegas', body: "The event cemented itself as the HVAC/R industry's main global meeting point, reinforcing technological innovation and energy efficiency as growth drivers that extend into Latin America." },
+    es: { title: 'AHR Expo 2026 reúne a más de 53.000 profesionales en Las Vegas', body: 'El evento se consolidó como el principal punto de encuentro global de la industria HVAC/R, reforzando la innovación tecnológica y la eficiencia energética como motores de crecimiento que también alcanzan a América Latina.' },
+    source: 'ACR Latinoamérica',
+    url: 'https://www.acrlatinoamerica.com/en/news/latest-news/348-enterprises/21010-ahri-drives-growth-of-the-hvacr-and-water-heating-industry-in-latin-america.html'
+  },
+  {
+    cat: 'event',
+    pt: { title: 'Expo Frío Calor Chile 2026 define o próximo passo da indústria HVACR', body: 'O evento chileno se posiciona como ponto de encontro estratégico para discutir incentivos verdes, competitividade e tecnologias emergentes que devem moldar o setor de climatização e refrigeração no país e na região.' },
+    en: { title: "Expo Frío Calor Chile 2026 charts the HVACR industry's next step", body: 'The Chilean event positions itself as a strategic meeting point to discuss green incentives, competitiveness and emerging technologies set to shape the cooling and refrigeration sector in the country and region.' },
+    es: { title: 'Expo Frío Calor Chile 2026 define el siguiente paso de la industria HVACR', body: 'El evento chileno se posiciona como un punto de encuentro estratégico para discutir incentivos verdes, competitividad y tecnologías emergentes que marcarán al sector de climatización y refrigeración en el país y la región.' },
+    source: 'Mundo HVAC&R',
+    url: 'https://www.mundohvacr.com/2026/05/expo-frio-calor-chile-2026-el-punto-de-encuentro-donde-la-industria-hvacr-define-su-siguiente-paso/'
   }
 ];
 
-const i18n={pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Semana de 9–13 de junho de 2026 · Atualizado em: 15/06/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante'},source:'Fonte',readMore:'Leia mais →'},en:{sub:'Top news from the HVACR market in Latin America',meta:'Week of June 9–13, 2026 · Updated: 06/15/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer'},source:'Source',readMore:'Read more →'},es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Semana del 9 al 13 de junio de 2026 · Actualizado: 15/06/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante'},source:'Fuente',readMore:'Leer más →'}};
+const i18n={pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Semana de 16–22 de junho de 2026 · Atualizado em: 23/06/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante'},source:'Fonte',readMore:'Leia mais →'},en:{sub:'Top news from the HVACR market in Latin America',meta:'Week of June 16–22, 2026 · Updated: 06/23/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer'},source:'Source',readMore:'Read more →'},es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Semana del 16 al 22 de junio de 2026 · Actualizado: 23/06/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante'},source:'Fuente',readMore:'Leer más →'}};
 let currentLang='pt',activeFilter='all';
 function setLang(l){currentLang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));const t=i18n[l];document.getElementById('header-sub').textContent=t.sub;document.getElementById('header-meta').textContent=t.meta;document.getElementById('btn-all').textContent=t.all;document.getElementById('btn-event').textContent=t.event;document.getElementById('btn-market').textContent=t.market;document.getElementById('btn-reg').textContent=t.reg;document.getElementById('btn-brand').textContent=t.brand;renderGrid()}
 function setFilter(f){activeFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+f).classList.add('active');renderGrid()}
