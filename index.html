@@ -20,6 +20,8 @@
   .filter-btn{background:var(--card);border:1.5px solid var(--border);color:var(--text-muted);padding:5px 16px;border-radius:20px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.15s}
   .filter-btn.active{background:var(--text);color:#fff;border-color:var(--text)}
   .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;padding:16px 28px 32px}
+  .period-heading{grid-column:1/-1;font-size:0.82rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;padding:18px 4px 2px;border-bottom:2px solid var(--border)}
+  .period-heading:first-child{padding-top:4px}
   .news-card{background:var(--card);border-radius:10px;box-shadow:var(--shadow);border:1px solid var(--border);padding:18px 20px;display:flex;flex-direction:column;gap:10px;transition:box-shadow 0.15s,transform 0.15s}
   .news-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.12);transform:translateY(-2px)}
   .card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -31,6 +33,7 @@
   .card-num{font-size:0.7rem;font-weight:700;color:#d1d5db}
   .card-title{font-size:0.95rem;font-weight:700;line-height:1.35;color:var(--text)}
   .card-body{font-size:0.82rem;color:var(--text-muted);line-height:1.6}
+  .card-date{font-size:0.68rem;color:#9ca3af;font-weight:600}
   .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--border)}
   .card-source{font-size:0.7rem;color:#9ca3af;font-style:italic}
   .card-link{font-size:0.7rem;color:var(--header-accent);text-decoration:none;font-weight:600}
@@ -61,79 +64,85 @@
 <div class="count-bar" id="count-bar"></div>
 <div class="news-grid" id="grid"></div>
 <script>
-// DADOS — substitua este array com as notícias da semana
+// DADOS — notícias verificadas, todas com publicação real ≤ 60 dias da data de execução (29/06/2026)
 const news = [
   {
-    cat: 'event',
-    pt: { title: 'Aircon 2026 reúne setor de HVAC-R em São Paulo', body: 'O Aircon 2026 ocorreu no Distrito Anhembi, em São Paulo, entre 22 e 25 de junho, reunindo marcas e tomadores de decisão do setor de climatização e refrigeração da América Latina.' },
-    en: { title: 'Aircon 2026 gathers HVAC-R sector in São Paulo', body: 'Aircon 2026 took place at Distrito Anhembi in São Paulo from June 22-25, bringing together brands and decision-makers from Latin America\'s HVAC-R industry.' },
-    es: { title: 'Aircon 2026 reúne al sector HVAC-R en São Paulo', body: 'Aircon 2026 se realizó en el Distrito Anhembi, São Paulo, del 22 al 25 de junio, reuniendo marcas y tomadores de decisión del sector de climatización y refrigeración de América Latina.' },
+    cat: 'event', date: '2026-06-27', period: 'week',
+    pt: { title: 'ASHRAE Annual Conference 2026 começa em Austin', body: 'A conferência anual da ASHRAE ocorre de 27 de junho a 1º de julho em Austin (Texas), com programação técnica voltada a inteligência artificial, descarbonização de edifícios e inovações em sistemas de climatização — temas com forte repercussão na agenda regulatória da América Latina.' },
+    en: { title: 'ASHRAE Annual Conference 2026 kicks off in Austin', body: 'ASHRAE\'s annual conference runs June 27–July 1 in Austin, Texas, with a technical program covering artificial intelligence, building decarbonization and innovations in HVAC systems — topics that carry over into Latin America\'s regulatory agenda.' },
+    es: { title: 'La Conferencia Anual de ASHRAE 2026 inicia en Austin', body: 'La conferencia anual de ASHRAE se realiza del 27 de junio al 1 de julio en Austin, Texas, con un programa técnico centrado en inteligencia artificial, descarbonización de edificios e innovaciones en sistemas HVAC, temas con fuerte impacto en la agenda regulatoria de América Latina.' },
+    source: 'ASHRAE',
+    url: 'https://www.ashrae.org/conferences/2026-annual-conference-austin'
+  },
+  {
+    cat: 'event', date: '2026-06-23', period: 'week',
+    pt: { title: 'Faltam menos de 100 dias para a AHR Expo México 2026', body: 'A maior exposição de HVACR da América Latina reunirá mais de 440 expositores e 13 mil profissionais em Expo Guadalajara, de 29 de setembro a 1º de outubro, com foco em eficiência energética, automação e qualidade do ar.' },
+    en: { title: 'Less than 100 days to go until AHR Expo Mexico 2026', body: 'Latin America\'s largest HVACR exhibition will bring together more than 440 exhibitors and 13,000 professionals at Expo Guadalajara, September 29–October 1, focused on energy efficiency, automation and air quality.' },
+    es: { title: 'Faltan menos de 100 días para AHR Expo México 2026', body: 'La mayor exposición HVACR de América Latina reunirá a más de 440 expositores y 13 mil profesionales en Expo Guadalajara, del 29 de septiembre al 1 de octubre, con foco en eficiencia energética, automatización y calidad del aire.' },
+    source: 'Mundo Ejecutivo',
+    url: 'https://mundoejecutivo.com.mx/actualidad/faltan-menos-de-100-dias-para-la-exposicion-mas-grande-de-america-latina-del-sector-hvacr-la-cita-es-en-guadalajara/'
+  },
+  {
+    cat: 'event', date: '2026-06-22', period: 'week',
+    pt: { title: 'Aircon 2026 estreia em São Paulo integrada à Eletrolar Show', body: 'A primeira edição da Aircon ocorreu de 22 a 25 de junho no Distrito Anhembi, reunindo marcas de climatização e refrigeração da América Latina em torno de bombas de vácuo, gases de baixo GWP, automação e eficiência energética.' },
+    en: { title: 'Aircon 2026 debuts in São Paulo alongside Eletrolar Show', body: 'The first edition of Aircon ran June 22-25 at Distrito Anhembi, bringing together Latin American HVAC-R brands around vacuum pumps, low-GWP gases, automation and energy efficiency.' },
+    es: { title: 'Aircon 2026 debuta en São Paulo integrada a Eletrolar Show', body: 'La primera edición de Aircon se realizó del 22 al 25 de junio en el Distrito Anhembi, reuniendo a marcas de climatización y refrigeración de América Latina en torno a bombas de vacío, gases de bajo GWP, automatización y eficiencia energética.' },
     source: 'Aircon Fair',
     url: 'https://airconfair.com.br/en/home/'
   },
   {
-    cat: 'event',
-    pt: { title: 'Expo Frío Calor Chile 2026 fecha com sucesso e consolida posição', body: 'O evento, realizado no Centro Parque, reuniu cerca de 3.000 visitantes e mais de 50 marcas, incluindo Bitzer, Johnson Controls e Copeland, sendo reconhecido como Feira Internacional pelo Ministério da Fazenda do Chile.' },
-    en: { title: 'Expo Frío Calor Chile 2026 closes successfully, cementing industry standing', body: 'Held at Centro Parque, the event drew roughly 3,000 visitors and more than 50 brands, including Bitzer, Johnson Controls and Copeland, and was officially recognized as an International Fair by Chile\'s Ministry of Finance.' },
-    es: { title: 'Expo Frío Calor Chile 2026 cierra con éxito y consolida su posicionamiento', body: 'Realizada en Centro Parque, la feria reunió cerca de 3.000 visitas y más de 50 marcas, entre ellas Bitzer, Johnson Controls y Copeland, y fue declarada Feria Internacional por el Ministerio de Hacienda de Chile.' },
+    cat: 'reg', date: '2026-06-18', period: 'month',
+    pt: { title: 'Chile avança na elaboração de norma para regular emissões de HFC', body: 'O Ministério do Meio Ambiente chileno avança na consulta técnica para uma futura Norma de Emissão de HFC, que deve incluir mecanismos de compensação e mercado de carbono alinhados à meta de neutralidade até 2050.' },
+    en: { title: 'Chile advances rulemaking to regulate HFC emissions', body: 'Chile\'s Ministry of Environment is advancing technical consultation on a future HFC Emission Standard, which is expected to include carbon-offset and carbon-market mechanisms aligned with the country\'s 2050 carbon-neutrality target.' },
+    es: { title: 'Chile avanza en la elaboración de una norma para regular las emisiones de HFC', body: 'El Ministerio del Medio Ambiente de Chile avanza en la consulta técnica para una futura Norma de Emisión de HFC, que contemplará mecanismos de compensación y mercado de carbono alineados con la meta de carbono neutralidad para 2050.' },
     source: 'ACR Latinoamérica',
-    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21115-expo-frio-calor-chile-2026-cierra-con-exito-y-consolida-su-posicionamiento-en-la-industria-hvac-r.html'
+    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21158-chile-avanza-en-la-elaboracion-de-una-norma-para-regular-las-emisiones-de-hfc.html'
   },
   {
-    cat: 'event',
-    pt: { title: 'Mercofrio 2026 terá foco em AVAC-R inteligente em Porto Alegre', body: 'O congresso ocorrerá de 15 a 17 de setembro no BarraShoppingSul, com o tema "AVAC-R Inteligente: IA, Eficiência e Qualidade do Ar para um Planeta Sustentável", abrindo espaço para jovens engenheiros.' },
-    en: { title: 'Mercofrio 2026 to focus on smart HVAC-R in Porto Alegre', body: 'The congress will run September 15-17 at BarraShoppingSul under the theme "Smart HVAC-R: AI, Efficiency and Air Quality for a Sustainable Planet," with space for young engineers.' },
-    es: { title: 'Mercofrio 2026 se centrará en HVAC-R inteligente en Porto Alegre', body: 'El congreso se realizará del 15 al 17 de septiembre en BarraShoppingSul, bajo el lema "HVAC-R Inteligente: IA, Eficiencia y Calidad del Aire para un Planeta Sostenible", con espacio para jóvenes ingenieros.' },
-    source: 'Revista Meio Filtrante',
-    url: 'https://www.meiofiltrante.com.br/Noticia/132752/mercofrio-2026-tera-como-tema-central-avac-r-inteligente-ia-eficiencia-e-qualidade-do-ar-para-um-planeta-sustentavel-'
+    cat: 'brand', date: '2026-06-18', period: 'month',
+    pt: { title: 'Refricon 2026 bate recorde de público no Costa Rica com marcas internacionais', body: 'A 10ª edição do congresso reuniu mais de 350 profissionais no Hotel Wyndham Herradura, com participação comercial de Hisense, Daikin, Aspen Pumps, Innes, Soler & Palau e outras sete marcas internacionais.' },
+    en: { title: 'Refricon 2026 sets attendance record in Costa Rica with international brands', body: 'The 10th edition of the congress drew more than 350 professionals at the Wyndham Herradura Hotel, with commercial participation from Hisense, Daikin, Aspen Pumps, Innes, Soler & Palau and seven other international brands.' },
+    es: { title: 'Refricon 2026 marca un récord de asistencia en Costa Rica con marcas internacionales', body: 'La décima edición del congreso reunió a más de 350 profesionales en el Hotel Wyndham Herradura, con participación comercial de Hisense, Daikin, Aspen Pumps, Innes, Soler & Palau y otras siete marcas internacionales.' },
+    source: 'ACR Latinoamérica',
+    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21157-refricon-2026-reunio-a-mas-de-350-profesionales-hvac-y-marca-un-nuevo-record-para-la-industria-en-costa-rica.html'
   },
   {
-    cat: 'event',
-    pt: { title: 'AHR Expo México 2026 confirma datas em Guadalajara', body: 'A maior exposição de climatização, refrigeração e ventilação do México e da América Latina ocorrerá de 29 de setembro a 1º de outubro em Guadalajara.' },
-    en: { title: 'AHR Expo Mexico 2026 confirms Guadalajara dates', body: 'The largest air conditioning, refrigeration, heating and ventilation exhibition in Mexico and Latin America will run September 29-October 1 in Guadalajara.' },
-    es: { title: 'AHR Expo México 2026 confirma fechas en Guadalajara', body: 'La mayor exposición de climatización, refrigeración y ventilación de México y América Latina se realizará del 29 de septiembre al 1 de octubre en Guadalajara.' },
-    source: 'AHR Expo México',
-    url: 'https://www.ahrexpomexico.com/en/'
-  },
-  {
-    cat: 'market',
-    pt: { title: 'Mais de 8 mil supermercados na América Latina já usam CO2 transcrítico', body: 'A região já soma mais de 8.000 supermercados operando com sistemas de CO2 transcrítico, refletindo a adoção crescente de refrigerantes naturais no varejo, embora o ritmo varie por país.' },
-    en: { title: 'Over 8,000 Latin American supermarkets now run on transcritical CO2', body: 'The region counts more than 8,000 supermarkets operating with transcritical CO2 systems, reflecting growing adoption of natural refrigerants in retail, though the pace varies widely by country.' },
-    es: { title: 'Más de 8.000 supermercados en América Latina ya usan CO2 transcrítico', body: 'La región suma más de 8.000 supermercados operando con sistemas de CO2 transcrítico, lo que refleja la creciente adopción de refrigerantes naturales en el retail, aunque el ritmo varía según el país.' },
-    source: 'Mundo HVAC&R',
-    url: 'https://www.mundohvacr.com/2026/04/el-nuevo-equilibrio-del-frio-entre-regulacion-eficiencia-y-nuevas-tecnologias-el-nuevo-mapa-del-frio-en-mexico-y-latinoamerica/'
-  },
-  {
-    cat: 'market',
-    pt: { title: 'México lidera consumo e produção de HVAC na América Latina', body: 'O mercado latino-americano de HVAC deve crescer impulsionado pela urbanização, aumento da renda e ondas de calor mais intensas, com o México concentrando a maior parcela de consumo e produção da região.' },
-    en: { title: 'Mexico leads HVAC consumption and production in Latin America', body: 'The Latin American HVAC market is set to grow on the back of urbanization, rising incomes and more intense heatwaves, with Mexico accounting for the largest share of regional consumption and production.' },
-    es: { title: 'México lidera el consumo y la producción de HVAC en América Latina', body: 'El mercado latinoamericano de HVAC crecerá impulsado por la urbanización, el aumento de los ingresos y olas de calor más intensas, con México concentrando la mayor parte del consumo y la producción regional.' },
-    source: 'NextMSC',
-    url: 'https://www.nextmsc.com/news/latin-america-hvac-systems-market'
-  },
-  {
-    cat: 'brand',
-    pt: { title: 'Carrier e Midea lançam joint venture de HVAC residencial sem dutos', body: 'As duas fabricantes anunciaram uma joint venture para HVAC residencial ductless na América do Norte, movimento que pode sinalizar parcerias semelhantes na expansão de ambas pela América Latina.' },
-    en: { title: 'Carrier and Midea launch ductless residential HVAC joint venture', body: 'The two manufacturers announced a joint venture for residential ductless HVAC in North America, a move that could signal similar partnerships as both expand further into Latin America.' },
-    es: { title: 'Carrier y Midea lanzan una joint venture de HVAC residencial sin ductos', body: 'Ambos fabricantes anunciaron una joint venture para HVAC residencial ductless en Norteamérica, un movimiento que podría anticipar alianzas similares en su expansión por América Latina.' },
-    source: 'Carrier',
-    url: 'https://www.carrier.com/carrier/en/worldwide/news/news-article/carrier--midea-launch-residential-ductless-hvac-joint-venture-in-north-america.html'
-  },
-  {
-    cat: 'reg',
-    pt: { title: 'México avança redução de HFC dentro da Emenda de Kigali', body: 'O país aplica o congelamento do consumo de HFC desde 2024, com redução progressiva de 10% até 2029 e meta de 80% de corte até 2045, pressionando a indústria a acelerar a transição para refrigerantes de baixo impacto.' },
-    en: { title: 'Mexico advances HFC phase-down under the Kigali Amendment', body: 'The country has frozen HFC consumption since 2024, with a progressive 10% cut by 2029 and an 80% reduction target by 2045, pushing industry to speed up its shift to lower-impact refrigerants.' },
-    es: { title: 'México avanza en la reducción de HFC bajo la Enmienda de Kigali', body: 'El país aplica el congelamiento del consumo de HFC desde 2024, con una reducción progresiva del 10% hacia 2029 y una meta de reducción del 80% para 2045, lo que presiona a la industria a acelerar su transición hacia refrigerantes de menor impacto.' },
-    source: 'Mundo HVAC&R',
-    url: 'https://www.mundohvacr.com/2026/04/el-nuevo-equilibrio-del-frio-entre-regulacion-eficiencia-y-nuevas-tecnologias-el-nuevo-mapa-del-frio-en-mexico-y-latinoamerica/'
+    cat: 'event', date: '2026-06-03', period: 'month',
+    pt: { title: 'Congresso Acadêmico Refriaméricas 2026 terá foco em descarbonização', body: 'O eixo temático "Eficiência, descarbonização e transformação tecnológica em HVAC/R" vai reunir especialistas latino-americanos para discutir refrigerantes alternativos, automação, cadeia de frio e novos modelos de negócio sustentáveis.' },
+    en: { title: 'Refriaméricas 2026 Academic Congress to focus on decarbonization', body: 'The theme "Efficiency, decarbonization and technological transformation in HVAC/R" will bring together Latin American experts to discuss alternative refrigerants, automation, the cold chain and new sustainable business models.' },
+    es: { title: 'El Congreso Académico de Refriaméricas 2026 se enfocará en la descarbonización', body: 'El eje temático "Eficiencia, descarbonización y transformación tecnológica en HVAC/R" reunirá a expertos latinoamericanos para abordar refrigerantes alternativos, automatización, cadena de frío y nuevos modelos de negocio sostenibles.' },
+    source: 'ACR Latinoamérica',
+    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21151-eficiencia-descarbonizacion-y-transformacion-tecnologica-marcaran-la-agenda-del-congreso-academico-2026.html'
   }
 ];
 
-const i18n={pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Semana de 23–29 de junho de 2026 · Atualizado em: 29/06/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante'},source:'Fonte',readMore:'Leia mais →'},en:{sub:'Top news from the HVACR market in Latin America',meta:'Week of June 23–29, 2026 · Updated: 06/29/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer'},source:'Source',readMore:'Read more →'},es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Semana del 23 al 29 de junio de 2026 · Actualizado: 29/06/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante'},source:'Fuente',readMore:'Leer más →'}};
+const i18n={
+  pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Notícias verificadas com publicação em até 60 dias · Atualizado em: 29/06/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante'},source:'Fonte',readMore:'Leia mais →',periods:{week:'📅 Semana Passada',month:'🗓️ Este Mês',lastmonth:'📆 Mês Passado'}},
+  en:{sub:'Top news from the HVACR market in Latin America',meta:'News verified as published within the last 60 days · Updated: 06/29/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer'},source:'Source',readMore:'Read more →',periods:{week:'📅 Last Week',month:'🗓️ This Month',lastmonth:'📆 Last Month'}},
+  es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Noticias verificadas con publicación en los últimos 60 días · Actualizado: 29/06/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante'},source:'Fuente',readMore:'Leer más →',periods:{week:'📅 Semana Pasada',month:'🗓️ Este Mes',lastmonth:'📆 Mes Pasado'}}
+};
 let currentLang='pt',activeFilter='all';
+const periodOrder=['week','month','lastmonth'];
 function setLang(l){currentLang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));const t=i18n[l];document.getElementById('header-sub').textContent=t.sub;document.getElementById('header-meta').textContent=t.meta;document.getElementById('btn-all').textContent=t.all;document.getElementById('btn-event').textContent=t.event;document.getElementById('btn-market').textContent=t.market;document.getElementById('btn-reg').textContent=t.reg;document.getElementById('btn-brand').textContent=t.brand;renderGrid()}
 function setFilter(f){activeFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+f).classList.add('active');renderGrid()}
-function renderGrid(){const t=i18n[currentLang];const filtered=activeFilter==='all'?news:news.filter(n=>n.cat===activeFilter);const visible=filtered.slice(0,10);document.getElementById('count-bar').innerHTML=`<span>${visible.length}</span> ${t.news}`;document.getElementById('grid').innerHTML=visible.map((n,i)=>{const d=n[currentLang];return`<div class="news-card"><div class="card-top"><span class="badge badge-${n.cat}">${t.labels[n.cat]}</span><span class="card-num">#${i+1}</span></div><div class="card-title">${d.title}</div><div class="card-body">${d.body}</div><div class="card-footer"><span class="card-source">${t.source}: ${n.source}</span><a class="card-link" href="${n.url}" target="_blank">${t.readMore}</a></div></div>`}).join('')}
+function renderGrid(){
+  const t=i18n[currentLang];
+  const filtered=(activeFilter==='all'?news:news.filter(n=>n.cat===activeFilter)).slice().sort((a,b)=>new Date(b.date)-new Date(a.date));
+  document.getElementById('count-bar').innerHTML=`<span>${filtered.length}</span> ${t.news}`;
+  let html='';
+  let counter=0;
+  periodOrder.forEach(p=>{
+    const group=filtered.filter(n=>n.period===p);
+    if(group.length===0) return;
+    html+=`<div class="period-heading">${t.periods[p]}</div>`;
+    group.forEach(n=>{
+      counter++;
+      const d=n[currentLang];
+      html+=`<div class="news-card"><div class="card-top"><span class="badge badge-${n.cat}">${t.labels[n.cat]}</span><span class="card-num">#${counter}</span></div><div class="card-title">${d.title}</div><div class="card-body">${d.body}</div><div class="card-date">${n.date}</div><div class="card-footer"><span class="card-source">${t.source}: ${n.source}</span><a class="card-link" href="${n.url}" target="_blank">${t.readMore}</a></div></div>`;
+    });
+  });
+  document.getElementById('grid').innerHTML=html;
+}
 setLang('pt');
 </script>
 </body>
