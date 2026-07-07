@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HVACR LATAM — Radar Semanal</title>
 <style>
-  :root { color-scheme: light; --bg:#f4f6f9;--card:#ffffff;--header-bg:#0d1b2a;--header-accent:#1e88e5;--text:#1a1a2e;--text-muted:#6b7280;--border:#e5e7eb;--badge-market:#1e88e5;--badge-reg:#43a047;--badge-brand:#e53935;--badge-event:#fb8c00;--tag-bg-market:#e3f2fd;--tag-bg-reg:#e8f5e9;--tag-bg-brand:#ffebee;--tag-bg-event:#fff3e0;--shadow:0 1px 4px rgba(0,0,0,0.08); }
+  :root { color-scheme: light; --bg:#f4f6f9;--card:#ffffff;--header-bg:#0d1b2a;--header-accent:#1e88e5;--text:#1a1a2e;--text-muted:#6b7280;--border:#e5e7eb;--badge-market:#1e88e5;--badge-reg:#43a047;--badge-brand:#e53935;--badge-event:#fb8c00;--tag-bg-market:#e3f2fd;--tag-bg-reg:#e8f5e9;--tag-bg-brand:#ffebee;--tag-bg-event:#fff3e0;--shadow:0 1px 4px rgba(0,0,0,0.08);--warn:#92400e;--warn-bg:#fef3c7; }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
   header{background:var(--header-bg);color:#fff;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
@@ -19,9 +19,9 @@
   .toolbar{padding:16px 28px 0;display:flex;gap:8px;flex-wrap:wrap}
   .filter-btn{background:var(--card);border:1.5px solid var(--border);color:var(--text-muted);padding:5px 16px;border-radius:20px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.15s}
   .filter-btn.active{background:var(--text);color:#fff;border-color:var(--text)}
-  .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;padding:16px 28px 32px}
   .period-heading{grid-column:1/-1;font-size:0.82rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;padding:18px 4px 2px;border-bottom:2px solid var(--border)}
   .period-heading:first-child{padding-top:4px}
+  .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;padding:16px 28px 32px}
   .news-card{background:var(--card);border-radius:10px;box-shadow:var(--shadow);border:1px solid var(--border);padding:18px 20px;display:flex;flex-direction:column;gap:10px;transition:box-shadow 0.15s,transform 0.15s}
   .news-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.12);transform:translateY(-2px)}
   .card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -34,6 +34,7 @@
   .card-title{font-size:0.95rem;font-weight:700;line-height:1.35;color:var(--text)}
   .card-body{font-size:0.82rem;color:var(--text-muted);line-height:1.6}
   .card-date{font-size:0.68rem;color:#9ca3af;font-weight:600}
+  .card-warn{font-size:0.68rem;color:var(--warn);font-weight:700;background:var(--warn-bg);display:inline-block;padding:2px 8px;border-radius:8px}
   .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--border)}
   .card-source{font-size:0.7rem;color:#9ca3af;font-style:italic}
   .card-link{font-size:0.7rem;color:var(--header-accent);text-decoration:none;font-weight:600}
@@ -64,70 +65,103 @@
 <div class="count-bar" id="count-bar"></div>
 <div class="news-grid" id="grid"></div>
 <script>
-// DADOS — notícias verificadas, todas com publicação real ≤ 60 dias da data de execução (29/06/2026)
+// DADOS — notícias verificadas (janela de 60 dias a partir de 2026-07-07)
 const news = [
   {
-    cat: 'event', date: '2026-06-27', period: 'week',
-    pt: { title: 'ASHRAE Annual Conference 2026 começa em Austin', body: 'A conferência anual da ASHRAE ocorre de 27 de junho a 1º de julho em Austin (Texas), com programação técnica voltada a inteligência artificial, descarbonização de edifícios e inovações em sistemas de climatização — temas com forte repercussão na agenda regulatória da América Latina.' },
-    en: { title: 'ASHRAE Annual Conference 2026 kicks off in Austin', body: 'ASHRAE\'s annual conference runs June 27–July 1 in Austin, Texas, with a technical program covering artificial intelligence, building decarbonization and innovations in HVAC systems — topics that carry over into Latin America\'s regulatory agenda.' },
-    es: { title: 'La Conferencia Anual de ASHRAE 2026 inicia en Austin', body: 'La conferencia anual de ASHRAE se realiza del 27 de junio al 1 de julio en Austin, Texas, con un programa técnico centrado en inteligencia artificial, descarbonización de edificios e innovaciones en sistemas HVAC, temas con fuerte impacto en la agenda regulatoria de América Latina.' },
-    source: 'ASHRAE',
-    url: 'https://www.ashrae.org/conferences/2026-annual-conference-austin'
+    cat: 'event',
+    date: '2026-07-06',
+    period: 'week',
+    pt: { title: 'AHR Expo México 2026 entra em contagem regressiva rumo a Guadalajara', body: 'A menos de 100 dias da abertura, a feira espera mais de 440 expositores e cerca de 13 mil profissionais de 29 de setembro a 1º de outubro na Expo Guadalajara. O evento reunirá inovações em climatização, refrigeração, automação, eficiência energética e qualidade do ar, com destaque para manufatura, construção, saúde e data centers.' },
+    en: { title: 'AHR Expo Mexico 2026 enters its countdown to Guadalajara', body: 'With less than 100 days to opening, the show expects over 440 exhibitors and around 13,000 professionals from September 29 to October 1 at Expo Guadalajara. The event will gather innovations in HVAC, refrigeration, automation, energy efficiency and air quality, with a focus on manufacturing, construction, healthcare and data centers.' },
+    es: { title: 'AHR Expo México 2026 entra en su cuenta regresiva rumbo a Guadalajara', body: 'A menos de 100 días de su apertura, la feria espera más de 440 expositores y cerca de 13 mil profesionales del 29 de septiembre al 1 de octubre en Expo Guadalajara. El evento reunirá innovaciones en climatización, refrigeración, automatización, eficiencia energética y calidad del aire, con foco en manufactura, construcción, salud y centros de datos.' },
+    source: 'ACR Latinoamérica',
+    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21161-ahr-expo-mexico-2026-entra-en-su-cuenta-regresiva-rumbo-a-guadalajara.html'
   },
   {
-    cat: 'event', date: '2026-06-23', period: 'week',
-    pt: { title: 'Faltam menos de 100 dias para a AHR Expo México 2026', body: 'A maior exposição de HVACR da América Latina reunirá mais de 440 expositores e 13 mil profissionais em Expo Guadalajara, de 29 de setembro a 1º de outubro, com foco em eficiência energética, automação e qualidade do ar.' },
-    en: { title: 'Less than 100 days to go until AHR Expo Mexico 2026', body: 'Latin America\'s largest HVACR exhibition will bring together more than 440 exhibitors and 13,000 professionals at Expo Guadalajara, September 29–October 1, focused on energy efficiency, automation and air quality.' },
-    es: { title: 'Faltan menos de 100 días para AHR Expo México 2026', body: 'La mayor exposición HVACR de América Latina reunirá a más de 440 expositores y 13 mil profesionales en Expo Guadalajara, del 29 de septiembre al 1 de octubre, con foco en eficiencia energética, automatización y calidad del aire.' },
-    source: 'Mundo Ejecutivo',
-    url: 'https://mundoejecutivo.com.mx/actualidad/faltan-menos-de-100-dias-para-la-exposicion-mas-grande-de-america-latina-del-sector-hvacr-la-cita-es-en-guadalajara/'
+    cat: 'brand',
+    date: '2026-06-22',
+    period: 'month',
+    pt: { title: 'BOHN lidera conversa sobre o futuro da refrigeração no SIAR 2026 (CDMX)', body: 'No SIAR 2026 (26–28 de maio, Expo Santa Fe, Cidade do México), a BOHN apresentou compressores scroll Embraco, monitoramento inteligente e soluções compatíveis com refrigerantes de baixo GWP (R290, R454C e CO2), além de uma das agendas de capacitação técnica mais completas do evento, com especialistas da Chemours e da Bitzer.' },
+    en: { title: 'BOHN drives the conversation on the future of refrigeration at SIAR 2026 (Mexico City)', body: 'At SIAR 2026 (May 26–28, Expo Santa Fe, Mexico City), BOHN showcased Embraco scroll compressors, smart monitoring and solutions compatible with low-GWP refrigerants (R290, R454C and CO2), along with one of the most complete technical training agendas of the show, featuring experts from Chemours and Bitzer.' },
+    es: { title: 'BOHN impulsa la conversación sobre el futuro de la refrigeración en SIAR 2026 (CDMX)', body: 'En SIAR 2026 (26–28 de mayo, Expo Santa Fe, Ciudad de México), BOHN presentó compresores scroll Embraco, monitoreo inteligente y soluciones compatibles con refrigerantes de bajo GWP (R290, R454C y CO2), además de una de las agendas de capacitación técnica más completas del evento, con especialistas de Chemours y Bitzer.' },
+    source: 'Mundo HVAC&R',
+    url: 'https://www.mundohvacr.com/2026/06/bohn-impulsa-la-conversacion-sobre-el-futuro-de-la-refrigeracion-en-siar-2026-tecnologia-capacitacion-y-networkingpara-una-industria-mas-eficiente-y-sostenible/'
   },
   {
-    cat: 'event', date: '2026-06-22', period: 'week',
-    pt: { title: 'Aircon 2026 estreia em São Paulo integrada à Eletrolar Show', body: 'A primeira edição da Aircon ocorreu de 22 a 25 de junho no Distrito Anhembi, reunindo marcas de climatização e refrigeração da América Latina em torno de bombas de vácuo, gases de baixo GWP, automação e eficiência energética.' },
-    en: { title: 'Aircon 2026 debuts in São Paulo alongside Eletrolar Show', body: 'The first edition of Aircon ran June 22-25 at Distrito Anhembi, bringing together Latin American HVAC-R brands around vacuum pumps, low-GWP gases, automation and energy efficiency.' },
-    es: { title: 'Aircon 2026 debuta en São Paulo integrada a Eletrolar Show', body: 'La primera edición de Aircon se realizó del 22 al 25 de junio en el Distrito Anhembi, reuniendo a marcas de climatización y refrigeración de América Latina en torno a bombas de vacío, gases de bajo GWP, automatización y eficiencia energética.' },
-    source: 'Aircon Fair',
-    url: 'https://airconfair.com.br/en/home/'
+    cat: 'market',
+    date: '2026-06-22',
+    period: 'month',
+    pt: { title: 'Armazenamento refrigerado deixa de ser nicho e vira ativo estratégico', body: 'Análise aponta cerca de US$ 21 bilhões em transações no setor de armazéns frigoríficos na última década, com demanda puxada por alimentos frescos, indústria farmacêutica e e-commerce. Aproximadamente 50% dos novos medicamentos exigirão refrigeração, elevando as exigências técnicas e as oportunidades para toda a cadeia HVACR.' },
+    en: { title: 'Cold storage moves from logistics niche to strategic asset', body: 'Analysis points to roughly USD 21 billion in cold-storage investment transactions over the past decade, with demand driven by fresh food, pharmaceuticals and e-commerce. About 50% of new drugs will require refrigeration, raising technical requirements and opportunities across the entire HVACR value chain.' },
+    es: { title: 'El almacenamiento en frío pasa de nicho logístico a activo estratégico', body: 'Un análisis señala cerca de USD 21 mil millones en transacciones de almacenes frigoríficos en la última década, con demanda impulsada por alimentos frescos, industria farmacéutica y e-commerce. Alrededor del 50% de los nuevos medicamentos requerirá refrigeración, elevando las exigencias técnicas y las oportunidades para toda la cadena HVACR.' },
+    source: 'Mundo HVAC&R',
+    url: 'https://www.mundohvacr.com/2026/06/almacenamiento-en-frio-de-nicho-logistico-a-activo-estrategico/'
   },
   {
-    cat: 'reg', date: '2026-06-18', period: 'month',
-    pt: { title: 'Chile avança na elaboração de norma para regular emissões de HFC', body: 'O Ministério do Meio Ambiente chileno avança na consulta técnica para uma futura Norma de Emissão de HFC, que deve incluir mecanismos de compensação e mercado de carbono alinhados à meta de neutralidade até 2050.' },
-    en: { title: 'Chile advances rulemaking to regulate HFC emissions', body: 'Chile\'s Ministry of Environment is advancing technical consultation on a future HFC Emission Standard, which is expected to include carbon-offset and carbon-market mechanisms aligned with the country\'s 2050 carbon-neutrality target.' },
-    es: { title: 'Chile avanza en la elaboración de una norma para regular las emisiones de HFC', body: 'El Ministerio del Medio Ambiente de Chile avanza en la consulta técnica para una futura Norma de Emisión de HFC, que contemplará mecanismos de compensación y mercado de carbono alineados con la meta de carbono neutralidad para 2050.' },
+    cat: 'reg',
+    date: '2026-06-19',
+    period: 'month',
+    pt: { title: 'SEMARNAT impulsiona diálogo sobre refrigerantes sustentáveis no México', body: 'Workshop realizado no âmbito da implementação da Emenda de Kigali, com financiamento do Canadá e apoio do PNUD, reuniu governo, indústria e usuários finais (Walmart, Koura, Güntner, IMSS). Foram apresentados casos de CO2 transcrítico, estudo de atualização da etiquetagem energética e projeto demonstrativo no Mercado Panamericana (CDMX).' },
+    en: { title: 'SEMARNAT drives dialogue on sustainable refrigerants in Mexico', body: 'A workshop held under the Kigali Amendment implementation project, funded by Canada with UNDP support, gathered government, industry and end users (Walmart, Koura, Güntner, IMSS). Presentations covered transcritical CO2 case studies, a study to update energy labeling criteria, and a demonstration project at Mexico City\'s Panamericana public market.' },
+    es: { title: 'SEMARNAT impulsa el diálogo sobre refrigerantes sustentables en México', body: 'Un taller realizado en el marco de la implementación de la Enmienda de Kigali, con financiamiento de Canadá y apoyo del PNUD, reunió a gobierno, industria y usuarios finales (Walmart, Koura, Güntner, IMSS). Se presentaron casos de CO2 transcrítico, un estudio de actualización del etiquetado energético y un proyecto demostrativo en el Mercado Panamericana (CDMX).' },
+    source: 'Mundo HVAC&R',
+    url: 'https://www.mundohvacr.com/2026/06/semarnat-impulsa-el-dialogo-sobre-refrigerantes-sustentables-para-la-industria-comercial/'
+  },
+  {
+    cat: 'reg',
+    date: '2026-06-18',
+    period: 'month',
+    pt: { title: 'Chile avança na elaboração de norma para regular emissões de HFC', body: 'O Ministério do Meio Ambiente segue desenvolvendo o anteprojeto da Norma de Emissão de Hidrofluorocarbonos, com mecanismos de compensação e fortalecimento do mercado de carbono nacional. A iniciativa se enquadra na Lei-Quadro de Mudança Climática e na meta de carbono-neutralidade até 2050, alinhada ao Protocolo de Montreal e à Emenda de Kigali.' },
+    en: { title: 'Chile advances on a standard to regulate HFC emissions', body: 'The Ministry of the Environment continues developing the draft HFC Emission Standard, including offset mechanisms and strengthening of the national carbon market. The initiative falls under the Climate Change Framework Law and the 2050 carbon-neutrality goal, aligned with the Montreal Protocol and the Kigali Amendment.' },
+    es: { title: 'Chile avanza en la elaboración de una norma para regular las emisiones de HFC', body: 'El Ministerio del Medio Ambiente continúa desarrollando el anteproyecto de la Norma de Emisión de Hidrofluorocarbonos, con mecanismos de compensación y fortalecimiento del mercado de carbono nacional. La iniciativa se enmarca en la Ley Marco de Cambio Climático y la meta de carbono neutralidad a 2050, alineada con el Protocolo de Montreal y la Enmienda de Kigali.' },
     source: 'ACR Latinoamérica',
     url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21158-chile-avanza-en-la-elaboracion-de-una-norma-para-regular-las-emisiones-de-hfc.html'
   },
   {
-    cat: 'brand', date: '2026-06-18', period: 'month',
-    pt: { title: 'Refricon 2026 bate recorde de público no Costa Rica com marcas internacionais', body: 'A 10ª edição do congresso reuniu mais de 350 profissionais no Hotel Wyndham Herradura, com participação comercial de Hisense, Daikin, Aspen Pumps, Innes, Soler & Palau e outras sete marcas internacionais.' },
-    en: { title: 'Refricon 2026 sets attendance record in Costa Rica with international brands', body: 'The 10th edition of the congress drew more than 350 professionals at the Wyndham Herradura Hotel, with commercial participation from Hisense, Daikin, Aspen Pumps, Innes, Soler & Palau and seven other international brands.' },
-    es: { title: 'Refricon 2026 marca un récord de asistencia en Costa Rica con marcas internacionales', body: 'La décima edición del congreso reunió a más de 350 profesionales en el Hotel Wyndham Herradura, con participación comercial de Hisense, Daikin, Aspen Pumps, Innes, Soler & Palau y otras siete marcas internacionales.' },
-    source: 'ACR Latinoamérica',
-    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21157-refricon-2026-reunio-a-mas-de-350-profesionales-hvac-y-marca-un-nuevo-record-para-la-industria-en-costa-rica.html'
+    cat: 'event',
+    date: '2026-05-14',
+    period: 'lastmonth',
+    pt: { title: 'Mercofrio 2026 terá como tema central "AVAC-R Inteligente: IA, Eficiência e Qualidade do Ar"', body: 'O 15º Congresso Internacional de Ar Condicionado, Refrigeração, Aquecimento e Ventilação será realizado de 15 a 17 de setembro no BarraShoppingSul, em Porto Alegre. A programação debaterá atualização de normas técnicas (NBR 16401, NBR 7256, NBR 14518), fiscalização e qualidade do ar interior, com alertas da ABRAVA sobre descumprimento de normas em ambientes sensíveis.' },
+    en: { title: 'Mercofrio 2026 sets "Smart HVAC-R: AI, Efficiency and Air Quality" as its central theme', body: 'The 15th International Congress on Air Conditioning, Refrigeration, Heating and Ventilation will take place September 15–17 at BarraShoppingSul, Porto Alegre, Brazil. The program will address technical standards updates (NBR 16401, NBR 7256, NBR 14518), enforcement and indoor air quality, with ABRAVA warnings on non-compliance in sensitive environments.' },
+    es: { title: 'Mercofrio 2026 tendrá como tema central "HVAC-R Inteligente: IA, Eficiencia y Calidad del Aire"', body: 'El 15º Congreso Internacional de Aire Acondicionado, Refrigeración, Calefacción y Ventilación se realizará del 15 al 17 de septiembre en BarraShoppingSul, Porto Alegre, Brasil. El programa abordará la actualización de normas técnicas (NBR 16401, NBR 7256, NBR 14518), fiscalización y calidad del aire interior, con alertas de ABRAVA sobre incumplimiento de normas en ambientes sensibles.' },
+    source: 'Revista Meio Filtrante',
+    url: 'https://www.meiofiltrante.com.br/Noticia/132752/mercofrio-2026-tera-como-tema-central-avac-r-inteligente-ia-eficiencia-e-qualidade-do-ar-para-um-planeta-sustentavel-'
   },
   {
-    cat: 'event', date: '2026-06-03', period: 'month',
-    pt: { title: 'Congresso Acadêmico Refriaméricas 2026 terá foco em descarbonização', body: 'O eixo temático "Eficiência, descarbonização e transformação tecnológica em HVAC/R" vai reunir especialistas latino-americanos para discutir refrigerantes alternativos, automação, cadeia de frio e novos modelos de negócio sustentáveis.' },
-    en: { title: 'Refriaméricas 2026 Academic Congress to focus on decarbonization', body: 'The theme "Efficiency, decarbonization and technological transformation in HVAC/R" will bring together Latin American experts to discuss alternative refrigerants, automation, the cold chain and new sustainable business models.' },
-    es: { title: 'El Congreso Académico de Refriaméricas 2026 se enfocará en la descarbonización', body: 'El eje temático "Eficiencia, descarbonización y transformación tecnológica en HVAC/R" reunirá a expertos latinoamericanos para abordar refrigerantes alternativos, automatización, cadena de frío y nuevos modelos de negocio sostenibles.' },
+    cat: 'brand',
+    date: '2026-06-03',
+    period: 'lastmonth',
+    pt: { title: 'LG Electronics e VTS apresentam soluções integradas de climatização no Equador', body: 'A aliança entre LG Electronics Centro-América e Caribe e o VTS Group focou em projetos hospitalares, data centers e grandes empreendimentos comerciais, com manejadoras de ar (AHU) certificadas AHRI e Eurovent. As soluções já foram implementadas desde 2019 em projetos como o Aeroporto Internacional Mariscal Sucre e hospitais equatorianos.' },
+    en: { title: 'LG Electronics and VTS present integrated HVAC solutions in Ecuador', body: 'The alliance between LG Electronics Central America & Caribbean and VTS Group focused on hospital projects, data centers and large-scale commercial developments, with AHRI- and Eurovent-certified air handling units (AHU). The solutions have been deployed since 2019 in projects such as Mariscal Sucre International Airport and Ecuadorian hospitals.' },
+    es: { title: 'LG Electronics y VTS presentan soluciones integrales de climatización en Ecuador', body: 'La alianza entre LG Electronics Centroamérica y el Caribe y VTS Group se enfocó en proyectos hospitalarios, centros de datos y desarrollos comerciales de gran escala, con manejadoras de aire (AHU) certificadas AHRI y Eurovent. Las soluciones ya se han implementado desde 2019 en proyectos como el Aeropuerto Internacional Mariscal Sucre y hospitales ecuatorianos.' },
     source: 'ACR Latinoamérica',
-    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21151-eficiencia-descarbonizacion-y-transformacion-tecnologica-marcaran-la-agenda-del-congreso-academico-2026.html'
+    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21152-lg-electronics-y-vts-presentan-soluciones-integrales-de-climatizacion-para-proyectos-hospitalarios-y-comerciales.html'
+  },
+  {
+    cat: 'market',
+    date: '2026-06-02',
+    period: 'lastmonth',
+    pt: { title: 'Na cadeia do frio, o valor migra dos equipamentos para serviços especializados', body: 'Especialistas da Thermo King apontam que telemetria, manutenção preditiva e monitoramento de temperatura em tempo real se tornaram mais relevantes que a posse do ativo no transporte refrigerado. Segundo a OMS, cerca de 50% das vacinas são desperdiçadas por falhas de temperatura, e até 15% do desperdício mundial de alimentos ocorre no transporte.' },
+    en: { title: 'In the cold chain, value shifts from equipment to specialized services', body: 'Thermo King specialists note that telemetry, predictive maintenance and real-time temperature monitoring have become more relevant than asset ownership in refrigerated transport. According to the WHO, about 50% of vaccines are wasted due to temperature control failures, and up to 15% of global food waste occurs during transport.' },
+    es: { title: 'En la cadena de frío, el valor se desplaza de los equipos a los servicios especializados', body: 'Especialistas de Thermo King señalan que la telemetría, el mantenimiento predictivo y el monitoreo de temperatura en tiempo real se han vuelto más relevantes que la posesión del activo en el transporte refrigerado. Según la OMS, cerca del 50% de las vacunas se desperdician por fallas de temperatura, y hasta el 15% del desperdicio mundial de alimentos ocurre durante el transporte.' },
+    source: 'ACR Latinoamérica',
+    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21149-en-la-cadena-de-frio-el-valor-se-desplaza-de-los-equipos-a-los-servicios-especializados.html'
   }
 ];
 
-const i18n={
-  pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Notícias verificadas com publicação em até 60 dias · Atualizado em: 29/06/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante'},source:'Fonte',readMore:'Leia mais →',periods:{week:'📅 Semana Passada',month:'🗓️ Este Mês',lastmonth:'📆 Mês Passado'}},
-  en:{sub:'Top news from the HVACR market in Latin America',meta:'News verified as published within the last 60 days · Updated: 06/29/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer'},source:'Source',readMore:'Read more →',periods:{week:'📅 Last Week',month:'🗓️ This Month',lastmonth:'📆 Last Month'}},
-  es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Noticias verificadas con publicación en los últimos 60 días · Actualizado: 29/06/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante'},source:'Fuente',readMore:'Leer más →',periods:{week:'📅 Semana Pasada',month:'🗓️ Este Mes',lastmonth:'📆 Mes Pasado'}}
-};
+const i18n={pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Semana de 6–10 de julho de 2026 · Atualizado em: 07/07/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante'},periods:{week:'📅 Semana Passada',month:'🗓️ Este Mês',lastmonth:'📆 Mês Passado',context:'⚠️ Conteúdo Relevante (Data Não Confirmada)'},dateUnknown:'⚠️ Data não confirmada',source:'Fonte',readMore:'Leia mais →'},en:{sub:'Top news from the HVACR market in Latin America',meta:'Week of July 6–10, 2026 · Updated: 07/07/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer'},periods:{week:'📅 Last Week',month:'🗓️ This Month',lastmonth:'📆 Last Month',context:'⚠️ Relevant Content (Date Not Confirmed)'},dateUnknown:'⚠️ Date not confirmed',source:'Source',readMore:'Read more →'},es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Semana del 6 al 10 de julio de 2026 · Actualizado: 07/07/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante'},periods:{week:'📅 Semana Pasada',month:'🗓️ Este Mes',lastmonth:'📆 Mes Pasado',context:'⚠️ Contenido Relevante (Fecha No Confirmada)'},dateUnknown:'⚠️ Fecha no confirmada',source:'Fuente',readMore:'Leer más →'}};
+const periodOrder=['week','month','lastmonth','context'];
 let currentLang='pt',activeFilter='all';
-const periodOrder=['week','month','lastmonth'];
 function setLang(l){currentLang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));const t=i18n[l];document.getElementById('header-sub').textContent=t.sub;document.getElementById('header-meta').textContent=t.meta;document.getElementById('btn-all').textContent=t.all;document.getElementById('btn-event').textContent=t.event;document.getElementById('btn-market').textContent=t.market;document.getElementById('btn-reg').textContent=t.reg;document.getElementById('btn-brand').textContent=t.brand;renderGrid()}
 function setFilter(f){activeFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+f).classList.add('active');renderGrid()}
 function renderGrid(){
   const t=i18n[currentLang];
-  const filtered=(activeFilter==='all'?news:news.filter(n=>n.cat===activeFilter)).slice().sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const filtered=(activeFilter==='all'?news:news.filter(n=>n.cat===activeFilter)).slice().sort((a,b)=>{
+    if(a.period==='context'&&b.period!=='context') return 1;
+    if(b.period==='context'&&a.period!=='context') return -1;
+    if(a.period==='context'&&b.period==='context') return 0;
+    return new Date(b.date)-new Date(a.date);
+  });
   document.getElementById('count-bar').innerHTML=`<span>${filtered.length}</span> ${t.news}`;
   let html='';
   let counter=0;
@@ -138,7 +172,8 @@ function renderGrid(){
     group.forEach(n=>{
       counter++;
       const d=n[currentLang];
-      html+=`<div class="news-card"><div class="card-top"><span class="badge badge-${n.cat}">${t.labels[n.cat]}</span><span class="card-num">#${counter}</span></div><div class="card-title">${d.title}</div><div class="card-body">${d.body}</div><div class="card-date">${n.date}</div><div class="card-footer"><span class="card-source">${t.source}: ${n.source}</span><a class="card-link" href="${n.url}" target="_blank">${t.readMore}</a></div></div>`;
+      const dateHtml = n.period==='context' ? `<span class="card-warn">${t.dateUnknown}</span>` : `<div class="card-date">${n.date}</div>`;
+      html+=`<div class="news-card"><div class="card-top"><span class="badge badge-${n.cat}">${t.labels[n.cat]}</span><span class="card-num">#${counter}</span></div><div class="card-title">${d.title}</div><div class="card-body">${d.body}</div>${dateHtml}<div class="card-footer"><span class="card-source">${t.source}: ${n.source}</span><a class="card-link" href="${n.url}" target="_blank">${t.readMore}</a></div></div>`;
     });
   });
   document.getElementById('grid').innerHTML=html;
