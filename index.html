@@ -38,7 +38,50 @@
   .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--border)}
   .card-source{font-size:0.7rem;color:#9ca3af;font-style:italic}
   .card-link{font-size:0.7rem;color:var(--header-accent);text-decoration:none;font-weight:600}
-  .count-bar{padding:8px 28px 0onfirmaram presença — e mais de 10 mil visitantes, com foco nos polos industriais de óleo e gás, hotelaria e construção civil da região.' },
+  .count-bar{padding:8px 28px 0;font-size:0.75rem;color:var(--text-muted)}
+  .count-bar span{font-weight:700;color:var(--text)}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="header-title">📡 HVACR LATAM — Radar Semanal</div>
+    <div class="header-sub" id="header-sub"></div>
+    <div class="header-meta" id="header-meta"></div>
+  </div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('pt')">PT</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+  </div>
+</header>
+<div class="toolbar">
+  <button class="filter-btn active" onclick="setFilter('all')" id="btn-all"></button>
+  <button class="filter-btn" onclick="setFilter('event')" id="btn-event"></button>
+  <button class="filter-btn" onclick="setFilter('market')" id="btn-market"></button>
+  <button class="filter-btn" onclick="setFilter('reg')" id="btn-reg"></button>
+  <button class="filter-btn" onclick="setFilter('brand')" id="btn-brand"></button>
+</div>
+<div class="count-bar" id="count-bar"></div>
+<div class="news-grid" id="grid"></div>
+<script>
+// DADOS — notícias selecionadas (filtradas por recência <= 60 dias, + até 3 itens period:'context')
+const news = [
+  {
+    cat: 'reg',
+    date: '2026-07-02',
+    period: 'month',
+    pt: { title: 'GECEX atualiza listas de exceção à TEC para bens de capital e informática', body: 'Publicadas em 2 de julho, as Resoluções GECEX nº 925 e nº 932 incluem novos produtos nas listas de exceção à Tarifa Externa Comum (TEC) e alteram o anexo de ex-tarifários de bens de capital. As medidas afetam o capítulo 84 do NCM, onde importadores de compressores (8414.30.19) devem monitorar desdobramentos — os anexos publicados não confirmam inclusão explícita de compressores frigoríficos nesta rodada. A tarifa geral de bens de capital segue impactada pela Resolução GECEX 852/2026, que elevou alíquotas em fevereiro.' },
+    en: { title: 'GECEX updates TEC exception lists for capital and IT goods', body: 'Published July 2, GECEX Resolutions 925 and 932 add products to the Common External Tariff (TEC) exception list and amend the ex-tarifário annex for capital goods. The measures touch NCM chapter 84, where compressor importers (8414.30.19) should keep monitoring — the published annexes do not explicitly confirm refrigeration compressors were included this round. The broader capital-goods tariff backdrop remains shaped by Resolution GECEX 852/2026, which raised rates in February.' },
+    es: { title: 'GECEX actualiza las listas de excepción a la TEC para bienes de capital e informática', body: 'Publicadas el 2 de julio, las Resoluciones GECEX n.° 925 y n.° 932 incorporan productos a la lista de excepciones al Arancel Externo Común (TEC) y modifican el anexo de ex-tarifario para bienes de capital. Las medidas afectan el capítulo 84 del NCM, donde los importadores de compresores (8414.30.19) deben seguir monitoreando — los anexos publicados no confirman explícitamente la inclusión de compresores frigoríficos en esta ronda. El trasfondo arancelario de bienes de capital sigue marcado por la Resolución GECEX 852/2026, que elevó las alícuotas en febrero.' },
+    source: 'Portal ComexBR / gov.br',
+    url: 'https://portalcomexbr.com/resolucao-gecex-no-925-de-2-de-julho-de-2026/'
+  },
+  {
+    cat: 'event',
+    date: '2026-07-01',
+    period: 'month',
+    pt: { title: 'Febrava chega ao Rio de Janeiro pela primeira vez em 2026', body: 'A feira internacional de AVAC-R teve seu lançamento oficial no Rio anunciado em 1º de julho, com edição marcada para 6 a 8 de outubro no Riocentro. O evento deve reunir mais de 100 marcas — Daikin, Elgin, RAC e Sicflux já confirmaram presença — e mais de 10 mil visitantes, com foco nos polos industriais de óleo e gás, hotelaria e construção civil da região.' },
     en: { title: 'Febrava makes its first-ever stop in Rio de Janeiro in 2026', body: "The AVAC-R trade fair's Rio edition was officially launched on July 1, set for October 6-8 at Riocentro. The event expects over 100 exhibiting brands — Daikin, Elgin, RAC and Sicflux have already confirmed — and more than 10,000 visitors, targeting the region's oil & gas, hospitality and construction hubs." },
     es: { title: 'Febrava llega por primera vez a Río de Janeiro en 2026', body: 'La edición carioca de la feria AVAC-R fue lanzada oficialmente el 1 de julio, con fecha del 6 al 8 de octubre en Riocentro. Se esperan más de 100 marcas expositoras — Daikin, Elgin, RAC y Sicflux ya confirmaron su participación — y más de 10.000 visitantes, apuntando a los polos de petróleo y gas, hotelería y construcción de la región.' },
     source: 'Engenharia e Arquitetura / SINDRATARPE',
@@ -60,29 +103,6 @@
     period: 'month',
     pt: { title: 'SEMARNAT promove diálogo sobre refrigerantes sustentáveis no México', body: 'Publicado em 19 de junho, o artigo detalha o workshop realizado pela SEMARNAT (Cidade do México) reunindo governo, indústria e organismos internacionais para avançar a Emenda de Kigali. Foram discutidos etiquetagem energética, sistemas de CO2 transcrítico e um projeto-piloto no Mercado Panamericana, com apoio do governo do Canadá e do PNUD.' },
     en: { title: 'SEMARNAT pushes dialogue on sustainable refrigerants in Mexico', body: 'Published June 19, the article covers a SEMARNAT (Mexico City) workshop bringing together government, industry and international bodies to advance Kigali Amendment implementation. Topics included energy-labeling updates, transcritical CO2 systems and a pilot project at the Mercado Panamericana, backed by the Canadian government and UNDP.' },
-    es: { title: 'SEMARNAT impulsa el diálogo sobre refrigerantes sustentables en México', body: 'Publicado el 19 de junio, el artículo repasa un taller de SEMARNAT (Ciudad de México) que reunió a gobierno, industria y organismos internacionales para avanzar en la Enmienda de Kigali. Se abordaron actualizaciones de etiquetado energético, sistemas de CO2 transcrítico y un proyecto piloto en el Mercado Panamericana, con apoyo del gobierno de Canadá y el PNUD.' },
-    source: 'Mundo HVAC&R',
-    url: 'https://www.mundohvacr.com/2026/06/semarnat-impulsa-el-dialogo-sobre-refrigerantes-sustentables-para-la-industria-comercial/'
-  },
-  {
-    cat: 'brand',
-    date: '2026-06-22',
-    period: 'month',
-    pt: { title: 'BOHN destaca nova geração de compressores Scroll Embraco no SIAR 2026', body: 'Reportagem publicada em 22 de junho cobre a participação da BOHN de México no SIAR (Cidade do México, 26-28 de maio), com conferências técnicas sobre o refrigerante R-454C, sistemas de monitoramento inteligente e um painel comparando CO2, amônia, propano e refrigerantes A2L para eficiência energética em refrigeração comercial.' },
-    en: { title: 'BOHN showcases new-generation Embraco Scroll compressors at SIAR 2026', body: "Published June 22, the report covers BOHN de México's presence at SIAR (Mexico City, May 26-28), featuring technical sessions on R-454C refrigerant, smart monitoring systems, and a panel comparing CO2, ammonia, propane and A2L refrigerants for commercial refrigeration efficiency." },
-    es: { title: 'BOHN presenta la nueva generación de compresores Scroll Embraco en SIAR 2026', body: 'Publicado el 22 de junio, el reportaje cubre la participación de BOHN de México en SIAR (Ciudad de México, 26-28 de mayo), con conferencias técnicas sobre el refrigerante R-454C, sistemas de monitoreo inteligente y un panel que comparó CO2, amoníaco, propano y refrigerantes A2L para la eficiencia energética en refrigeración comercial.' },
-    source: 'Mundo HVAC&R',
-    url: 'https://www.mundohvacr.com/2026/06/bohn-impulsa-la-conversacion-sobre-el-futuro-de-la-refrigeracion-en-siar-2026-tecnologia-capacitacion-y-networkingpara-una-industria-mas-eficiente-y-sostenible/'
-  },
-  {
-    cat: 'reg',
-    date: null,
-    period: 'context',
-    pt: { title: 'Emenda de Kigali no México: o roteiro regulatório para HFCs', body: 'Conteúdo técnico explicativo (data de publicação não confirmada): o México já congelou o consumo de HFCs desde 2024, com meta de redução progressiva de 10% até 2029 e 80% até 2045, conforme a Emenda de Kigali ao Protocolo de Montreal — pano de fundo estrutural para as ações regulatórias do setor na região.' },
-    en: { title: 'Kigali Amendment in Mexico: the HFC regulatory roadmap', body: 'Explanatory technical background (exact publication date unconfirmed): Mexico has frozen HFC consumption since 2024, targeting a progressive 10% cut by 2029 and 80% by 2045 under the Kigali Amendment to the Montreal Protocol — the structural backdrop for the region\'s regulatory moves.' },
-    es: { title: 'Enmienda de Kigali en México: la hoja de ruta regulatoria para los HFC', body: 'Contenido técnico explicativo (fecha de publicación no confirmada): México congeló el consumo de HFC desde 2024, con meta de reducción progresiva del 10% para 2029 y 80% para 2045 bajo la Enmienda de Kigali al Protocolo de Montreal — el trasfondo estructural de los movimientos regulatorios de la región.' },
-    source: 'Mundo HVAC&R',
-    url: 'https://www.mundohvacr.com/2026/04/el-nuevo-equilibrio-del-frioentre-regulacion-eficiencia-y-nuevas-tecnologias-el-nuevo-mapa-del-frio-en-mexhe Mercado Panamericana, backed by the Canadian government and UNDP.' },
     es: { title: 'SEMARNAT impulsa el diálogo sobre refrigerantes sustentables en México', body: 'Publicado el 19 de junio, el artículo repasa un taller de SEMARNAT (Ciudad de México) que reunió a gobierno, industria y organismos internacionales para avanzar en la Enmienda de Kigali. Se abordaron actualizaciones de etiquetado energético, sistemas de CO2 transcrítico y un proyecto piloto en el Mercado Panamericana, con apoyo del gobierno de Canadá y el PNUD.' },
     source: 'Mundo HVAC&R',
     url: 'https://www.mundohvacr.com/2026/06/semarnat-impulsa-el-dialogo-sobre-refrigerantes-sustentables-para-la-industria-comercial/'
