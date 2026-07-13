@@ -38,128 +38,88 @@
   .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--border)}
   .card-source{font-size:0.7rem;color:#9ca3af;font-style:italic}
   .card-link{font-size:0.7rem;color:var(--header-accent);text-decoration:none;font-weight:600}
-  .count-bar{padding:8px 28px 0;font-size:0.75rem;color:var(--text-muted)}
-  .count-bar span{font-weight:700;color:var(--text)}
-</style>
-</head>
-<body>
-<header>
-  <div class="header-left">
-    <div class="header-title">📡 HVACR LATAM — Radar Semanal</div>
-    <div class="header-sub" id="header-sub"></div>
-    <div class="header-meta" id="header-meta"></div>
-  </div>
-  <div class="lang-switcher">
-    <button class="lang-btn active" onclick="setLang('pt')">PT</button>
-    <button class="lang-btn" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('es')">ES</button>
-  </div>
-</header>
-<div class="toolbar">
-  <button class="filter-btn active" onclick="setFilter('all')" id="btn-all"></button>
-  <button class="filter-btn" onclick="setFilter('event')" id="btn-event"></button>
-  <button class="filter-btn" onclick="setFilter('market')" id="btn-market"></button>
-  <button class="filter-btn" onclick="setFilter('reg')" id="btn-reg"></button>
-  <button class="filter-btn" onclick="setFilter('brand')" id="btn-brand"></button>
-</div>
-<div class="count-bar" id="count-bar"></div>
-<div class="news-grid" id="grid"></div>
-<script>
-// DADOS — notícias verificadas (janela de 60 dias a partir de 2026-07-07)
-const news = [
-  {
-    cat: 'event',
-    date: '2026-07-06',
-    period: 'week',
-    pt: { title: 'AHR Expo México 2026 entra em contagem regressiva rumo a Guadalajara', body: 'A menos de 100 dias da abertura, a feira espera mais de 440 expositores e cerca de 13 mil profissionais de 29 de setembro a 1º de outubro na Expo Guadalajara. O evento reunirá inovações em climatização, refrigeração, automação, eficiência energética e qualidade do ar, com destaque para manufatura, construção, saúde e data centers.' },
-    en: { title: 'AHR Expo Mexico 2026 enters its countdown to Guadalajara', body: 'With less than 100 days to opening, the show expects over 440 exhibitors and around 13,000 professionals from September 29 to October 1 at Expo Guadalajara. The event will gather innovations in HVAC, refrigeration, automation, energy efficiency and air quality, with a focus on manufacturing, construction, healthcare and data centers.' },
-    es: { title: 'AHR Expo México 2026 entra en su cuenta regresiva rumbo a Guadalajara', body: 'A menos de 100 días de su apertura, la feria espera más de 440 expositores y cerca de 13 mil profesionales del 29 de septiembre al 1 de octubre en Expo Guadalajara. El evento reunirá innovaciones en climatización, refrigeración, automatización, eficiencia energética y calidad del aire, con foco en manufactura, construcción, salud y centros de datos.' },
-    source: 'ACR Latinoamérica',
-    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21161-ahr-expo-mexico-2026-entra-en-su-cuenta-regresiva-rumbo-a-guadalajara.html'
-  },
-  {
-    cat: 'reg',
-    date: '2026-06-24',
-    period: 'month',
-    pt: { title: 'GECEX aprova 466 novos ex-tarifários para bens de capital e reduz custo de importação', body: 'O Comitê-Executivo de Gestão da Camex aprovou em 23/06 a concessão de 466 ex-tarifários para bens de capital, informática e telecomunicações sem produção nacional equivalente, reduzindo temporariamente o imposto de importação de máquinas e equipamentos. Diretamente relevante para importadores de compressores (ex.: NCM 8414.30.19), atingidos pela elevação de alíquotas da Resolução GECEX 852/2026 — o pleito de ex-tarifário é a principal via de mitigação do aumento.' },
-    en: { title: 'GECEX approves 466 new ex-tarifario exemptions for capital goods, cutting import costs', body: 'Brazil\'s Camex Executive Committee approved on June 23 the granting of 466 ex-tarifario exemptions for capital goods, IT and telecom equipment with no equivalent domestic production, temporarily reducing import duty on machinery. Directly relevant for compressor importers (e.g., NCM 8414.30.19) hit by the tariff increases of GECEX Resolution 852/2026 — the ex-tarifario petition is the main route to mitigate the hike.' },
-    es: { title: 'GECEX aprueba 466 nuevos ex-tarifarios para bienes de capital y reduce el costo de importación', body: 'El Comité Ejecutivo de la Camex de Brasil aprobó el 23/06 la concesión de 466 ex-tarifarios para bienes de capital, informática y telecomunicaciones sin producción nacional equivalente, reduciendo temporalmente el impuesto de importación de maquinaria. Directamente relevante para importadores de compresores (p. ej., NCM 8414.30.19), afectados por el alza de alícuotas de la Resolución GECEX 852/2026 — la solicitud de ex-tarifario es la principal vía para mitigar el aumento.' },
-    source: 'Jornal Primeira Página / AE',
-    url: 'https://jornalpp.com.br/noticias/economia/gecex-aprova-466-ex-tarifarios/'
+  .count-bar{padding:8px 28px 0onfirmaram presença — e mais de 10 mil visitantes, com foco nos polos industriais de óleo e gás, hotelaria e construção civil da região.' },
+    en: { title: 'Febrava makes its first-ever stop in Rio de Janeiro in 2026', body: "The AVAC-R trade fair's Rio edition was officially launched on July 1, set for October 6-8 at Riocentro. The event expects over 100 exhibiting brands — Daikin, Elgin, RAC and Sicflux have already confirmed — and more than 10,000 visitors, targeting the region's oil & gas, hospitality and construction hubs." },
+    es: { title: 'Febrava llega por primera vez a Río de Janeiro en 2026', body: 'La edición carioca de la feria AVAC-R fue lanzada oficialmente el 1 de julio, con fecha del 6 al 8 de octubre en Riocentro. Se esperan más de 100 marcas expositoras — Daikin, Elgin, RAC y Sicflux ya confirmaron su participación — y más de 10.000 visitantes, apuntando a los polos de petróleo y gas, hotelería y construcción de la región.' },
+    source: 'Engenharia e Arquitetura / SINDRATARPE',
+    url: 'https://www.engenhariaearquitetura.com.br/2026/06/lancamento-oficial-da-febrava-rio'
   },
   {
     cat: 'brand',
-    date: '2026-06-22',
+    date: '2026-06-16',
     period: 'month',
-    pt: { title: 'BOHN lidera conversa sobre o futuro da refrigeração no SIAR 2026 (CDMX)', body: 'No SIAR 2026 (26–28 de maio, Expo Santa Fe, Cidade do México), a BOHN apresentou compressores scroll Embraco, monitoramento inteligente e soluções compatíveis com refrigerantes de baixo GWP (R290, R454C e CO2), além de uma das agendas de capacitação técnica mais completas do evento, com especialistas da Chemours e da Bitzer.' },
-    en: { title: 'BOHN drives the conversation on the future of refrigeration at SIAR 2026 (Mexico City)', body: 'At SIAR 2026 (May 26–28, Expo Santa Fe, Mexico City), BOHN showcased Embraco scroll compressors, smart monitoring and solutions compatible with low-GWP refrigerants (R290, R454C and CO2), along with one of the most complete technical training agendas of the show, featuring experts from Chemours and Bitzer.' },
-    es: { title: 'BOHN impulsa la conversación sobre el futuro de la refrigeración en SIAR 2026 (CDMX)', body: 'En SIAR 2026 (26–28 de mayo, Expo Santa Fe, Ciudad de México), BOHN presentó compresores scroll Embraco, monitoreo inteligente y soluciones compatibles con refrigerantes de bajo GWP (R290, R454C y CO2), además de una de las agendas de capacitación técnica más completas del evento, con especialistas de Chemours y Bitzer.' },
-    source: 'Mundo HVAC&R',
-    url: 'https://www.mundohvacr.com/2026/06/bohn-impulsa-la-conversacion-sobre-el-futuro-de-la-refrigeracion-en-siar-2026-tecnologia-capacitacion-y-networkingpara-una-industria-mas-eficiente-y-sostenible/'
-  },
-  {
-    cat: 'market',
-    date: '2026-06-22',
-    period: 'month',
-    pt: { title: 'Armazenamento refrigerado deixa de ser nicho e vira ativo estratégico', body: 'Análise aponta cerca de US$ 21 bilhões em transações no setor de armazéns frigoríficos na última década, com demanda puxada por alimentos frescos, indústria farmacêutica e e-commerce. Aproximadamente 50% dos novos medicamentos exigirão refrigeração, elevando as exigências técnicas e as oportunidades para toda a cadeia HVACR.' },
-    en: { title: 'Cold storage moves from logistics niche to strategic asset', body: 'Analysis points to roughly USD 21 billion in cold-storage investment transactions over the past decade, with demand driven by fresh food, pharmaceuticals and e-commerce. About 50% of new drugs will require refrigeration, raising technical requirements and opportunities across the entire HVACR value chain.' },
-    es: { title: 'El almacenamiento en frío pasa de nicho logístico a activo estratégico', body: 'Un análisis señala cerca de USD 21 mil millones en transacciones de almacenes frigoríficos en la última década, con demanda impulsada por alimentos frescos, industria farmacéutica y e-commerce. Alrededor del 50% de los nuevos medicamentos requerirá refrigeración, elevando las exigencias técnicas y las oportunidades para toda la cadena HVACR.' },
-    source: 'Mundo HVAC&R',
-    url: 'https://www.mundohvacr.com/2026/06/almacenamiento-en-frio-de-nicho-logistico-a-activo-estrategico/'
+    pt: { title: 'Daikin sinaliza novos investimentos no polo de ar-condicionado da Zona Franca de Manaus', body: 'Em visita técnica da Suframa à unidade da Daikin em Manaus, noticiada em 16 de junho, a multinacional japonesa manifestou interesse em ampliar investimentos e aprofundar a verticalização da cadeia produtiva no Amazonas. O movimento ocorre após a flexibilização das regras do PPB de condicionadores de ar, que havia gerado impasses ligados à nacionalização de compressores.' },
+    en: { title: "Daikin signals fresh investment in Manaus Free Trade Zone's AC hub", body: "During a technical visit by Suframa to Daikin's Manaus plant, reported June 16, the Japanese multinational voiced interest in expanding investment and deepening local supply-chain verticalization in Amazonas. The move follows the relaxation of air-conditioner PPB (basic production process) rules, which had created bottlenecks tied to compressor localization requirements." },
+    es: { title: 'Daikin señala nuevas inversiones en el polo de aire acondicionado de la Zona Franca de Manaos', body: 'Durante una visita técnica de Suframa a la planta de Daikin en Manaos, difundida el 16 de junio, la multinacional japonesa expresó interés en ampliar inversiones y profundizar la verticalización de la cadena productiva en Amazonas. El movimiento llega tras la flexibilización de las reglas del PPB de acondicionadores de aire, que había generado trabas ligadas a la nacionalización de compresores.' },
+    source: 'SIMMMEM / BNC Amazonas',
+    url: 'https://www.simmmem.org.br/daikin-sinaliza-expansao-e-reforca-aposta-no-polo-de-ar-condicionado-da-zfm/'
   },
   {
     cat: 'reg',
     date: '2026-06-19',
     period: 'month',
-    pt: { title: 'SEMARNAT impulsiona diálogo sobre refrigerantes sustentáveis no México', body: 'Workshop realizado no âmbito da implementação da Emenda de Kigali, com financiamento do Canadá e apoio do PNUD, reuniu governo, indústria e usuários finais (Walmart, Koura, Güntner, IMSS). Foram apresentados casos de CO2 transcrítico, estudo de atualização da etiquetagem energética e projeto demonstrativo no Mercado Panamericana (CDMX).' },
-    en: { title: 'SEMARNAT drives dialogue on sustainable refrigerants in Mexico', body: 'A workshop held under the Kigali Amendment implementation project, funded by Canada with UNDP support, gathered government, industry and end users (Walmart, Koura, Güntner, IMSS). Presentations covered transcritical CO2 case studies, a study to update energy labeling criteria, and a demonstration project at Mexico City\'s Panamericana public market.' },
-    es: { title: 'SEMARNAT impulsa el diálogo sobre refrigerantes sustentables en México', body: 'Un taller realizado en el marco de la implementación de la Enmienda de Kigali, con financiamiento de Canadá y apoyo del PNUD, reunió a gobierno, industria y usuarios finales (Walmart, Koura, Güntner, IMSS). Se presentaron casos de CO2 transcrítico, un estudio de actualización del etiquetado energético y un proyecto demostrativo en el Mercado Panamericana (CDMX).' },
+    pt: { title: 'SEMARNAT promove diálogo sobre refrigerantes sustentáveis no México', body: 'Publicado em 19 de junho, o artigo detalha o workshop realizado pela SEMARNAT (Cidade do México) reunindo governo, indústria e organismos internacionais para avançar a Emenda de Kigali. Foram discutidos etiquetagem energética, sistemas de CO2 transcrítico e um projeto-piloto no Mercado Panamericana, com apoio do governo do Canadá e do PNUD.' },
+    en: { title: 'SEMARNAT pushes dialogue on sustainable refrigerants in Mexico', body: 'Published June 19, the article covers a SEMARNAT (Mexico City) workshop bringing together government, industry and international bodies to advance Kigali Amendment implementation. Topics included energy-labeling updates, transcritical CO2 systems and a pilot project at the Mercado Panamericana, backed by the Canadian government and UNDP.' },
+    es: { title: 'SEMARNAT impulsa el diálogo sobre refrigerantes sustentables en México', body: 'Publicado el 19 de junio, el artículo repasa un taller de SEMARNAT (Ciudad de México) que reunió a gobierno, industria y organismos internacionales para avanzar en la Enmienda de Kigali. Se abordaron actualizaciones de etiquetado energético, sistemas de CO2 transcrítico y un proyecto piloto en el Mercado Panamericana, con apoyo del gobierno de Canadá y el PNUD.' },
     source: 'Mundo HVAC&R',
     url: 'https://www.mundohvacr.com/2026/06/semarnat-impulsa-el-dialogo-sobre-refrigerantes-sustentables-para-la-industria-comercial/'
   },
   {
-    cat: 'reg',
-    date: '2026-06-18',
+    cat: 'brand',
+    date: '2026-06-22',
     period: 'month',
-    pt: { title: 'Chile avança na elaboração de norma para regular emissões de HFC', body: 'O Ministério do Meio Ambiente segue desenvolvendo o anteprojeto da Norma de Emissão de Hidrofluorocarbonos, com mecanismos de compensação e fortalecimento do mercado de carbono nacional. A iniciativa se enquadra na Lei-Quadro de Mudança Climática e na meta de carbono-neutralidade até 2050, alinhada ao Protocolo de Montreal e à Emenda de Kigali.' },
-    en: { title: 'Chile advances on a standard to regulate HFC emissions', body: 'The Ministry of the Environment continues developing the draft HFC Emission Standard, including offset mechanisms and strengthening of the national carbon market. The initiative falls under the Climate Change Framework Law and the 2050 carbon-neutrality goal, aligned with the Montreal Protocol and the Kigali Amendment.' },
-    es: { title: 'Chile avanza en la elaboración de una norma para regular las emisiones de HFC', body: 'El Ministerio del Medio Ambiente continúa desarrollando el anteproyecto de la Norma de Emisión de Hidrofluorocarbonos, con mecanismos de compensación y fortalecimiento del mercado de carbono nacional. La iniciativa se enmarca en la Ley Marco de Cambio Climático y la meta de carbono neutralidad a 2050, alineada con el Protocolo de Montreal y la Enmienda de Kigali.' },
-    source: 'ACR Latinoamérica',
-    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21158-chile-avanza-en-la-elaboracion-de-una-norma-para-regular-las-emisiones-de-hfc.html'
+    pt: { title: 'BOHN destaca nova geração de compressores Scroll Embraco no SIAR 2026', body: 'Reportagem publicada em 22 de junho cobre a participação da BOHN de México no SIAR (Cidade do México, 26-28 de maio), com conferências técnicas sobre o refrigerante R-454C, sistemas de monitoramento inteligente e um painel comparando CO2, amônia, propano e refrigerantes A2L para eficiência energética em refrigeração comercial.' },
+    en: { title: 'BOHN showcases new-generation Embraco Scroll compressors at SIAR 2026', body: "Published June 22, the report covers BOHN de México's presence at SIAR (Mexico City, May 26-28), featuring technical sessions on R-454C refrigerant, smart monitoring systems, and a panel comparing CO2, ammonia, propane and A2L refrigerants for commercial refrigeration efficiency." },
+    es: { title: 'BOHN presenta la nueva generación de compresores Scroll Embraco en SIAR 2026', body: 'Publicado el 22 de junio, el reportaje cubre la participación de BOHN de México en SIAR (Ciudad de México, 26-28 de mayo), con conferencias técnicas sobre el refrigerante R-454C, sistemas de monitoreo inteligente y un panel que comparó CO2, amoníaco, propano y refrigerantes A2L para la eficiencia energética en refrigeración comercial.' },
+    source: 'Mundo HVAC&R',
+    url: 'https://www.mundohvacr.com/2026/06/bohn-impulsa-la-conversacion-sobre-el-futuro-de-la-refrigeracion-en-siar-2026-tecnologia-capacitacion-y-networkingpara-una-industria-mas-eficiente-y-sostenible/'
   },
   {
-    cat: 'event',
-    date: '2026-05-14',
-    period: 'lastmonth',
-    pt: { title: 'Mercofrio 2026 terá como tema central "AVAC-R Inteligente: IA, Eficiência e Qualidade do Ar"', body: 'O 15º Congresso Internacional de Ar Condicionado, Refrigeração, Aquecimento e Ventilação será realizado de 15 a 17 de setembro no BarraShoppingSul, em Porto Alegre. A programação debaterá atualização de normas técnicas (NBR 16401, NBR 7256, NBR 14518), fiscalização e qualidade do ar interior, com alertas da ABRAVA sobre descumprimento de normas em ambientes sensíveis.' },
-    en: { title: 'Mercofrio 2026 sets "Smart HVAC-R: AI, Efficiency and Air Quality" as its central theme', body: 'The 15th International Congress on Air Conditioning, Refrigeration, Heating and Ventilation will take place September 15–17 at BarraShoppingSul, Porto Alegre, Brazil. The program will address technical standards updates (NBR 16401, NBR 7256, NBR 14518), enforcement and indoor air quality, with ABRAVA warnings on non-compliance in sensitive environments.' },
-    es: { title: 'Mercofrio 2026 tendrá como tema central "HVAC-R Inteligente: IA, Eficiencia y Calidad del Aire"', body: 'El 15º Congreso Internacional de Aire Acondicionado, Refrigeración, Calefacción y Ventilación se realizará del 15 al 17 de septiembre en BarraShoppingSul, Porto Alegre, Brasil. El programa abordará la actualización de normas técnicas (NBR 16401, NBR 7256, NBR 14518), fiscalización y calidad del aire interior, con alertas de ABRAVA sobre incumplimiento de normas en ambientes sensibles.' },
-    source: 'Revista Meio Filtrante',
-    url: 'https://www.meiofiltrante.com.br/Noticia/132752/mercofrio-2026-tera-como-tema-central-avac-r-inteligente-ia-eficiencia-e-qualidade-do-ar-para-um-planeta-sustentavel-'
+    cat: 'reg',
+    date: null,
+    period: 'context',
+    pt: { title: 'Emenda de Kigali no México: o roteiro regulatório para HFCs', body: 'Conteúdo técnico explicativo (data de publicação não confirmada): o México já congelou o consumo de HFCs desde 2024, com meta de redução progressiva de 10% até 2029 e 80% até 2045, conforme a Emenda de Kigali ao Protocolo de Montreal — pano de fundo estrutural para as ações regulatórias do setor na região.' },
+    en: { title: 'Kigali Amendment in Mexico: the HFC regulatory roadmap', body: 'Explanatory technical background (exact publication date unconfirmed): Mexico has frozen HFC consumption since 2024, targeting a progressive 10% cut by 2029 and 80% by 2045 under the Kigali Amendment to the Montreal Protocol — the structural backdrop for the region\'s regulatory moves.' },
+    es: { title: 'Enmienda de Kigali en México: la hoja de ruta regulatoria para los HFC', body: 'Contenido técnico explicativo (fecha de publicación no confirmada): México congeló el consumo de HFC desde 2024, con meta de reducción progresiva del 10% para 2029 y 80% para 2045 bajo la Enmienda de Kigali al Protocolo de Montreal — el trasfondo estructural de los movimientos regulatorios de la región.' },
+    source: 'Mundo HVAC&R',
+    url: 'https://www.mundohvacr.com/2026/04/el-nuevo-equilibrio-del-frioentre-regulacion-eficiencia-y-nuevas-tecnologias-el-nuevo-mapa-del-frio-en-mexhe Mercado Panamericana, backed by the Canadian government and UNDP.' },
+    es: { title: 'SEMARNAT impulsa el diálogo sobre refrigerantes sustentables en México', body: 'Publicado el 19 de junio, el artículo repasa un taller de SEMARNAT (Ciudad de México) que reunió a gobierno, industria y organismos internacionales para avanzar en la Enmienda de Kigali. Se abordaron actualizaciones de etiquetado energético, sistemas de CO2 transcrítico y un proyecto piloto en el Mercado Panamericana, con apoyo del gobierno de Canadá y el PNUD.' },
+    source: 'Mundo HVAC&R',
+    url: 'https://www.mundohvacr.com/2026/06/semarnat-impulsa-el-dialogo-sobre-refrigerantes-sustentables-para-la-industria-comercial/'
   },
   {
     cat: 'brand',
-    date: '2026-06-03',
-    period: 'lastmonth',
-    pt: { title: 'LG Electronics e VTS apresentam soluções integradas de climatização no Equador', body: 'A aliança entre LG Electronics Centro-América e Caribe e o VTS Group focou em projetos hospitalares, data centers e grandes empreendimentos comerciais, com manejadoras de ar (AHU) certificadas AHRI e Eurovent. As soluções já foram implementadas desde 2019 em projetos como o Aeroporto Internacional Mariscal Sucre e hospitais equatorianos.' },
-    en: { title: 'LG Electronics and VTS present integrated HVAC solutions in Ecuador', body: 'The alliance between LG Electronics Central America & Caribbean and VTS Group focused on hospital projects, data centers and large-scale commercial developments, with AHRI- and Eurovent-certified air handling units (AHU). The solutions have been deployed since 2019 in projects such as Mariscal Sucre International Airport and Ecuadorian hospitals.' },
-    es: { title: 'LG Electronics y VTS presentan soluciones integrales de climatización en Ecuador', body: 'La alianza entre LG Electronics Centroamérica y el Caribe y VTS Group se enfocó en proyectos hospitalarios, centros de datos y desarrollos comerciales de gran escala, con manejadoras de aire (AHU) certificadas AHRI y Eurovent. Las soluciones ya se han implementado desde 2019 en proyectos como el Aeropuerto Internacional Mariscal Sucre y hospitales ecuatorianos.' },
-    source: 'ACR Latinoamérica',
-    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21152-lg-electronics-y-vts-presentan-soluciones-integrales-de-climatizacion-para-proyectos-hospitalarios-y-comerciales.html'
+    date: '2026-06-22',
+    period: 'month',
+    pt: { title: 'BOHN destaca nova geração de compressores Scroll Embraco no SIAR 2026', body: 'Reportagem publicada em 22 de junho cobre a participação da BOHN de México no SIAR (Cidade do México, 26-28 de maio), com conferências técnicas sobre o refrigerante R-454C, sistemas de monitoramento inteligente e um painel comparando CO2, amônia, propano e refrigerantes A2L para eficiência energética em refrigeração comercial.' },
+    en: { title: 'BOHN showcases new-generation Embraco Scroll compressors at SIAR 2026', body: "Published June 22, the report covers BOHN de México's presence at SIAR (Mexico City, May 26-28), featuring technical sessions on R-454C refrigerant, smart monitoring systems, and a panel comparing CO2, ammonia, propane and A2L refrigerants for commercial refrigeration efficiency." },
+    es: { title: 'BOHN presenta la nueva generación de compresores Scroll Embraco en SIAR 2026', body: 'Publicado el 22 de junio, el reportaje cubre la participación de BOHN de México en SIAR (Ciudad de México, 26-28 de mayo), con conferencias técnicas sobre el refrigerante R-454C, sistemas de monitoreo inteligente y un panel que comparó CO2, amoníaco, propano y refrigerantes A2L para la eficiencia energética en refrigeración comercial.' },
+    source: 'Mundo HVAC&R',
+    url: 'https://www.mundohvacr.com/2026/06/bohn-impulsa-la-conversacion-sobre-el-futuro-de-la-refrigeracion-en-siar-2026-tecnologia-capacitacion-y-networkingpara-una-industria-mas-eficiente-y-sostenible/'
+  },
+  {
+    cat: 'reg',
+    date: null,
+    period: 'context',
+    pt: { title: 'Emenda de Kigali no México: o roteiro regulatório para HFCs', body: 'Conteúdo técnico explicativo (data de publicação não confirmada): o México já congelou o consumo de HFCs desde 2024, com meta de redução progressiva de 10% até 2029 e 80% até 2045, conforme a Emenda de Kigali ao Protocolo de Montreal — pano de fundo estrutural para as ações regulatórias do setor na região.' },
+    en: { title: 'Kigali Amendment in Mexico: the HFC regulatory roadmap', body: 'Explanatory technical background (exact publication date unconfirmed): Mexico has frozen HFC consumption since 2024, targeting a progressive 10% cut by 2029 and 80% by 2045 under the Kigali Amendment to the Montreal Protocol — the structural backdrop for the region\'s regulatory moves.' },
+    es: { title: 'Enmienda de Kigali en México: la hoja de ruta regulatoria para los HFC', body: 'Contenido técnico explicativo (fecha de publicación no confirmada): México congeló el consumo de HFC desde 2024, con meta de reducción progresiva del 10% para 2029 y 80% para 2045 bajo la Enmienda de Kigali al Protocolo de Montreal — el trasfondo estructural de los movimientos regulatorios de la región.' },
+    source: 'Mundo HVAC&R',
+    url: 'https://www.mundohvacr.com/2026/04/el-nuevo-equilibrio-del-frioentre-regulacion-eficiencia-y-nuevas-tecnologias-el-nuevo-mapa-del-frio-en-mexico-y-latinoamerica/'
   },
   {
     cat: 'market',
-    date: '2026-06-02',
-    period: 'lastmonth',
-    pt: { title: 'Na cadeia do frio, o valor migra dos equipamentos para serviços especializados', body: 'Especialistas da Thermo King apontam que telemetria, manutenção preditiva e monitoramento de temperatura em tempo real se tornaram mais relevantes que a posse do ativo no transporte refrigerado. Segundo a OMS, cerca de 50% das vacinas são desperdiçadas por falhas de temperatura, e até 15% do desperdício mundial de alimentos ocorre no transporte.' },
-    en: { title: 'In the cold chain, value shifts from equipment to specialized services', body: 'Thermo King specialists note that telemetry, predictive maintenance and real-time temperature monitoring have become more relevant than asset ownership in refrigerated transport. According to the WHO, about 50% of vaccines are wasted due to temperature control failures, and up to 15% of global food waste occurs during transport.' },
-    es: { title: 'En la cadena de frío, el valor se desplaza de los equipos a los servicios especializados', body: 'Especialistas de Thermo King señalan que la telemetría, el mantenimiento predictivo y el monitoreo de temperatura en tiempo real se han vuelto más relevantes que la posesión del activo en el transporte refrigerado. Según la OMS, cerca del 50% de las vacunas se desperdician por fallas de temperatura, y hasta el 15% del desperdicio mundial de alimentos ocurre durante el transporte.' },
-    source: 'ACR Latinoamérica',
-    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21149-en-la-cadena-de-frio-el-valor-se-desplaza-de-los-equipos-a-los-servicios-especializados.html'
+    date: null,
+    period: 'context',
+    pt: { title: 'Refrigerantes naturais ganham terreno no varejo latino-americano', body: 'Conteúdo estrutural (data de publicação não confirmada): segundo a ATMOsphere, mais de 8.000 supermercados na América Latina já operam com sistemas de CO2 transcrítico, refletindo uma tendência estrutural de adoção de refrigerantes naturais no varejo alimentar da região, impulsionada por regulação e pressão por eficiência energética.' },
+    en: { title: 'Natural refrigerants gain ground in Latin American retail', body: 'Structural background piece (exact publication date unconfirmed): according to ATMOsphere, more than 8,000 supermarkets across Latin America now run transcritical CO2 systems, reflecting a structural shift toward natural refrigerants in the region\'s food retail sector, driven by regulation and energy-efficiency pressure.' },
+    es: { title: 'Los refrigerantes naturales ganan terreno en el retail latinoamericano', body: 'Contenido estructural (fecha de publicación no confirmada): según ATMOsphere, más de 8.000 supermercados en América Latina ya operan con sistemas de CO2 transcrítico, lo que refleja una tendencia estructural hacia los refrigerantes naturales en el retail alimentario de la región, impulsada por la regulación y la presión por eficiencia energética.' },
+    source: 'Mundo HVAC&R / ATMOsphere',
+    url: 'https://www.mundohvacr.com/2026/04/el-nuevo-equilibrio-del-frioentre-regulacion-eficiencia-y-nuevas-tecnologias-el-nuevo-mapa-del-frio-en-mexico-y-latinoamerica/'
   }
 ];
 
-const i18n={pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Semana de 6–10 de julho de 2026 · Atualizado em: 07/07/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante'},periods:{week:'📅 Semana Passada',month:'🗓️ Este Mês',lastmonth:'📆 Mês Passado',context:'⚠️ Conteúdo Relevante (Data Não Confirmada)'},dateUnknown:'⚠️ Data não confirmada',source:'Fonte',readMore:'Leia mais →'},en:{sub:'Top news from the HVACR market in Latin America',meta:'Week of July 6–10, 2026 · Updated: 07/07/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer'},periods:{week:'📅 Last Week',month:'🗓️ This Month',lastmonth:'📆 Last Month',context:'⚠️ Relevant Content (Date Not Confirmed)'},dateUnknown:'⚠️ Date not confirmed',source:'Source',readMore:'Read more →'},es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Semana del 6 al 10 de julio de 2026 · Actualizado: 07/07/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante'},periods:{week:'📅 Semana Pasada',month:'🗓️ Este Mes',lastmonth:'📆 Mes Pasado',context:'⚠️ Contenido Relevante (Fecha No Confirmada)'},dateUnknown:'⚠️ Fecha no confirmada',source:'Fuente',readMore:'Leer más →'}};
+const i18n={pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Semana de 7–13 de julho de 2026 · Atualizado em: 13/07/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante'},periods:{week:'📅 Semana Passada',month:'🗓️ Este Mês',lastmonth:'📆 Mês Passado',context:'⚠️ Conteúdo Relevante (Data Não Confirmada)'},dateUnknown:'⚠️ Data não confirmada',source:'Fonte',readMore:'Leia mais →'},en:{sub:'Top news from the HVACR market in Latin America',meta:'Week of July 7–13, 2026 · Updated: 07/13/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer'},periods:{week:'📅 Last Week',month:'🗓️ This Month',lastmonth:'📆 Last Month',context:'⚠️ Relevant Content (Date Not Confirmed)'},dateUnknown:'⚠️ Date not confirmed',source:'Source',readMore:'Read more →'},es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Semana del 7 al 13 de julio de 2026 · Actualizado: 13/07/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante'},periods:{week:'📅 Semana Pasada',month:'🗓️ Este Mes',lastmonth:'📆 Mes Pasado',context:'⚠️ Contenido Relevante (Fecha No Confirmada)'},dateUnknown:'⚠️ Fecha no confirmada',source:'Fuente',readMore:'Leer más →'}};
 const periodOrder=['week','month','lastmonth','context'];
 let currentLang='pt',activeFilter='all';
 function setLang(l){currentLang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));const t=i18n[l];document.getElementById('header-sub').textContent=t.sub;document.getElementById('header-meta').textContent=t.meta;document.getElementById('btn-all').textContent=t.all;document.getElementById('btn-event').textContent=t.event;document.getElementById('btn-market').textContent=t.market;document.getElementById('btn-reg').textContent=t.reg;document.getElementById('btn-brand').textContent=t.brand;renderGrid()}
