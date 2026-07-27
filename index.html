@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HVACR LATAM — Radar Semanal</title>
 <style>
-  :root { color-scheme: light; --bg:#f4f6f9;--card:#ffffff;--header-bg:#0d1b2a;--header-accent:#1e88e5;--text:#1a1a2e;--text-muted:#6b7280;--border:#e5e7eb;--badge-market:#1e88e5;--badge-reg:#43a047;--badge-brand:#e53935;--badge-event:#fb8c00;--badge-pin:#8e24aa;--tag-bg-market:#e3f2fd;--tag-bg-reg:#e8f5e9;--tag-bg-brand:#ffebee;--tag-bg-event:#fff3e0;--tag-bg-pin:#f3e5f5;--shadow:0 1px 4px rgba(0,0,0,0.08);--warn:#92400e;--warn-bg:#fef3c7; }
+  :root { color-scheme: light; --bg:#f4f6f9;--card:#ffffff;--header-bg:#0d1b2a;--header-accent:#1e88e5;--text:#1a1a2e;--text-muted:#6b7280;--border:#e5e7eb;--badge-market:#1e88e5;--badge-reg:#43a047;--badge-brand:#e53935;--badge-event:#fb8c00;--tag-bg-market:#e3f2fd;--tag-bg-reg:#e8f5e9;--tag-bg-brand:#ffebee;--tag-bg-event:#fff3e0;--shadow:0 1px 4px rgba(0,0,0,0.08);--warn:#92400e;--warn-bg:#fef3c7; }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
   header{background:var(--header-bg);color:#fff;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
@@ -30,7 +30,6 @@
   .badge-reg{background:var(--tag-bg-reg);color:var(--badge-reg)}
   .badge-brand{background:var(--tag-bg-brand);color:var(--badge-brand)}
   .badge-event{background:var(--tag-bg-event);color:var(--badge-event)}
-  .badge-pin{background:var(--tag-bg-pin);color:var(--badge-pin)}
   .card-num{font-size:0.7rem;font-weight:700;color:#d1d5db}
   .card-title{font-size:0.95rem;font-weight:700;line-height:1.35;color:var(--text)}
   .card-body{font-size:0.82rem;color:var(--text-muted);line-height:1.6}
@@ -62,97 +61,95 @@
   <button class="filter-btn" onclick="setFilter('market')" id="btn-market"></button>
   <button class="filter-btn" onclick="setFilter('reg')" id="btn-reg"></button>
   <button class="filter-btn" onclick="setFilter('brand')" id="btn-brand"></button>
-  <button class="filter-btn" onclick="setFilter('pin')" id="btn-pin"></button>
 </div>
 <div class="count-bar" id="count-bar"></div>
 <div class="news-grid" id="grid"></div>
 <script>
-// DADOS — notícias selecionadas (filtradas por recência <= 60 dias, + item(ns) period:'context')
+// DADOS — notícias selecionadas (filtradas por recência <= 60 dias)
 const news = [
   {
-    cat: 'pin',
-    date: '2026-07-17',
-    period: 'pinned',
-    pt: { title: 'Termômetro ABRAVA – Julho 2026: cenário econômico e indicadores do setor AVACR', body: 'Boletim consolidado pela ABRAVA reúne cenário macroeconômico (PIB de 1,99% em 2026, IPCA em 5,16%, alta de 32% no Brent no ano por conta do conflito Irã-EUA) e os resultados do Termômetro ABRAVA do 2º trimestre: confiança do setor saiu do pessimismo para a neutralidade, faturamento caiu 0,5% na comparação anual e custos de insumos subiram 19,9%. O El Niño, com 97% de probabilidade de persistência até 2027, aparece como oportunidade de demanda para climatização e refrigeração no 2º semestre.' },
-    en: { title: 'ABRAVA Thermometer – July 2026: economic outlook and HVACR sector indicators', body: 'ABRAVA’s consolidated bulletin covers the macro scenario (1.99% GDP growth in 2026, 5.16% inflation, Brent crude up 32% year-to-date on the Iran-US conflict) alongside Q2 Thermometer results: sector confidence moved from pessimism to neutral, revenue fell 0.5% year-over-year and input costs rose 19.9%. El Niño, with a 97% chance of persisting into 2027, is flagged as a demand opportunity for cooling and refrigeration in the second half of the year.' },
-    es: { title: 'Termómetro ABRAVA – Julio 2026: panorama económico e indicadores del sector AVACR', body: 'El boletín consolidado por ABRAVA reúne el escenario macroeconómico (PIB de 1,99% en 2026, IPCA de 5,16%, alza de 32% del Brent en el año por el conflicto Irán-EE.UU.) y los resultados del Termómetro ABRAVA del 2º trimestre: la confianza del sector pasó del pesimismo a la neutralidad, la facturación cayó 0,5% interanual y los costos de insumos subieron 19,9%. El Niño, con 97% de probabilidad de persistir hasta 2027, se señala como una oportunidad de demanda para climatización y refrigeración en el segundo semestre.' },
-    source: 'ABRAVA',
-    url: 'https://abrava.com.br/wp-content/uploads/2026/07/RESUMIDA-Conjuntura-julho-26-final.pdf'
+    cat: 'brand',
+    date: '2026-07-24',
+    period: 'week',
+    pt: { title: 'Tecumseh anuncia investimento de R$ 130 milhões em São Carlos e Manaus', body: 'A fabricante de compressores Tecumseh anunciou aportes de R$ 130 milhões no Brasil — R$ 70 milhões na unidade de São Carlos (SP) e R$ 60 milhões no polo industrial de Manaus (AM), onde prevê abrir uma nova planta em 2028. A empresa, que hoje detém entre 15% e 20% do mercado brasileiro de compressores para refrigeração e climatização, projeta alcançar 30% de participação. O movimento reforça a produção local de compressores (NCM 8414.30), item sensível para importadores desde a elevação das alíquotas de bens de capital pela Resolução Gecex 852/2026.' },
+    en: { title: 'Tecumseh announces R$130 million investment in São Carlos and Manaus', body: 'Compressor manufacturer Tecumseh announced R$130 million in new investment in Brazil — R$70 million for its São Carlos (SP) plant and R$60 million for the Manaus (AM) industrial hub, where it plans a new facility by 2028. The company, which currently holds 15-20% of Brazil\'s refrigeration and AC compressor market, aims to reach 30% share. The move reinforces local compressor production (NCM 8414.30) as importers adjust to higher capital-goods import tariffs under Gecex Resolution 852/2026.' },
+    es: { title: 'Tecumseh anuncia inversión de R$130 millones en São Carlos y Manaus', body: 'El fabricante de compresores Tecumseh anunció una inversión de R$130 millones en Brasil: R$70 millones para su planta de São Carlos (SP) y R$60 millones para el polo industrial de Manaus (AM), donde prevé abrir una nueva fábrica en 2028. La empresa, que hoy tiene entre 15% y 20% del mercado brasileño de compresores, proyecta alcanzar el 30% de participación. El movimiento refuerza la producción local de compresores (NCM 8414.30) mientras los importadores ajustan costos tras el alza de aranceles de la Resolución Gecex 852/2026.' },
+    source: 'Revista do Frio',
+    url: 'https://revistadofrio.com.br/tecumseh-investira-r-130-milhoes-em-sao-carlos-e-manaus/'
   },
   {
     cat: 'reg',
     date: '2026-07-02',
     period: 'month',
-    pt: { title: 'Resolução Gecex nº 932/2026 altera ex-tarifários de bens de capital, com reflexo em compressores (NCM 8414)', body: 'Publicada em 2 de julho, a resolução altera o Anexo Único da Resolução Gecex nº 780/2025 para conceder e modificar Ex-tarifários de Bens de Capital — categoria que inclui itens do capítulo 8414, onde está classificado o NCM 8414.30.19 usado por importadores de compressores frigoríficos. É o desdobramento mais recente após o realinhamento tarifário da Resolução Gecex 852/2026, que havia elevado alíquotas de importação de bens de capital no início do ano.' },
-    en: { title: 'Gecex Resolution 932/2026 amends capital goods ex-tariffs, touching compressors (HS 8414)', body: 'Published July 2, the resolution amends the Annex to Gecex Resolution 780/2025, granting and altering ex-tariffs for capital goods — a category covering chapter 8414 items, including HS code 8414.30.19 used by refrigeration compressor importers. It is the latest development since Gecex Resolution 852/2026 raised capital-goods import tariffs earlier this year.' },
-    es: { title: 'Resolución Gecex 932/2026 modifica ex-aranceles de bienes de capital y afecta a compresores (NCM 8414)', body: 'Publicada el 2 de julio, la resolución modifica el Anexo Único de la Resolución Gecex 780/2025, para conceder y alterar Ex-aranceles de Bienes de Capital, categoría que incluye ítems del capítulo 8414 — donde se clasifica el NCM 8414.30.19 usado por importadores de compresores frigoríficos. Es el desdoblamiento más reciente tras el realineamiento arancelario de la Resolución Gecex 852/2026, que había elevado los aranceles de bienes de capital a inicios de año.' },
-    source: 'Efficienza Comércio Internacional',
-    url: 'https://efficienza.com.br/resolucao-gecex-no-932-de-2-de-julho-de-2026/'
+    pt: { title: 'Gecex altera lista de ex-tarifários de bens de capital', body: 'A Resolução Gecex nº 932, de 2 de julho de 2026, alterou o Anexo Único da Resolução Gecex nº 780/2025, excluindo e incluindo itens na lista de ex-tarifários de bens de capital (reduções temporárias do Imposto de Importação). A medida integra o mesmo arcabouço regulatório da Resolução Gecex 852/2026, que elevou alíquotas de importação de bens de capital — incluindo o NCM 8414.30.19, usado por importadores de compressores frigoríficos. Não há, até o momento, menção explícita a compressores no anexo da 932; o desdobramento segue em monitoramento.' },
+    en: { title: 'Gecex amends Brazil\'s capital-goods tariff exemption list', body: 'Gecex Resolution No. 932, dated July 2, 2026, amended the Single Annex of Resolution 780/2025, excluding and adding items to Brazil\'s capital-goods "ex-tarifário" list (temporary import tax reductions). The measure sits within the same regulatory framework as Resolution 852/2026, which raised import tariffs on capital goods — including NCM 8414.30.19, used by importers of refrigeration compressors. No explicit mention of compressors was found in Resolution 932\'s annex; this remains under watch.' },
+    es: { title: 'Gecex modifica la lista de ex-tarifarios de bienes de capital', body: 'La Resolución Gecex n.º 932, del 2 de julio de 2026, modificó el Anexo Único de la Resolución 780/2025, excluyendo e incluyendo ítems en la lista de "ex-tarifarios" de bienes de capital (reducciones temporales del impuesto de importación). La medida se enmarca en el mismo esquema regulatorio que la Resolución 852/2026, que elevó los aranceles de bienes de capital, incluyendo el NCM 8414.30.19 usado por importadores de compresores de refrigeración. No se identificó mención explícita a compresores en el anexo de la 932; el tema sigue en seguimiento.' },
+    source: 'LegisWeb / Efficienza Comércio Internacional',
+    url: 'https://www.legisweb.com.br/legislacao/?id=497653'
   },
   {
     cat: 'brand',
-    date: '2026-06-29',
+    date: '2026-07-16',
     period: 'month',
-    pt: { title: 'LG celebra 11 anos como marca nº 1 em ar-condicionado na América Latina', body: 'Segundo dados da Euromonitor International (2015–2025), a LG Electronics manteve a liderança no mercado latino-americano de ar-condicionado pelo 11º ano consecutivo, resultado atribuído à estratégia de eficiência energética e durabilidade dos produtos na região.' },
-    en: { title: 'LG marks 11 years as the No. 1 air conditioning brand in Latin America', body: 'According to Euromonitor International data (2015–2025), LG Electronics held the top spot in Latin America’s air conditioning market for an 11th consecutive year, a result the company attributes to its focus on energy efficiency and product durability in the region.' },
-    es: { title: 'LG celebra 11 años como marca N.º 1 en aire acondicionado en América Latina', body: 'Según datos de Euromonitor International (2015–2025), LG Electronics mantuvo el liderazgo en el mercado latinoamericano de aire acondicionado por 11.º año consecutivo, resultado que la compañía atribuye a su estrategia de eficiencia energética y durabilidad de producto en la región.' },
-    source: 'PR Newswire Brasil',
-    url: 'https://www.prnewswire.com/br/comunicados-para-a-imprensa/lg-celebra-11-anos-como-marca-n-1-em-ar-condicionado-na-america-latina-302813508.html'
+    pt: { title: 'Trane México celebra 35 anos e aposta em infraestrutura inteligente', body: 'A Trane México comemora 35 anos de operação no país (113 anos globalmente), destacando projetos em manufatura automotiva, saúde e aeroportos, além do avanço para eletrificação, digitalização e monitoramento remoto. A empresa aponta data centers e demanda por eficiência energética como vetores estratégicos para o HVAC na região.' },
+    en: { title: 'Trane Mexico marks 35 years, doubles down on smart infrastructure', body: 'Trane Mexico marks 35 years of operations in the country (113 years globally), highlighting projects in automotive manufacturing, healthcare and airports, alongside a push toward electrification, digitalization and remote monitoring. The company points to data centers and energy-efficiency demand as strategic drivers for HVAC in the region.' },
+    es: { title: 'Trane México celebra 35 años y apuesta por la infraestructura inteligente', body: 'Trane México celebra 35 años de operaciones en el país (113 a nivel global), destacando proyectos en manufactura automotriz, salud y aeropuertos, además de avances en electrificación, digitalización y monitoreo remoto. La empresa señala los centros de datos y la demanda de eficiencia energética como motores estratégicos para el HVAC en la región.' },
+    source: 'ACR Latinoamérica',
+    url: 'https://www.acrlatinoamerica.com/en/news/latest-news/348-enterprises/21190-trane-mexico-celebrates-35-years-driving-the-evolution-of-hvac-to-smart-infrastructure.html'
   },
   {
     cat: 'event',
-    date: '2026-06-22',
+    date: '2026-07-16',
     period: 'month',
-    pt: { title: 'AirCon Fair 2026 estreia como novo polo HVAC-R da América Latina em São Paulo', body: 'Entre 22 e 25 de junho, a feira ocorreu no Distrito Anhembi dentro da Eletrolar Show All Connected, reunindo fabricantes, distribuidores e instaladores em um novo hub de negócios dedicado especificamente ao setor de climatização e refrigeração.' },
-    en: { title: 'AirCon Fair 2026 debuts as Latin America’s new HVAC-R hub in São Paulo', body: 'Held June 22–25 at Distrito Anhembi alongside Eletrolar Show All Connected, the fair brought together manufacturers, distributors and installers in a new business hub dedicated specifically to the HVAC-R sector.' },
-    es: { title: 'AirCon Fair 2026 debuta como el nuevo polo HVAC-R de América Latina en São Paulo', body: 'Realizada del 22 al 25 de junio en el Distrito Anhembi, dentro de Eletrolar Show All Connected, la feria reunió a fabricantes, distribuidores e instaladores en un nuevo hub de negocios dedicado específicamente al sector HVAC-R.' },
-    source: 'Aircon Fair',
-    url: 'https://airconfair.com.br/bem-vindo-ao-universo-aircon-o-novo-polo-hvac-r-da-america-latina/'
+    pt: { title: 'RefriAméricas 2026 acontece em 29 e 30 de julho na Flórida', body: 'O RefriAméricas 2026 reunirá profissionais da América Latina, Caribe, EUA e Europa no Broward County Convention Center, em Fort Lauderdale. Sob o tema "Eficiência, descarbonização e transformação tecnológica em HVAC/R", o programa acadêmico traz mais de 25 conferências técnicas, workshops e a cerimônia CALA AWARDS 2026.' },
+    en: { title: 'RefriAméricas 2026 takes place July 29-30 in Florida', body: 'RefriAméricas 2026 will bring together professionals from Latin America, the Caribbean, the US and Europe at the Broward County Convention Center in Fort Lauderdale. Under the theme "Efficiency, decarbonization and technological transformation in HVAC/R," the academic program includes more than 25 technical conferences, workshops and the CALA AWARDS 2026 ceremony.' },
+    es: { title: 'RefriAméricas 2026 se realiza el 29 y 30 de julio en Florida', body: 'RefriAméricas 2026 reunirá a profesionales de América Latina, el Caribe, EE. UU. y Europa en el Broward County Convention Center de Fort Lauderdale. Bajo el lema "Eficiencia, descarbonización y transformación tecnológica en HVAC/R", el programa académico incluye más de 25 conferencias técnicas, talleres y la ceremonia CALA AWARDS 2026.' },
+    source: 'ACR Latinoamérica',
+    url: 'https://www.acrlatinoamerica.com/en/news/latest-news/348-enterprises/21193-refriamericas-2026-will-bring-together-international-experts-to-drive-the-transformation-of-the-hvac-r-sector.html'
   },
   {
     cat: 'brand',
-    date: '2026-06-18',
+    date: '2026-06-23',
     period: 'lastmonth',
-    pt: { title: 'Trane põe em operação um dos maiores sistemas solares industriais do México, em Monterrey', body: 'Com cerca de 10 mil painéis solares distribuídos em três das cinco plantas do complexo, o sistema vai gerar 9.300 MWh de energia limpa por ano — cerca de 40% da necessidade energética da unidade — evitando a emissão de cerca de 4.100 toneladas de CO2 por ano.' },
-    en: { title: 'Trane brings one of Mexico’s largest industrial solar systems online in Monterrey', body: 'With roughly 10,000 solar panels spread across three of the complex’s five plants, the system will generate 9,300 MWh of clean energy a year — about 40% of the facility’s energy needs — avoiding an estimated 4,100 tons of CO2 emissions annually.' },
-    es: { title: 'Trane pone en operación uno de los mayores sistemas solares industriales de México, en Monterrey', body: 'Con cerca de 10 mil paneles solares distribuidos en tres de las cinco plantas del complejo, el sistema generará 9.300 MWh de energía limpia al año —alrededor del 40% de la necesidad energética de la planta— evitando la emisión de unas 4.100 toneladas de CO2 al año.' },
-    source: 'Edificios de México',
-    url: 'https://www.edemx.com/site/2026/06/18/planta-trane-monterrey-pone-en-operacion-uno-de-los-sistemas-solares-para-autoconsumo-mas-relevantes-de-mexico/'
-  },
-  {
-    cat: 'brand',
-    date: '2026-06-12',
-    period: 'lastmonth',
-    pt: { title: 'Daikin sinaliza plano de expansão da fábrica de Manaus após visita da Suframa', body: 'Em visita técnica realizada em 12 de junho ao Polo Industrial de Manaus, a Suframa discutiu com a Daikin planos de ampliar a produção local de condicionadores de ar residenciais e comerciais leves, reforçando a aposta da companhia na Zona Franca de Manaus e a verticalização da cadeia produtiva.' },
-    en: { title: 'Daikin signals plan to expand Manaus factory after Suframa visit', body: 'During a June 12 technical visit to the Manaus Industrial Hub, Suframa discussed plans with Daikin to expand local production of residential and light-commercial air conditioners, reinforcing the company’s commitment to the Manaus Free Trade Zone and deeper local supply-chain integration.' },
-    es: { title: 'Daikin señala plan de expansión de su fábrica en Manaos tras visita de Suframa', body: 'En una visita técnica el 12 de junio al Polo Industrial de Manaos, Suframa discutió con Daikin planes para ampliar la producción local de aires acondicionados residenciales y comerciales ligeros, reforzando la apuesta de la compañía por la Zona Franca de Manaos y la verticalización de la cadena productiva.' },
-    source: 'Suframa',
-    url: 'https://www.gov.br/suframa/pt-br/assuntos/noticias/suframa-visita-fabrica-da-daikin-e-debate-fortalecimento-do-setor-de-condicionadores-de-ar-no-pim'
+    pt: { title: 'Johnson Controls destaca cinco engenheiras na América Latina', body: 'Em celebração ao Dia Internacional das Mulheres na Engenharia, a Johnson Controls reconheceu cinco engenheiras latino-americanas atuantes em refrigeração industrial, automação, mineração e infraestrutura crítica, no Brasil, México, Colômbia, Chile e Costa Rica.' },
+    en: { title: 'Johnson Controls highlights five women engineers in Latin America', body: 'To mark International Women in Engineering Day, Johnson Controls recognized five Latin American female engineers working in industrial refrigeration, automation, mining and critical infrastructure across Brazil, Mexico, Colombia, Chile and Costa Rica.' },
+    es: { title: 'Johnson Controls destaca a cinco ingenieras en América Latina', body: 'Con motivo del Día Internacional de la Mujer en la Ingeniería, Johnson Controls reconoció a cinco ingenieras latinoamericanas que trabajan en refrigeración industrial, automatización, minería e infraestructura crítica en Brasil, México, Colombia, Chile y Costa Rica.' },
+    source: 'ACR Latinoamérica',
+    url: 'https://www.acrlatinoamerica.com/en/news/latest-news/348-enterprises/21187-johnson-controls-highlights-five-women-engineers-driving-innovation-in-latin-america.html'
   },
   {
     cat: 'reg',
-    date: null,
-    period: 'context',
-    pt: { title: 'O que são refrigerantes A2L e por que sua adoção avança na refrigeração e climatização', body: 'Conteúdo técnico sobre a classificação de inflamabilidade A2L (ASHRAE 34) e os cuidados de manuseio e norma aplicáveis. Tema estrutural para o setor diante da transição regional para fluidos de menor GWP — data de publicação original não confirmada.' },
-    en: { title: 'What A2L refrigerants are and why their adoption is advancing in refrigeration and HVAC', body: 'Technical background on the A2L flammability classification (ASHRAE 34) and applicable handling and safety standards. A structural topic for the industry amid the region’s shift toward lower-GWP fluids — original publication date not confirmed.' },
-    es: { title: 'Qué son los refrigerantes A2L y por qué avanza su adopción en refrigeración y climatización', body: 'Contenido técnico sobre la clasificación de inflamabilidad A2L (ASHRAE 34) y las precauciones de manejo y normativa aplicable. Tema estructural para el sector ante la transición regional hacia fluidos de menor GWP — fecha de publicación original no confirmada.' },
-    source: 'Copeland / Opteon',
-    url: 'https://www.opteon.com/en/understanding-a2l-refrigerants'
+    date: '2026-06-18',
+    period: 'lastmonth',
+    pt: { title: 'Chile avança em norma para regular emissões de HFC', body: 'O Ministério do Meio Ambiente do Chile segue com a elaboração participativa da futura Norma de Emissão de Hidrofluorcarbonos (HFC), iniciada pela Resolução Isenta nº 9.634/2025. A proposta prevê mecanismos de compensação via mercado de carbono e busca alinhar o setor de refrigeração e climatização às metas de neutralidade de carbono do país até 2050, no âmbito da Emenda de Kigali.' },
+    en: { title: 'Chile advances standard to regulate HFC emissions', body: 'Chile\'s Ministry of the Environment continues the participatory drafting of its future Hydrofluorocarbon (HFC) Emission Standard, launched under Exempt Resolution No. 9,634/2025. The proposal includes carbon-market offset mechanisms and aims to align the refrigeration and air conditioning sector with the country\'s 2050 carbon-neutrality goals under the Kigali Amendment.' },
+    es: { title: 'Chile avanza en norma para regular las emisiones de HFC', body: 'El Ministerio del Medio Ambiente de Chile continúa con la elaboración participativa de la futura Norma de Emisión de Hidrofluorocarburos (HFC), iniciada por la Resolución Exenta n.º 9.634/2025. La propuesta incluye mecanismos de compensación vía mercado de carbono y busca alinear al sector de refrigeración y climatización con la meta de neutralidad de carbono del país para 2050, en el marco de la Enmienda de Kigali.' },
+    source: 'ACR Latinoamérica',
+    url: 'https://www.acrlatinoamerica.com/en/news/latest-news/348-enterprises/21182-chile-advances-in-the-development-of-a-standard-to-regulate-hfc-emissions.html'
+  },
+  {
+    cat: 'event',
+    date: '2026-05-28',
+    period: 'lastmonth',
+    pt: { title: 'Jalisco se consolida como polo de inovação com a AHR Expo México 2026', body: 'Guadalajara se prepara para sediar a AHR Expo México 2026, de 29 de setembro a 1º de outubro, com mais de 440 expositores e expectativa de 13 mil profissionais — crescimento de até 100% em área de exposição frente à edição de 2022. O evento deve atrair novos compradores da região oeste do país, ainda pouco expostos às tecnologias do setor.' },
+    en: { title: 'Jalisco positions itself as an innovation hub with AHR Expo Mexico 2026', body: 'Guadalajara is preparing to host AHR Expo Mexico 2026, from September 29 to October 1, with more than 440 exhibitors and roughly 13,000 professionals expected — up to 100% more exhibition space than the 2022 edition. The show is expected to draw new buyers from western Mexico who have had limited prior exposure to the sector\'s technologies.' },
+    es: { title: 'Jalisco se consolida como polo de innovación con AHR Expo México 2026', body: 'Guadalajara se prepara para albergar AHR Expo México 2026, del 29 de septiembre al 1 de octubre, con más de 440 expositores y una asistencia estimada de 13 mil profesionales, hasta 100% más superficie de exposición que en la edición 2022. Se espera que el evento atraiga a nuevos compradores del occidente del país, con poca exposición previa a las tecnologías del sector.' },
+    source: 'ACR Latinoamérica',
+    url: 'https://www.acrlatinoamerica.com/novedades/ultimas-noticias/22-empresas/21146-jalisco-se-consolida-como-centro-de-innovacion-para-la-industria-hvacr-con-ahr-expo-mexico-2026.html'
   }
 ];
 
-const i18n={pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Semana de 14–20 de julho de 2026 · Atualizado em: 20/07/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',pin:'🎯 Destaques',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante',pin:'Destaque'},periods:{pinned:'🎯 Destaques',week:'📅 Semana Passada',month:'🗓️ Este Mês',lastmonth:'📆 Mês Passado',context:'⚠️ Conteúdo Relevante (Data Não Confirmada)'},dateUnknown:'⚠️ Data não confirmada',source:'Fonte',readMore:'Leia mais →'},en:{sub:'Top news from the HVACR market in Latin America',meta:'Week of July 14–20, 2026 · Updated: 07/20/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',pin:'🎯 Highlights',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer',pin:'Highlight'},periods:{pinned:'🎯 Highlights',week:'📅 Last Week',month:'🗓️ This Month',lastmonth:'📆 Last Month',context:'⚠️ Relevant Content (Date Not Confirmed)'},dateUnknown:'⚠️ Date not confirmed',source:'Source',readMore:'Read more →'},es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Semana del 14 al 20 de julio de 2026 · Actualizado: 20/07/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',pin:'🎯 Destacados',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante',pin:'Destacado'},periods:{pinned:'🎯 Destacados',week:'📅 Semana Pasada',month:'🗓️ Este Mes',lastmonth:'📆 Mes Pasado',context:'⚠️ Contenido Relevante (Fecha No Confirmada)'},dateUnknown:'⚠️ Fecha no confirmada',source:'Fuente',readMore:'Leer más →'}};
-const periodOrder=['pinned','week','month','lastmonth','context'];
+const i18n={pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Semana de 21–27 de julho de 2026 · Atualizado em: 27/07/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante'},periods:{week:'📅 Semana Passada',month:'🗓️ Este Mês',lastmonth:'📆 Mês Passado',context:'⚠️ Conteúdo Relevante (Data Não Confirmada)'},dateUnknown:'⚠️ Data não confirmada',source:'Fonte',readMore:'Leia mais →'},en:{sub:'Top news from the HVACR market in Latin America',meta:'Week of July 21–27, 2026 · Updated: 07/27/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer'},periods:{week:'📅 Last Week',month:'🗓️ This Month',lastmonth:'📆 Last Month',context:'⚠️ Relevant Content (Date Not Confirmed)'},dateUnknown:'⚠️ Date not confirmed',source:'Source',readMore:'Read more →'},es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Semana del 21 al 27 de julio de 2026 · Actualizado: 27/07/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante'},periods:{week:'📅 Semana Pasada',month:'🗓️ Este Mes',lastmonth:'📆 Mes Pasado',context:'⚠️ Contenido Relevante (Fecha No Confirmada)'},dateUnknown:'⚠️ Fecha no confirmada',source:'Fuente',readMore:'Leer más →'}};
+const periodOrder=['week','month','lastmonth','context'];
 let currentLang='pt',activeFilter='all';
-function setLang(l){currentLang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));const t=i18n[l];document.getElementById('header-sub').textContent=t.sub;document.getElementById('header-meta').textContent=t.meta;document.getElementById('btn-all').textContent=t.all;document.getElementById('btn-event').textContent=t.event;document.getElementById('btn-market').textContent=t.market;document.getElementById('btn-reg').textContent=t.reg;document.getElementById('btn-brand').textContent=t.brand;document.getElementById('btn-pin').textContent=t.pin;renderGrid()}
+function setLang(l){currentLang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));const t=i18n[l];document.getElementById('header-sub').textContent=t.sub;document.getElementById('header-meta').textContent=t.meta;document.getElementById('btn-all').textContent=t.all;document.getElementById('btn-event').textContent=t.event;document.getElementById('btn-market').textContent=t.market;document.getElementById('btn-reg').textContent=t.reg;document.getElementById('btn-brand').textContent=t.brand;renderGrid()}
 function setFilter(f){activeFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+f).classList.add('active');renderGrid()}
 function renderGrid(){
   const t=i18n[currentLang];
   const filtered=(activeFilter==='all'?news:news.filter(n=>n.cat===activeFilter)).slice().sort((a,b)=>{
-    const rank=p=>p==='pinned'?-1:p==='context'?1:0;
-    const ra=rank(a.period), rb=rank(b.period);
-    if(ra!==rb) return ra-rb;
-    if(ra!==0) return 0;
+    if(a.period==='context'&&b.period!=='context') return 1;
+    if(b.period==='context'&&a.period!=='context') return -1;
+    if(a.period==='context'&&b.period==='context') return 0;
     return new Date(b.date)-new Date(a.date);
   });
   document.getElementById('count-bar').innerHTML=`<span>${filtered.length}</span> ${t.news}`;
