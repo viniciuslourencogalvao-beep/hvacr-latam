@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HVACR LATAM — Radar Semanal</title>
+<style>
+  :root { color-scheme: light; --bg:#f4f6f9;--card:#ffffff;--header-bg:#0d1b2a;--header-accent:#1e88e5;--text:#1a1a2e;--text-muted:#6b7280;--border:#e5e7eb;--badge-market:#1e88e5;--badge-reg:#43a047;--badge-brand:#e53935;--badge-event:#fb8c00;--tag-bg-market:#e3f2fd;--tag-bg-reg:#e8f5e9;--tag-bg-brand:#ffebee;--tag-bg-event:#fff3e0;--shadow:0 1px 4px rgba(0,0,0,0.08);--warn:#92400e;--warn-bg:#fef3c7; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
+  header{background:var(--header-bg);color:#fff;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .header-left{display:flex;flex-direction:column;gap:4px}
+  .header-title{font-size:1.25rem;font-weight:700}
+  .header-sub{font-size:0.78rem;color:#90caf9}
+  .header-meta{font-size:0.72rem;color:#78909c;margin-top:2px}
+  .lang-switcher{display:flex;gap:6px}
+  .lang-btn{background:transparent;border:1.5px solid #455a64;color:#90caf9;padding:5px 14px;border-radius:20px;font-size:0.75rem;font-weight:600;cursor:pointer;transition:all 0.15s}
+  .lang-btn.active{background:var(--header-accent);border-color:var(--header-accent);color:#fff}
+  .toolbar{padding:16px 28px 0;display:flex;gap:8px;flex-wrap:wrap}
+  .filter-btn{background:var(--card);border:1.5px solid var(--border);color:var(--text-muted);padding:5px 16px;border-radius:20px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.15s}
+  .filter-btn.active{background:var(--text);color:#fff;border-color:var(--text)}
+  .period-heading{grid-column:1/-1;font-size:0.82rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;padding:18px 4px 2px;border-bottom:2px solid var(--border)}
+  .period-heading:first-child{padding-top:4px}
+  .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;padding:16px 28px 32px}
+  .news-card{background:var(--card);border-radius:10px;box-shadow:var(--shadow);border:1px solid var(--border);padding:18px 20px;display:flex;flex-direction:column;gap:10px;transition:box-shadow 0.15s,transform 0.15s}
+  .news-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.12);transform:translateY(-2px)}
+  .card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:12px;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em}
+  .badge-market{background:var(--tag-bg-market);color:var(--badge-market)}
+  .badge-reg{background:var(--tag-bg-reg);color:var(--badge-reg)}
+  .badge-brand{background:var(--tag-bg-brand);color:var(--badge-brand)}
+  .badge-event{background:var(--tag-bg-event);color:var(--badge-event)}
+  .card-num{font-size:0.7rem;font-weight:700;color:#d1d5db}
+  .card-title{font-size:0.95rem;font-weight:700;line-height:1.35;color:var(--text)}
+  .card-body{font-size:0.82rem;color:var(--text-muted);line-height:1.6}
+  .card-date{font-size:0.68rem;color:#9ca3af;font-weight:600}
+  .card-warn{font-size:0.68rem;color:var(--warn);font-weight:700;background:var(--warn-bg);display:inline-block;padding:2px 8px;border-radius:8px}
+  .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--border)}
+  .card-source{font-size:0.7rem;color:#9ca3af;font-style:italic}
+  .card-link{font-size:0.7rem;color:var(--header-accent);text-decoration:none;font-weight:600}
+  .count-bar{padding:8px 28px 0;font-size:0.75rem;color:var(--text-muted)}
+  .count-bar span{font-weight:700;color:var(--text)}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="header-title">📡 HVACR LATAM — Radar Semanal</div>
+    <div class="header-sub" id="header-sub"></div>
+    <div class="header-meta" id="header-meta"></div>
+  </div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('pt')">PT</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+  </div>
+</header>
+<div class="toolbar">
+  <button class="filter-btn active" onclick="setFilter('all')" id="btn-all"></button>
+  <button class="filter-btn" onclick="setFilter('event')" id="btn-event"></button>
+  <button class="filter-btn" onclick="setFilter('market')" id="btn-market"></button>
+  <button class="filter-btn" onclick="setFilter('reg')" id="btn-reg"></button>
+  <button class="filter-btn" onclick="setFilter('brand')" id="btn-brand"></button>
+</div>
+<div class="count-bar" id="count-bar"></div>
+<div class="news-grid" id="grid"></div>
+<script>
+// DADOS — notícias verificadas (recência ≤ 60 dias a partir de 2026-09-28)
+const news = [
+  {
+    cat: 'event',
+    date: '2026-09-24',
+    period: 'week',
+    pt: { title: 'Congresso Internacional de Refrigeração (CIR 26) debate transformação do setor', body: 'Realizado virtualmente em 1-2 de setembro, o 7º Congresso Internacional de Refrigeração reuniu painelistas para discutir digitalização, refrigerantes sustentáveis e eficiência energética. Conclusão central: a transformação da refrigeração depende de que conhecimento, competências e decisões da indústria evoluam na mesma velocidade que a tecnologia — reforçando a urgência de capacitação técnica no setor.' },
+    en: { title: 'International Refrigeration Congress (CIR 26) discusses sector transformation', body: 'Held virtually September 1–2, the 7th International Refrigeration Congress brought together panelists to discuss digitalization, sustainable refrigerants, and energy efficiency. Core takeaway: refrigeration\'s transformation depends on industry knowledge, skills, and decisions evolving at the same pace as technology — underscoring the urgency of technical training in the sector.' },
+    es: { title: 'Congreso Internacional de Refrigeración (CIR 26) debate la transformación del sector', body: 'Realizado virtualmente el 1 y 2 de septiembre, el 7º Congreso Internacional de Refrigeración reunió a panelistas para discutir digitalización, refrigerantes sostenibles y eficiencia energética. Conclusión central: la transformación de la refrigeración depende de que el conocimiento, las competencias y las decisiones de la industria evolucionen a la misma velocidad que la tecnología, reforzando la urgencia de capacitación técnica en el sector.' },
+    source: 'Mundo HVAC&R',
+    url: 'https://www.mundohvacr.com/2026/09/la-proxima-decada-de-la-refrigeracion-ya-comenzo/'
+  },
+  {
+    cat: 'event',
+    date: '2026-09-22',
+    period: 'week',
+    pt: { title: 'AHR Expo México 2026 começa em Guadalajara com foco em eficiência e IA', body: 'A feira ocorre de 29 de setembro a 1º de outubro em Guadalajara, reunindo mais de 440 expositores e público estimado de 13 mil visitantes de mais de 40 países. A cobertura destaca que a indústria HVACR mexicana deve faturar mais de MXN 183 bilhões em 2026 (crescimento médio anual de 7%), gerando cerca de 600 mil empregos diretos e indiretos — o México é o 3º maior exportador mundial de maquinaria de ar condicionado.' },
+    en: { title: 'AHR Expo México 2026 opens in Guadalajara focused on efficiency and AI', body: 'The trade show runs September 29–October 1 in Guadalajara, bringing together more than 440 exhibitors and an estimated 13,000 visitors from over 40 countries. Coverage highlights that Mexico\'s HVACR industry is projected to bill over MXN 183 billion in 2026 (7% average annual growth), generating roughly 600,000 direct and indirect jobs — Mexico ranks as the world\'s 3rd-largest exporter of air-conditioning machinery.' },
+    es: { title: 'AHR Expo México 2026 arranca en Guadalajara con foco en eficiencia e IA', body: 'La feria se realiza del 29 de septiembre al 1 de octubre en Guadalajara, reuniendo a más de 440 expositores y un público estimado de 13 mil visitantes de más de 40 países. La cobertura destaca que la industria HVACR mexicana facturará más de MXN 183 mil millones en 2026 (crecimiento promedio anual del 7%), generando cerca de 600 mil empleos directos e indirectos — México es el 3er mayor exportador mundial de maquinaria de aire acondicionado.' },
+    source: 'Cosmos.com.mx',
+    url: 'https://www.cosmos.com.mx/blog/industria-hvacr-superara-los-183-mil-mdp-en-mexico-durante-2026-destacan-en-ahr-expo-mexico/'
+  },
+  {
+    cat: 'reg',
+    date: '2026-09-22',
+    period: 'week',
+    pt: { title: 'Tarifaço dos EUA: déficit bilateral com o Brasil chega a US$ 3,2 bi', body: 'Dados da Amcham mostram que as exportações brasileiras aos EUA caíram 9,7% entre janeiro e agosto de 2026 (US$ 24,1 bi), com queda mais acentuada nos setores extrativo (-28,9%) e agropecuário (-26,7%); a indústria de transformação recuou apenas 4,9%, redirecionando vendas para outros mercados (+6,6%). Contexto: desde 22/07/2026 vigora a sobretaxa de 25% dos EUA sobre produtos brasileiros, somada à tarifa adicional de 12,5% (até 37,5% combinados). O artigo não cita HVAC-R nominalmente, mas o cenário de custos logísticos e de seguro mais altos, e a diversificação de mercados, seguem sendo o pano de fundo relevante para a cadeia de climatização.' },
+    en: { title: 'US tariff war: bilateral deficit with Brazil hits US$3.2bn', body: 'Amcham data shows Brazilian exports to the US fell 9.7% between January and August 2026 (US$24.1bn), with the sharpest drops in extractive industries (-28.9%) and agriculture (-26.7%); manufacturing fell only 4.9%, as exporters redirected sales to other markets (+6.6%). Context: since July 22, 2026 the US 25% surcharge on Brazilian goods has been in effect, plus an additional 12.5% tariff (up to 37.5% combined). The article does not name HVAC-R specifically, but higher logistics and insurance costs, and market diversification, remain the relevant backdrop for the climate-control supply chain.' },
+    es: { title: 'Guerra arancelaria de EE. UU.: déficit bilateral con Brasil llega a US$3.200 millones', body: 'Datos de Amcham muestran que las exportaciones brasileñas a EE. UU. cayeron 9,7% entre enero y agosto de 2026 (US$24.100 millones), con las caídas más fuertes en industria extractiva (-28,9%) y agropecuaria (-26,7%); la industria manufacturera retrocedió solo 4,9%, redirigiendo ventas a otros mercados (+6,6%). Contexto: desde el 22/07/2026 rige la sobretasa del 25% de EE. UU. sobre productos brasileños, sumada a un arancel adicional del 12,5% (hasta 37,5% combinado). El artículo no menciona HVAC-R específicamente, pero los mayores costos logísticos y de seguro, y la diversificación de mercados, siguen siendo el contexto relevante para la cadena de climatización.' },
+    source: 'Forbes Brasil',
+    url: 'https://forbes.com.br/forbes-money/2026/09/exportacoes-brasil-eua-queda-tarifaco-amcham/'
+  },
+  {
+    cat: 'event',
+    date: '2026-09-08',
+    period: 'month',
+    pt: { title: 'Mercofrio 2026 reúne indústria em Porto Alegre com foco em IA e eficiência', body: 'O 15º Congresso Internacional de Ar Condicionado, Refrigeração, Aquecimento e Ventilação aconteceu de 15 a 17 de setembro no BarraShoppingSul, organizado pela ASBRAV. A edição concentrou-se em quatro eixos: inteligência artificial aplicada à climatização, eficiência energética, qualidade do ar interior e transição para fluidos refrigerantes sustentáveis. A edição anterior reuniu mais de 650 participantes.' },
+    en: { title: 'Mercofrio 2026 brings industry together in Porto Alegre around AI and efficiency', body: 'The 15th International Congress on Air Conditioning, Refrigeration, Heating and Ventilation took place September 15–17 at BarraShoppingSul, organized by ASBRAV. This edition focused on four themes: AI applied to climate control, energy efficiency, indoor air quality, and the transition to sustainable refrigerants. The previous edition drew more than 650 attendees.' },
+    es: { title: 'Mercofrio 2026 reúne a la industria en Porto Alegre con foco en IA y eficiencia', body: 'El 15º Congreso Internacional de Aire Acondicionado, Refrigeración, Calefacción y Ventilación se realizó del 15 al 17 de septiembre en BarraShoppingSul, organizado por ASBRAV. La edición se centró en cuatro ejes: inteligencia artificial aplicada a la climatización, eficiencia energética, calidad del aire interior y transición a refrigerantes sostenibles. La edición anterior reunió a más de 650 participantes.' },
+    source: 'Portal EA (Engenharia e Arquitetura)',
+    url: 'https://www.engenhariaearquitetura.com.br/2026/09/mercofrio-2026-destaca-inteligencia-artificial-eficiencia-energetica-e-descarbonizacao'
+  },
+  {
+    cat: 'brand',
+    date: '2026-08-30',
+    period: 'month',
+    pt: { title: 'LG inaugura segunda fábrica no Brasil, com foco em refrigeradores', body: 'A nova planta em Fazenda Rio Grande (PR) representa investimento de R$ 1,5 bilhão e capacidade para produzir cerca de 600 mil geladeiras por ano — uma unidade a cada 14 segundos. Os equipamentos usam tecnologia bivolt (127V/220V) adaptada ao clima quente e úmido do Brasil. É a segunda unidade fabril da LG no país, complementando a fábrica de Manaus. Nota: a notícia trata de refrigeradores/linha branca, não de ar condicionado ou sistemas HVAC.' },
+    en: { title: 'LG opens second factory in Brazil, focused on refrigerators', body: 'The new plant in Fazenda Rio Grande (PR) represents a R$1.5bn investment with capacity to produce roughly 600,000 refrigerators a year — one unit every 14 seconds. The units use bivolt technology (127V/220V) adapted to Brazil\'s hot, humid climate. It\'s LG\'s second manufacturing site in the country, alongside its Manaus factory. Note: this news covers refrigerators/white goods, not air conditioning or HVAC systems.' },
+    es: { title: 'LG abre su segunda fábrica en Brasil, enfocada en refrigeradores', body: 'La nueva planta en Fazenda Rio Grande (PR) representa una inversión de R$1.500 millones con capacidad para producir cerca de 600 mil refrigeradores al año — una unidad cada 14 segundos. Los equipos usan tecnología bivolt (127V/220V) adaptada al clima cálido y húmedo de Brasil. Es la segunda planta de LG en el país, junto con la fábrica de Manaos. Nota: la noticia trata sobre refrigeradores/línea blanca, no sobre aire acondicionado o sistemas HVAC.' },
+    source: 'Blog do Frio',
+    url: 'https://blogdofrio.com.br/lg-amplia-producao-no-brasil-com-nova-fabrica-inteligente-no-pr/'
+  },
+  {
+    cat: 'reg',
+    date: '2026-08-13',
+    period: 'lastmonth',
+    pt: { title: 'Reforma tributária entra em fase prática — o que o setor HVAC-R precisa fazer', body: 'Desde agosto de 2026, empresas de climatização e refrigeração no regime de Lucro Real e Presumido devem adaptar documentos fiscais aos novos campos de IBS e CBS; empresas do Simples Nacional têm até setembro para decidir entre permanecer no regime ou migrar. No período de teste de 2026, as alíquotas ficam em 0,9% (CBS) e 0,1% (IBS), antecedendo mudanças maiores em 2027. Especialistas do setor recomendam revisar formação de preços, contratos de manutenção e créditos tributários já nesta fase.' },
+    en: { title: 'Tax reform enters practical phase — what the HVAC-R sector must do now', body: 'Since August 2026, air-conditioning and refrigeration companies under Brazil\'s Lucro Real and Lucro Presumido tax regimes must adapt their fiscal documents to the new IBS and CBS fields; companies under Simples Nacional have until September to decide whether to stay in that regime or migrate. During the 2026 test period, rates sit at 0.9% (CBS) and 0.1% (IBS), ahead of bigger changes in 2027. Industry experts recommend reviewing pricing, maintenance contracts, and tax credits now.' },
+    es: { title: 'La reforma tributaria entra en fase práctica: qué debe hacer el sector HVAC-R', body: 'Desde agosto de 2026, las empresas de climatización y refrigeración bajo los regímenes Lucro Real y Lucro Presumido deben adaptar sus documentos fiscales a los nuevos campos de IBS y CBS; las empresas del Simples Nacional tienen hasta septiembre para decidir si permanecen en ese régimen o migran. En el período de prueba de 2026, las tasas son de 0,9% (CBS) y 0,1% (IBS), antes de cambios mayores en 2027. Los expertos del sector recomiendan revisar la formación de precios, los contratos de mantenimiento y los créditos tributarios desde ya.' },
+    source: 'SINDRATARPE',
+    url: 'https://www.sindratarpe.org.br/2026/08/13/reforma-tributaria-entra-na-fase-pratica-o-que-o-setor-hvac-r-precisa-fazer-agora/'
+  }
+];
+
+const i18n={pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Semana de 22 a 28 de setembro de 2026 · Atualizado em: 28/09/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante'},periods:{week:'📅 Semana Passada',month:'🗓️ Este Mês',lastmonth:'📆 Mês Passado',context:'⚠️ Conteúdo Relevante (Data Não Confirmada)'},dateUnknown:'⚠️ Data não confirmada',source:'Fonte',readMore:'Leia mais →'},en:{sub:'Top news from the HVACR market in Latin America',meta:'Week of September 22–28, 2026 · Updated: 09/28/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer'},periods:{week:'📅 Last Week',month:'🗓️ This Month',lastmonth:'📆 Last Month',context:'⚠️ Relevant Content (Date Not Confirmed)'},dateUnknown:'⚠️ Date not confirmed',source:'Source',readMore:'Read more →'},es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Semana del 22 al 28 de septiembre de 2026 · Actualizado: 28/09/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante'},periods:{week:'📅 Semana Pasada',month:'🗓️ Este Mes',lastmonth:'📆 Mes Pasado',context:'⚠️ Contenido Relevante (Fecha No Confirmada)'},dateUnknown:'⚠️ Fecha no confirmada',source:'Fuente',readMore:'Leer más →'}};
+const periodOrder=['week','month','lastmonth','context'];
+let currentLang='pt',activeFilter='all';
+function setLang(l){currentLang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));const t=i18n[l];document.getElementById('header-sub').textContent=t.sub;document.getElementById('header-meta').textContent=t.meta;document.getElementById('btn-all').textContent=t.all;document.getElementById('btn-event').textContent=t.event;document.getElementById('btn-market').textContent=t.market;document.getElementById('btn-reg').textContent=t.reg;document.getElementById('btn-brand').textContent=t.brand;renderGrid()}
+function setFilter(f){activeFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));document.getElementById('btn-'+f).classList.add('active');renderGrid()}
+function renderGrid(){
+  const t=i18n[currentLang];
+  const filtered=(activeFilter==='all'?news:news.filter(n=>n.cat===activeFilter)).slice().sort((a,b)=>{
+    if(a.period==='context'&&b.period!=='context') return 1;
+    if(b.period==='context'&&a.period!=='context') return -1;
+    if(a.period==='context'&&b.period==='context') return 0;
+    return new Date(b.date)-new Date(a.date);
+  });
+  document.getElementById('count-bar').innerHTML=`<span>${filtered.length}</span> ${t.news}`;
+  let html='';
+  let counter=0;
+  periodOrder.forEach(p=>{
+    const group=filtered.filter(n=>n.period===p);
+    if(group.length===0) return;
+    html+=`<div class="period-heading">${t.periods[p]}</div>`;
+    group.forEach(n=>{
+      counter++;
+      const d=n[currentLang];
+      const dateHtml = n.period==='context' ? `<span class="card-warn">${t.dateUnknown}</span>` : `<div class="card-date">${n.date}</div>`;
+      html+=`<div class="news-card"><div class="card-top"><span class="badge badge-${n.cat}">${t.labels[n.cat]}</span><span class="card-num">#${counter}</span></div><div class="card-title">${d.title}</div><div class="card-body">${d.body}</div>${dateHtml}<div class="card-footer"><span class="card-source">${t.source}: ${n.source}</span><a class="card-link" href="${n.url}" target="_blank">${t.readMore}</a></div></div>`;
+    });
+  });
+  document.getElementById('grid').innerHTML=html;
+}
+setLang('pt');
+</script>
+</body>
+</html>
