@@ -65,71 +65,143 @@
 <div class="count-bar" id="count-bar"></div>
 <div class="news-grid" id="grid"></div>
 <script>
-// DADOS — notícias verificadas (recência ≤ 60 dias a partir de 2026-09-28)
 const news = [
-  {
-    cat: 'event',
-    date: '2026-09-24',
-    period: 'week',
-    pt: { title: 'Congresso Internacional de Refrigeração (CIR 26) debate transformação do setor', body: 'Realizado virtualmente em 1-2 de setembro, o 7º Congresso Internacional de Refrigeração reuniu painelistas para discutir digitalização, refrigerantes sustentáveis e eficiência energética. Conclusão central: a transformação da refrigeração depende de que conhecimento, competências e decisões da indústria evoluam na mesma velocidade que a tecnologia — reforçando a urgência de capacitação técnica no setor.' },
-    en: { title: 'International Refrigeration Congress (CIR 26) discusses sector transformation', body: 'Held virtually September 1–2, the 7th International Refrigeration Congress brought together panelists to discuss digitalization, sustainable refrigerants, and energy efficiency. Core takeaway: refrigeration\'s transformation depends on industry knowledge, skills, and decisions evolving at the same pace as technology — underscoring the urgency of technical training in the sector.' },
-    es: { title: 'Congreso Internacional de Refrigeración (CIR 26) debate la transformación del sector', body: 'Realizado virtualmente el 1 y 2 de septiembre, el 7º Congreso Internacional de Refrigeración reunió a panelistas para discutir digitalización, refrigerantes sostenibles y eficiencia energética. Conclusión central: la transformación de la refrigeración depende de que el conocimiento, las competencias y las decisiones de la industria evolucionen a la misma velocidad que la tecnología, reforzando la urgencia de capacitación técnica en el sector.' },
-    source: 'Mundo HVAC&R',
-    url: 'https://www.mundohvacr.com/2026/09/la-proxima-decada-de-la-refrigeracion-ya-comenzo/'
+ {
+  "cat": "brand",
+  "date": "2026-09-26",
+  "period": "month",
+  "pt": {
+   "title": "Gree exibe TV com ar-condicionado integrado em São Paulo",
+   "body": "A Gree do Brasil mostra uma TV de 65 polegadas integrada a um split de parede, com ventilação reversível e controle de casa conectada. O produto só é vendido na China hoje e fica em exposição no Museu da Energia até 22 de novembro."
   },
-  {
-    cat: 'event',
-    date: '2026-09-22',
-    period: 'week',
-    pt: { title: 'AHR Expo México 2026 começa em Guadalajara com foco em eficiência e IA', body: 'A feira ocorre de 29 de setembro a 1º de outubro em Guadalajara, reunindo mais de 440 expositores e público estimado de 13 mil visitantes de mais de 40 países. A cobertura destaca que a indústria HVACR mexicana deve faturar mais de MXN 183 bilhões em 2026 (crescimento médio anual de 7%), gerando cerca de 600 mil empregos diretos e indiretos — o México é o 3º maior exportador mundial de maquinaria de ar condicionado.' },
-    en: { title: 'AHR Expo México 2026 opens in Guadalajara focused on efficiency and AI', body: 'The trade show runs September 29–October 1 in Guadalajara, bringing together more than 440 exhibitors and an estimated 13,000 visitors from over 40 countries. Coverage highlights that Mexico\'s HVACR industry is projected to bill over MXN 183 billion in 2026 (7% average annual growth), generating roughly 600,000 direct and indirect jobs — Mexico ranks as the world\'s 3rd-largest exporter of air-conditioning machinery.' },
-    es: { title: 'AHR Expo México 2026 arranca en Guadalajara con foco en eficiencia e IA', body: 'La feria se realiza del 29 de septiembre al 1 de octubre en Guadalajara, reuniendo a más de 440 expositores y un público estimado de 13 mil visitantes de más de 40 países. La cobertura destaca que la industria HVACR mexicana facturará más de MXN 183 mil millones en 2026 (crecimiento promedio anual del 7%), generando cerca de 600 mil empleos directos e indirectos — México es el 3er mayor exportador mundial de maquinaria de aire acondicionado.' },
-    source: 'Cosmos.com.mx',
-    url: 'https://www.cosmos.com.mx/blog/industria-hvacr-superara-los-183-mil-mdp-en-mexico-durante-2026-destacan-en-ahr-expo-mexico/'
+  "en": {
+   "title": "Gree shows TV with built-in air conditioner in São Paulo",
+   "body": "Gree do Brasil presents a 65-inch TV integrated with a wall-mounted AC, with reversible airflow and smart-home control. Currently sold only in China, it is on display at the Museu da Energia until November 22."
   },
-  {
-    cat: 'reg',
-    date: '2026-09-22',
-    period: 'week',
-    pt: { title: 'Tarifaço dos EUA: déficit bilateral com o Brasil chega a US$ 3,2 bi', body: 'Dados da Amcham mostram que as exportações brasileiras aos EUA caíram 9,7% entre janeiro e agosto de 2026 (US$ 24,1 bi), com queda mais acentuada nos setores extrativo (-28,9%) e agropecuário (-26,7%); a indústria de transformação recuou apenas 4,9%, redirecionando vendas para outros mercados (+6,6%). Contexto: desde 22/07/2026 vigora a sobretaxa de 25% dos EUA sobre produtos brasileiros, somada à tarifa adicional de 12,5% (até 37,5% combinados). O artigo não cita HVAC-R nominalmente, mas o cenário de custos logísticos e de seguro mais altos, e a diversificação de mercados, seguem sendo o pano de fundo relevante para a cadeia de climatização.' },
-    en: { title: 'US tariff war: bilateral deficit with Brazil hits US$3.2bn', body: 'Amcham data shows Brazilian exports to the US fell 9.7% between January and August 2026 (US$24.1bn), with the sharpest drops in extractive industries (-28.9%) and agriculture (-26.7%); manufacturing fell only 4.9%, as exporters redirected sales to other markets (+6.6%). Context: since July 22, 2026 the US 25% surcharge on Brazilian goods has been in effect, plus an additional 12.5% tariff (up to 37.5% combined). The article does not name HVAC-R specifically, but higher logistics and insurance costs, and market diversification, remain the relevant backdrop for the climate-control supply chain.' },
-    es: { title: 'Guerra arancelaria de EE. UU.: déficit bilateral con Brasil llega a US$3.200 millones', body: 'Datos de Amcham muestran que las exportaciones brasileñas a EE. UU. cayeron 9,7% entre enero y agosto de 2026 (US$24.100 millones), con las caídas más fuertes en industria extractiva (-28,9%) y agropecuaria (-26,7%); la industria manufacturera retrocedió solo 4,9%, redirigiendo ventas a otros mercados (+6,6%). Contexto: desde el 22/07/2026 rige la sobretasa del 25% de EE. UU. sobre productos brasileños, sumada a un arancel adicional del 12,5% (hasta 37,5% combinado). El artículo no menciona HVAC-R específicamente, pero los mayores costos logísticos y de seguro, y la diversificación de mercados, siguen siendo el contexto relevante para la cadena de climatización.' },
-    source: 'Forbes Brasil',
-    url: 'https://forbes.com.br/forbes-money/2026/09/exportacoes-brasil-eua-queda-tarifaco-amcham/'
+  "es": {
+   "title": "Gree exhibe TV con aire acondicionado integrado en São Paulo",
+   "body": "Gree do Brasil presenta una TV de 65 pulgadas integrada a un split de pared, con ventilación reversible y control de hogar conectado. Hoy solo se vende en China y se exhibe en el Museu da Energia hasta el 22 de noviembre."
   },
-  {
-    cat: 'event',
-    date: '2026-09-08',
-    period: 'month',
-    pt: { title: 'Mercofrio 2026 reúne indústria em Porto Alegre com foco em IA e eficiência', body: 'O 15º Congresso Internacional de Ar Condicionado, Refrigeração, Aquecimento e Ventilação aconteceu de 15 a 17 de setembro no BarraShoppingSul, organizado pela ASBRAV. A edição concentrou-se em quatro eixos: inteligência artificial aplicada à climatização, eficiência energética, qualidade do ar interior e transição para fluidos refrigerantes sustentáveis. A edição anterior reuniu mais de 650 participantes.' },
-    en: { title: 'Mercofrio 2026 brings industry together in Porto Alegre around AI and efficiency', body: 'The 15th International Congress on Air Conditioning, Refrigeration, Heating and Ventilation took place September 15–17 at BarraShoppingSul, organized by ASBRAV. This edition focused on four themes: AI applied to climate control, energy efficiency, indoor air quality, and the transition to sustainable refrigerants. The previous edition drew more than 650 attendees.' },
-    es: { title: 'Mercofrio 2026 reúne a la industria en Porto Alegre con foco en IA y eficiencia', body: 'El 15º Congreso Internacional de Aire Acondicionado, Refrigeración, Calefacción y Ventilación se realizó del 15 al 17 de septiembre en BarraShoppingSul, organizado por ASBRAV. La edición se centró en cuatro ejes: inteligencia artificial aplicada a la climatización, eficiencia energética, calidad del aire interior y transición a refrigerantes sostenibles. La edición anterior reunió a más de 650 participantes.' },
-    source: 'Portal EA (Engenharia e Arquitetura)',
-    url: 'https://www.engenhariaearquitetura.com.br/2026/09/mercofrio-2026-destaca-inteligencia-artificial-eficiencia-energetica-e-descarbonizacao'
+  "source": "Blog do Frio",
+  "url": "https://blogdofrio.com.br/gree-exibe-tv-que-tambem-climatiza-em-exposicao-em-sp/"
+ },
+ {
+  "cat": "brand",
+  "date": "2026-09-24",
+  "period": "month",
+  "pt": {
+   "title": "TCL lança ar-condicionado com comando de voz offline e IA no Brasil",
+   "body": "O VoxIN AI ajusta temperatura, modo e fluxo de ar sem internet e promete até 38% de economia de energia. O modelo de 12.000 BTU/h custa R$ 2.600 e já está à venda."
   },
-  {
-    cat: 'brand',
-    date: '2026-08-30',
-    period: 'month',
-    pt: { title: 'LG inaugura segunda fábrica no Brasil, com foco em refrigeradores', body: 'A nova planta em Fazenda Rio Grande (PR) representa investimento de R$ 1,5 bilhão e capacidade para produzir cerca de 600 mil geladeiras por ano — uma unidade a cada 14 segundos. Os equipamentos usam tecnologia bivolt (127V/220V) adaptada ao clima quente e úmido do Brasil. É a segunda unidade fabril da LG no país, complementando a fábrica de Manaus. Nota: a notícia trata de refrigeradores/linha branca, não de ar condicionado ou sistemas HVAC.' },
-    en: { title: 'LG opens second factory in Brazil, focused on refrigerators', body: 'The new plant in Fazenda Rio Grande (PR) represents a R$1.5bn investment with capacity to produce roughly 600,000 refrigerators a year — one unit every 14 seconds. The units use bivolt technology (127V/220V) adapted to Brazil\'s hot, humid climate. It\'s LG\'s second manufacturing site in the country, alongside its Manaus factory. Note: this news covers refrigerators/white goods, not air conditioning or HVAC systems.' },
-    es: { title: 'LG abre su segunda fábrica en Brasil, enfocada en refrigeradores', body: 'La nueva planta en Fazenda Rio Grande (PR) representa una inversión de R$1.500 millones con capacidad para producir cerca de 600 mil refrigeradores al año — una unidad cada 14 segundos. Los equipos usan tecnología bivolt (127V/220V) adaptada al clima cálido y húmedo de Brasil. Es la segunda planta de LG en el país, junto con la fábrica de Manaos. Nota: la noticia trata sobre refrigeradores/línea blanca, no sobre aire acondicionado o sistemas HVAC.' },
-    source: 'Blog do Frio',
-    url: 'https://blogdofrio.com.br/lg-amplia-producao-no-brasil-com-nova-fabrica-inteligente-no-pr/'
+  "en": {
+   "title": "TCL launches AC with offline voice control and AI in Brazil",
+   "body": "The VoxIN AI adjusts temperature, mode and airflow without internet and claims up to 38% energy savings. The 12,000 BTU/h model costs R$ 2,600 and is already on sale."
   },
-  {
-    cat: 'reg',
-    date: '2026-08-13',
-    period: 'lastmonth',
-    pt: { title: 'Reforma tributária entra em fase prática — o que o setor HVAC-R precisa fazer', body: 'Desde agosto de 2026, empresas de climatização e refrigeração no regime de Lucro Real e Presumido devem adaptar documentos fiscais aos novos campos de IBS e CBS; empresas do Simples Nacional têm até setembro para decidir entre permanecer no regime ou migrar. No período de teste de 2026, as alíquotas ficam em 0,9% (CBS) e 0,1% (IBS), antecedendo mudanças maiores em 2027. Especialistas do setor recomendam revisar formação de preços, contratos de manutenção e créditos tributários já nesta fase.' },
-    en: { title: 'Tax reform enters practical phase — what the HVAC-R sector must do now', body: 'Since August 2026, air-conditioning and refrigeration companies under Brazil\'s Lucro Real and Lucro Presumido tax regimes must adapt their fiscal documents to the new IBS and CBS fields; companies under Simples Nacional have until September to decide whether to stay in that regime or migrate. During the 2026 test period, rates sit at 0.9% (CBS) and 0.1% (IBS), ahead of bigger changes in 2027. Industry experts recommend reviewing pricing, maintenance contracts, and tax credits now.' },
-    es: { title: 'La reforma tributaria entra en fase práctica: qué debe hacer el sector HVAC-R', body: 'Desde agosto de 2026, las empresas de climatización y refrigeración bajo los regímenes Lucro Real y Lucro Presumido deben adaptar sus documentos fiscales a los nuevos campos de IBS y CBS; las empresas del Simples Nacional tienen hasta septiembre para decidir si permanecen en ese régimen o migran. En el período de prueba de 2026, las tasas son de 0,9% (CBS) y 0,1% (IBS), antes de cambios mayores en 2027. Los expertos del sector recomiendan revisar la formación de precios, los contratos de mantenimiento y los créditos tributarios desde ya.' },
-    source: 'SINDRATARPE',
-    url: 'https://www.sindratarpe.org.br/2026/08/13/reforma-tributaria-entra-na-fase-pratica-o-que-o-setor-hvac-r-precisa-fazer-agora/'
-  }
+  "es": {
+   "title": "TCL lanza aire acondicionado con control de voz offline e IA en Brasil",
+   "body": "El VoxIN AI ajusta temperatura, modo y flujo de aire sin internet y promete hasta 38% de ahorro de energía. El modelo de 12.000 BTU/h cuesta R$ 2.600 y ya está a la venta."
+  },
+  "source": "Blog do Frio",
+  "url": "https://blogdofrio.com.br/tcl-lanca-ar-condicionado-com-comando-de-voz-offline-e-ia/"
+ },
+ {
+  "cat": "market",
+  "date": "2026-09-23",
+  "period": "month",
+  "pt": {
+   "title": "Veículos eletrificados crescem 125% e impulsionam climatização",
+   "body": "No 1º semestre de 2026 os eletrificados cresceram 125% no Brasil, ampliando a demanda por compressores elétricos de alta tensão e gerenciamento térmico de baterias, e exigindo novas competências nas oficinas."
+  },
+  "en": {
+   "title": "Electrified vehicles grow 125% and drive climate-control demand",
+   "body": "In H1 2026 electrified vehicles grew 125% in Brazil, boosting demand for high-voltage electric compressors and battery thermal management, and requiring new workshop skills."
+  },
+  "es": {
+   "title": "Vehículos electrificados crecen 125% e impulsan la climatización",
+   "body": "En el 1.er semestre de 2026 los electrificados crecieron 125% en Brasil, ampliando la demanda de compresores eléctricos de alto voltaje y gestión térmica de baterías."
+  },
+  "source": "Blog do Frio",
+  "url": "https://blogdofrio.com.br/veiculos-eletrificados-crescem-125-e-impulsionam-climatizacao/"
+ },
+ {
+  "cat": "reg",
+  "date": "2026-09-18",
+  "period": "month",
+  "pt": {
+   "title": "México capacita 50 técnicos em boas práticas de refrigeração (Protocolo de Montreal)",
+   "body": "Semarnat e ONUDI entregaram equipamentos e treinamento a 50 técnicos para prevenir vazamentos de refrigerantes, em linha com o Protocolo de Montreal, além de cinco kits para o CBTIS 63 de Huatabampo."
+  },
+  "en": {
+   "title": "Mexico trains 50 technicians in refrigeration best practices (Montreal Protocol)",
+   "body": "Semarnat and UNIDO delivered equipment and training to 50 technicians to prevent refrigerant leaks under the Montreal Protocol, plus five kits for CBTIS 63 in Huatabampo."
+  },
+  "es": {
+   "title": "México capacita a 50 técnicos en buenas prácticas de refrigeración (Protocolo de Montreal)",
+   "body": "Semarnat y ONUDI entregaron equipos y capacitación a 50 técnicos para prevenir fugas de refrigerantes en cumplimiento del Protocolo de Montreal, y cinco kits para el CBTIS 63 de Huatabampo."
+  },
+  "source": "Mundo HVAC&R",
+  "url": "https://www.mundohvacr.com/2026/09/buenas-practicas-fortalecen-la-transicion-de-la-refrigeracion-en-mexico/"
+ },
+ {
+  "cat": "market",
+  "date": "2026-09-15",
+  "period": "month",
+  "pt": {
+   "title": "Mercado HVACR do Peru deve chegar a US$ 1,01 bi em 2027",
+   "body": "Crescimento de 5% a 7% ao ano, puxado por construção, agroexportação e cadeia de frio; pode passar de US$ 1,22 bi em 2030."
+  },
+  "en": {
+   "title": "Peru HVACR market expected to reach US$1.01 bn in 2027",
+   "body": "Growth of 5–7% a year driven by construction, agro-exports and cold chain; could exceed US$1.22 bn by 2030."
+  },
+  "es": {
+   "title": "Mercado HVACR de Perú llegaría a US$ 1.010 millones en 2027",
+   "body": "Crecimiento de 5% a 7% anual impulsado por construcción, agroexportación y cadena de frío; podría superar US$ 1.220 millones en 2030."
+  },
+  "source": "ACR Latinoamérica",
+  "url": "https://www.acrlatinoamerica.com/en/news/latest-news/348-enterprises/21235-hvacr-industry-expects-to-reach-a-market-of-1-010-million-dollars-in-peru.html"
+ },
+ {
+  "cat": "event",
+  "date": "2026-09-15",
+  "period": "month",
+  "pt": {
+   "title": "COPEAIRE: 8º congresso em Lima, 15 e 16 de outubro",
+   "body": "O oitavo congresso COPEAIRE acontece em Lima nos dias 15 e 16 de outubro, em meio à expansão do mercado HVACR peruano."
+  },
+  "en": {
+   "title": "COPEAIRE: 8th congress in Lima, October 15–16",
+   "body": "The eighth COPEAIRE congress takes place in Lima on October 15–16, amid the growth of Peru's HVACR market."
+  },
+  "es": {
+   "title": "COPEAIRE: 8.º congreso en Lima, 15 y 16 de octubre",
+   "body": "El octavo congreso COPEAIRE se realizará en Lima los días 15 y 16 de octubre, en medio del crecimiento del mercado HVACR peruano."
+  },
+  "source": "ACR Latinoamérica",
+  "url": "https://www.acrlatinoamerica.com/en/news/latest-news/348-enterprises/21235-hvacr-industry-expects-to-reach-a-market-of-1-010-million-dollars-in-peru.html"
+ },
+ {
+  "cat": "brand",
+  "date": "2026-09-02",
+  "period": "lastmonth",
+  "pt": {
+   "title": "Froztec International passa a integrar a Hussmann (Panasonic)",
+   "body": "A transação, efetiva em 6 de agosto, une a infraestrutura da Hussmann à expertise da Froztec em refrigeração comercial e industrial; operações e suporte seguem sem interrupção."
+  },
+  "en": {
+   "title": "Froztec International joins Hussmann (Panasonic)",
+   "body": "The deal, effective August 6, combines Hussmann's infrastructure with Froztec's commercial and industrial refrigeration expertise; operations and support continue uninterrupted."
+  },
+  "es": {
+   "title": "Froztec International se une a Hussmann (Panasonic)",
+   "body": "La transacción, efectiva el 6 de agosto, combina la infraestructura de Hussmann con la experiencia de Froztec en refrigeración comercial e industrial; operaciones y soporte continúan sin interrupción."
+  },
+  "source": "ACR Latinoamérica",
+  "url": "https://www.acrlatinoamerica.com/en/news/latest-news/348-enterprises/21227-froztec-international-joins-hussmann-corporation.html"
+ }
 ];
 
-const i18n={pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Semana de 22 a 28 de setembro de 2026 · Atualizado em: 28/09/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante'},periods:{week:'📅 Semana Passada',month:'🗓️ Este Mês',lastmonth:'📆 Mês Passado',context:'⚠️ Conteúdo Relevante (Data Não Confirmada)'},dateUnknown:'⚠️ Data não confirmada',source:'Fonte',readMore:'Leia mais →'},en:{sub:'Top news from the HVACR market in Latin America',meta:'Week of September 22–28, 2026 · Updated: 09/28/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer'},periods:{week:'📅 Last Week',month:'🗓️ This Month',lastmonth:'📆 Last Month',context:'⚠️ Relevant Content (Date Not Confirmed)'},dateUnknown:'⚠️ Date not confirmed',source:'Source',readMore:'Read more →'},es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Semana del 22 al 28 de septiembre de 2026 · Actualizado: 28/09/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante'},periods:{week:'📅 Semana Pasada',month:'🗓️ Este Mes',lastmonth:'📆 Mes Pasado',context:'⚠️ Contenido Relevante (Fecha No Confirmada)'},dateUnknown:'⚠️ Fecha no confirmada',source:'Fuente',readMore:'Leer más →'}};
+const i18n={pt:{sub:'Principais notícias do mercado de climatização e refrigeração na América Latina',meta:'Semana de 5–9 de outubro de 2026 · Atualizado em: 05/10/2026',all:'Todas',event:'🎪 Feiras & Eventos',market:'📈 Mercado',reg:'📋 Regulação',brand:'🏭 Fabricantes',showing:'Exibindo',news:'notícias',labels:{event:'Feira/Evento',market:'Mercado',reg:'Regulação',brand:'Fabricante'},periods:{week:'📅 Semana Passada',month:'🗓️ Este Mês',lastmonth:'📆 Mês Passado',context:'⚠️ Conteúdo Relevante (Data Não Confirmada)'},dateUnknown:'⚠️ Data não confirmada',source:'Fonte',readMore:'Leia mais →'},en:{sub:'Top news from the HVACR market in Latin America',meta:'Week of October 5–9, 2026 · Updated: 10/05/2026',all:'All',event:'🎪 Trade Shows',market:'📈 Market',reg:'📋 Regulation',brand:'🏭 Manufacturers',showing:'Showing',news:'news items',labels:{event:'Event',market:'Market',reg:'Regulation',brand:'Manufacturer'},periods:{week:'📅 Last Week',month:'🗓️ This Month',lastmonth:'📆 Last Month',context:'⚠️ Relevant Content (Date Not Confirmed)'},dateUnknown:'⚠️ Date not confirmed',source:'Source',readMore:'Read more →'},es:{sub:'Principales noticias del mercado HVACR en América Latina',meta:'Semana del 5 al 9 de octubre de 2026 · Actualizado: 05/10/2026',all:'Todas',event:'🎪 Ferias & Eventos',market:'📈 Mercado',reg:'📋 Regulación',brand:'🏭 Fabricantes',showing:'Mostrando',news:'noticias',labels:{event:'Feria/Evento',market:'Mercado',reg:'Regulación',brand:'Fabricante'},periods:{week:'📅 Semana Pasada',month:'🗓️ Este Mes',lastmonth:'📆 Mes Pasado',context:'⚠️ Contenido Relevante (Fecha No Confirmada)'},dateUnknown:'⚠️ Fecha no confirmada',source:'Fuente',readMore:'Leer más →'}};
 const periodOrder=['week','month','lastmonth','context'];
 let currentLang='pt',activeFilter='all';
 function setLang(l){currentLang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));const t=i18n[l];document.getElementById('header-sub').textContent=t.sub;document.getElementById('header-meta').textContent=t.meta;document.getElementById('btn-all').textContent=t.all;document.getElementById('btn-event').textContent=t.event;document.getElementById('btn-market').textContent=t.market;document.getElementById('btn-reg').textContent=t.reg;document.getElementById('btn-brand').textContent=t.brand;renderGrid()}
